@@ -1,33 +1,85 @@
-var handlebars = require("handlebars");
-var fs = require("fs");
+import { Project, OptionalKind, PropertyDeclarationStructure } from "ts-morph";
+import chalk from "chalk";
+import { copyImmediately } from "./path";
 
-export const readAndCompileTemplate = (
-  path: string,
-  data: unknown
-): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    fs.readFile(path, function (err: string, content: string) {
-      if (err) reject(err);
-      resolve(renderToString(content, data));
-    });
-  });
+export type NewPropertiesType = Record<
+  string,
+  OptionalKind<PropertyDeclarationStructure>
+>;
+
+export type TransformFileParams = {
+  fileName: string;
+  classesMap?: Record<
+    string,
+    {
+      name: string;
+      existingProperties?: Record<string, string>;
+      newProperties?: NewPropertiesType;
+    }
+  >;
+  typesMap?: Record<string, string>;
 };
 
-export const saveToFile = (path: string, data: string): Promise<boolean> => {
-  return new Promise((resolve, reject) => {
-    fs.writeFile(path, data, (err: string) => {
-      if (err) reject(err);
+export function transformFile(
+  project: Project,
+  newPath: string,
+  { classesMap = {}, typesMap = {}, fileName }: TransformFileParams
+): Promise<boolean> {
+  return new Promise((resolve) => {
+    try {
+      const file = project.getSourceFileOrThrow(fileName);
+      Object.keys(classesMap).forEach((oldClassName) => {
+        const featureClass = file.getClassOrThrow(oldClassName);
+        const currentClass = classesMap[oldClassName];
+        featureClass.rename(currentClass.name);
+        if (currentClass.existingProperties) {
+          Object.keys(currentClass.existingProperties).forEach(
+            (existingProperty) => {
+              const property = featureClass.getPropertyOrThrow(
+                existingProperty
+              );
+              const newValue = currentClass.existingProperties![
+                existingProperty
+              ];
+              if (typeof newValue === "number") {
+                property.setInitializer(`${newValue}`);
+              }
+              if (typeof newValue === "string") {
+                property.setInitializer(`'${newValue}'`);
+              }
+            }
+          );
+        }
+        if (currentClass.newProperties) {
+          Object.keys(currentClass.newProperties).forEach(
+            (newProperty: string) => {
+              featureClass.addProperty(
+                currentClass.newProperties![newProperty]
+              );
+              file.fixMissingImports();
+            }
+          );
+        }
+      });
 
-      resolve(true);
-    });
+      Object.keys(typesMap).forEach((oldType) => {
+        const type = file.getTypeAliasOrThrow(oldType);
+        type.rename(typesMap[oldType]);
+      });
+
+      file.organizeImports();
+
+      copyImmediately(file, newPath)
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((e) => {
+          console.log(chalk.red.bold(e));
+          resolve(false);
+        });
+    } catch (e) {
+      console.log(chalk.red.bold(e));
+      resolve(false);
+    }
   });
-};
-
-// read the file and use the callback to render
-
-// this will be called after the file is read
-function renderToString(source: string, data: unknown) {
-  var template = handlebars.compile(source);
-  var outputString = template(data);
-  return outputString;
 }

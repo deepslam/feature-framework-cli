@@ -51,9 +51,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var chalk_1 = __importDefault(require("chalk"));
-var path_1 = require("./utils/path");
-var project_1 = require("./utils/project");
-var inquirer = require("inquirer");
+var common_1 = require("../utils/common");
+var path_1 = require("../utils/path");
+var project_1 = require("../utils/project");
+var inquirer_1 = __importDefault(require("inquirer"));
 var defaultData = {
     implements: {
         events: true,
@@ -68,7 +69,7 @@ var defaultData = {
 };
 var getCustomSettings = function () {
     return new Promise(function (resolve) {
-        inquirer
+        inquirer_1.default
             .prompt([
             {
                 type: "checkbox",
@@ -81,7 +82,7 @@ var getCustomSettings = function () {
                         checked: true,
                     },
                     {
-                        name: "Sub Features",
+                        name: "Features",
                         checked: true,
                     },
                     {
@@ -112,50 +113,133 @@ var getCustomSettings = function () {
             },
         ])
             .then(function (answers) {
-            console.log(JSON.stringify(answers, null, "  "));
-            resolve({
-                implements: {
-                    events: false,
-                },
-            });
+            var implementMembers = {
+                implements: {},
+            };
+            if (answers.features.includes("Events")) {
+                implementMembers.implements.events = true;
+            }
+            if (answers.features.includes("Features")) {
+                implementMembers.implements.features = true;
+            }
+            if (answers.features.includes("Slices")) {
+                implementMembers.implements.slices = true;
+            }
+            if (answers.features.includes("Translations")) {
+                implementMembers.implements.translations = true;
+            }
+            if (answers.features.includes("Models")) {
+                implementMembers.implements.models = true;
+            }
+            if (answers.features.includes("View")) {
+                implementMembers.implements.view = true;
+            }
+            if (answers.features.includes("Collections")) {
+                implementMembers.implements.collections = true;
+            }
+            if (answers.features.includes("Data Managers")) {
+                implementMembers.implements.dataManagers = true;
+            }
+            resolve(implementMembers);
         });
     });
 };
 var createFeature = function (data) {
     return new Promise(function (resolve) { return __awaiter(void 0, void 0, void 0, function () {
-        var project, newFeatureFileName, featureFile, featureClass;
-        return __generator(this, function (_a) {
+        var project, newFeatureFileName, newProperties;
+        var _a, _b, _c, _d, _e, _f, _g, _h;
+        return __generator(this, function (_j) {
             try {
                 project = project_1.getProject();
-                newFeatureFileName = data.path + "/" + data.name.toLowerCase() + ".ts";
-                project.addSourceFileAtPath(__dirname + "../../../src/templates/NewFeature.ts");
-                featureFile = project.getSourceFileOrThrow("NewFeature.ts");
-                featureClass = featureFile.getClassOrThrow("NewFeature");
-                featureClass.rename(data.name);
-                console.log(newFeatureFileName);
-                featureFile.copyImmediately(newFeatureFileName);
-                console.log(chalk_1.default.green.bold("New feature created at path: " + newFeatureFileName));
-                resolve(true);
-                /*
-                console.log(project.getSourceFiles());
-          
-                project.getSourceFiles().forEach((sourceFile) => {
-                  const allChildren = sourceFile.getChildren();
-          
-                  sourceFile.forEachChild((node) => {
-                    console.log("----");
-                    console.log(node.getKind());
-                    console.log(node.getText());
-                  });
-          
-                  console.log(sourceFile.getClasses());
-                  
-                    const class1 = sourceFile.getClass("NewFeature");
-                    console.log(class1);
-                    resolve(true);
-                    
+                newFeatureFileName = data.path + "/" + data.name + ".ts";
+                project.addSourceFileAtPath(__dirname + "../../../../src/templates/NewFeature.ts");
+                newProperties = {};
+                if (data.implements) {
+                    if ((_a = data.implements) === null || _a === void 0 ? void 0 : _a.features) {
+                        newProperties.features = {
+                            name: "features",
+                            type: "Record<string, IFeature>",
+                            isStatic: false,
+                            initializer: "{}",
+                        };
+                    }
+                    if ((_b = data.implements) === null || _b === void 0 ? void 0 : _b.slices) {
+                        newProperties.slices = {
+                            name: "slices",
+                            type: "Record<string, Slice>",
+                            isStatic: false,
+                            initializer: "{}",
+                        };
+                    }
+                    if ((_c = data.implements) === null || _c === void 0 ? void 0 : _c.translations) {
+                        newProperties.translations = {
+                            name: "translations",
+                            type: "TranslationType",
+                            isStatic: false,
+                            initializer: "{}",
+                        };
+                    }
+                    if ((_d = data.implements) === null || _d === void 0 ? void 0 : _d.events) {
+                        newProperties.events = {
+                            name: "events",
+                            type: "Record<string, IEvent<unknown>>",
+                            isStatic: false,
+                            initializer: "{}",
+                        };
+                    }
+                    if ((_e = data.implements) === null || _e === void 0 ? void 0 : _e.view) {
+                        newProperties.view = {
+                            name: "view",
+                            type: "IView<unknown> | null",
+                            isStatic: false,
+                            initializer: "{}",
+                        };
+                    }
+                    if ((_f = data.implements) === null || _f === void 0 ? void 0 : _f.collections) {
+                        newProperties.collections = {
+                            name: "collections",
+                            type: "Record<string, IDataCollection<unknown, unknown>>",
+                            isStatic: false,
+                            initializer: "{}",
+                        };
+                    }
+                    if ((_g = data.implements) === null || _g === void 0 ? void 0 : _g.dataManagers) {
+                        newProperties.dataManagers = {
+                            name: "dataManagers",
+                            type: "Record<string, IDataManager<unknown>>",
+                            isStatic: false,
+                            initializer: "{}",
+                        };
+                    }
+                    if ((_h = data.implements) === null || _h === void 0 ? void 0 : _h.models) {
+                        newProperties.models = {
+                            name: "models",
+                            type: "Record<string, IModel<unknown>>",
+                            isStatic: false,
+                            initializer: "{}",
+                        };
+                    }
+                }
+                common_1.transformFile(project, newFeatureFileName, {
+                    fileName: "NewFeature.ts",
+                    classesMap: {
+                        NewFeature: {
+                            name: data.name + "Feature",
+                            existingProperties: {
+                                name: data.name + "Feature",
+                            },
+                            newProperties: newProperties,
+                        },
+                    },
+                    typesMap: {
+                        NewFeatureConfig: data.name + "FeatureConfig",
+                    },
+                })
+                    .then(function (result) { return resolve(result); })
+                    .catch(function (e) {
+                    console.log(chalk_1.default.red.bold(e));
+                    resolve(false);
                 });
-                */
             }
             catch (e) {
                 console.log(chalk_1.default.red.bold(e));
@@ -172,10 +256,10 @@ exports.default = (function (data, path) {
             data = __assign(__assign({}, defaultData), data);
             pathToSave = path_1.getPath();
             if (path) {
-                pathToSave += path_1.getPath(path);
+                pathToSave = path_1.getPath(path);
             }
             console.log(chalk_1.default.white.bold("Crafting a new feature. Answer a few questions, please.\r\n"));
-            inquirer
+            inquirer_1.default
                 .prompt([
                 {
                     type: "question",
@@ -193,18 +277,25 @@ exports.default = (function (data, path) {
                     type: "list",
                     name: "implements",
                     message: "Which members to implement?",
-                    choices: ["All possible members", "Customize"],
+                    choices: ["All", "Custom"],
                 },
             ])
                 .then(function (answers) {
-                answers.path = path_1.getPath(answers.path);
-                data = __assign(__assign({}, data), answers);
-                if (answers.implements === "Customize") {
+                data.path = answers.path;
+                data.name = answers.name;
+                if (answers.implements === "Custom") {
                     return getCustomSettings();
+                }
+                else {
+                    return new Promise(function (resolve) {
+                        resolve({
+                            implements: data.implements,
+                        });
+                    });
                 }
             })
                 .then(function (answers) {
-                data = __assign(__assign({}, data), { implements: __assign(__assign({}, data.implements), answers) });
+                data = __assign(__assign({}, data), { implements: __assign({}, answers === null || answers === void 0 ? void 0 : answers.implements) });
                 createFeature(data).then(function (res) {
                     resolve(res);
                 });

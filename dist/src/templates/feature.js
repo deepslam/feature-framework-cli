@@ -1,2 +1,2 @@
 "use strict";
-//# sourceMappingURL=feature.js.map
+//# sourceMappingURL=Feature.js.map
