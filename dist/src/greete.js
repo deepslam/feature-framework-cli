@@ -13,17 +13,18 @@ var boxen = require("boxen");
 var fs = require("fs");
 var packageJsonPath = process.cwd() + "/node_modules/@feature-framework/core/package.json";
 var additionalInfo = [];
+var ownPckg = require("../../package.json");
 try {
     if (fs.existsSync(packageJsonPath)) {
         var pckg_1 = require(packageJsonPath);
         if (pckg_1.version)
-            additionalInfo.push(chalk.white("Feature framework: v." + pckg_1.version));
+            additionalInfo.push(chalk.white("Feature Framework: v." + pckg_1.version));
     }
 }
 catch (e) { }
 exports.default = (function () {
     var greetings = __spreadArrays([
-        chalk.green.bold("Feature framework"),
+        chalk.green.bold("Feature Framework CLI v." + ownPckg.version),
         chalk.white(""),
         chalk.blue("" + pckg.author.url)
     ], additionalInfo);

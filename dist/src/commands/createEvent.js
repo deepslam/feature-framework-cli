@@ -56,23 +56,23 @@ var common_1 = require("../utils/common");
 var path_1 = require("../utils/path");
 var project_1 = require("../utils/project");
 var defaultData = {};
-var createProvider = function (data) {
+var createEvent = function (data) {
     return new Promise(function (resolve) { return __awaiter(void 0, void 0, void 0, function () {
         var project, newFeatureFileName;
         return __generator(this, function (_a) {
             try {
                 project = project_1.getProject();
                 newFeatureFileName = data.path + "/" + data.name + ".ts";
-                project.addSourceFileAtPath(__dirname + "../../../../src/templates/NewDataProvider.ts");
+                project.addSourceFileAtPath(__dirname + "../../../../src/templates/NewEvent.ts");
                 common_1.transformFile(project, newFeatureFileName, {
-                    fileName: "NewDataProvider.ts",
+                    fileName: "NewEvent.ts",
                     classesMap: {
-                        NewModel: {
-                            name: data.name + "DataProvider",
+                        NewEvent: {
+                            name: data.name + "Event",
                         },
                     },
                     typesMap: {
-                        NewModelFieldsType: data.name + "DataProviderType",
+                        NewEventCallbackType: data.name + "EventCallbackType",
                     },
                 })
                     .then(function (result) { return resolve(result); })
@@ -98,7 +98,7 @@ exports.default = (function (data, path) {
             if (path) {
                 pathToSave = path_1.getPath(path);
             }
-            console.log(chalk_1.default.white.bold("Crafting a new data provider. Answer a few questions, please.\r\n"));
+            console.log(chalk_1.default.white.bold("Crafting a new event. Answer a few questions, please.\r\n"));
             inquirer_1.default
                 .prompt([
                 {
@@ -117,7 +117,7 @@ exports.default = (function (data, path) {
                 .then(function (answers) {
                 data.path = answers.path;
                 data.name = answers.name;
-                createProvider(data).then(function (res) {
+                createEvent(data).then(function (res) {
                     resolve(res);
                 });
             });
@@ -125,4 +125,4 @@ exports.default = (function (data, path) {
         });
     }); });
 });
-//# sourceMappingURL=createDataProvider.js.map
+//# sourceMappingURL=createEvent.js.map

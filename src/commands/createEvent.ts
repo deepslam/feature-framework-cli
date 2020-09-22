@@ -4,31 +4,31 @@ import { transformFile } from "../utils/common";
 import { getPath } from "../utils/path";
 import { getProject } from "../utils/project";
 
-type createCollectionType = {
+type createEventDataType = {
   name: string;
   path?: string;
 };
 
-const defaultData: Partial<createCollectionType> = {};
+const defaultData: Partial<createEventDataType> = {};
 
-const createCollection = (data: createCollectionType): Promise<boolean> => {
+const createEvent = (data: createEventDataType): Promise<boolean> => {
   return new Promise(async (resolve) => {
     try {
       const project = getProject();
       const newFeatureFileName = `${data.path}/${data.name}.ts`;
       project.addSourceFileAtPath(
-        __dirname + "../../../../src/templates/NewCollection.ts"
+        __dirname + "../../../../src/templates/NewEvent.ts"
       );
 
       transformFile(project, newFeatureFileName, {
-        fileName: "NewCollection.ts",
+        fileName: "NewEvent.ts",
         classesMap: {
-          NewCollection: {
-            name: `${data.name}Collection`,
+          NewEvent: {
+            name: `${data.name}Event`,
           },
         },
         typesMap: {
-          CollectionDataType: `${data.name}DataType`,
+          NewEventCallbackType: `${data.name}EventCallbackType`,
         },
       })
         .then((result) => resolve(result))
@@ -43,10 +43,7 @@ const createCollection = (data: createCollectionType): Promise<boolean> => {
   });
 };
 
-export default (
-  data: createCollectionType,
-  path?: string
-): Promise<boolean> => {
+export default (data: createEventDataType, path?: string): Promise<boolean> => {
   return new Promise(async (resolve) => {
     data = {
       ...defaultData,
@@ -61,7 +58,7 @@ export default (
 
     console.log(
       chalk.white.bold(
-        "Crafting a new model. Answer a few questions, please.\r\n"
+        "Crafting a new event. Answer a few questions, please.\r\n"
       )
     );
     inquirer
@@ -79,11 +76,11 @@ export default (
           default: pathToSave,
         },
       ])
-      .then((answers: Partial<createCollectionType>) => {
+      .then((answers: Partial<createEventDataType>) => {
         data.path = answers.path!;
         data.name = answers.name!;
 
-        createCollection(data).then((res) => {
+        createEvent(data).then((res) => {
           resolve(res);
         });
       });

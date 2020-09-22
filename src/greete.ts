@@ -5,18 +5,19 @@ const fs = require("fs");
 
 const packageJsonPath = `${process.cwd()}/node_modules/@feature-framework/core/package.json`;
 const additionalInfo: string[] = [];
+const ownPckg = require("../../package.json");
 
 try {
   if (fs.existsSync(packageJsonPath)) {
     const pckg = require(packageJsonPath);
     if (pckg.version)
-      additionalInfo.push(chalk.white(`Feature framework: v.${pckg.version}`));
+      additionalInfo.push(chalk.white(`Feature Framework: v.${pckg.version}`));
   }
 } catch (e) {}
 
 export default () => {
   const greetings = [
-    chalk.green.bold("Feature framework"),
+    chalk.green.bold(`Feature Framework CLI v.${ownPckg.version}`),
     chalk.white(""),
     chalk.blue(`${pckg.author.url}`),
     ...additionalInfo,
