@@ -1,17 +1,16 @@
 {
     "name": "@feature-framework/cli",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "Cli interface for feature framework",
     "scripts": {
         "watch": "tsc --watch",
         "check": "tsc",
         "clean": "rm -rf ./dist",
-        "build": "npm run clean && tsc --noEmit false",
+        "build": "npm run clean && npm install && tsc --noEmit false",
         "release": "npm run build && np"
     },
     "bin": {
-        "craft": "dist/src/index.js",
-        "@feature-framework/cli": "dist/src/index.js"
+        "craft": "dist/src/index.js"
     },
     "keywords": [
         "Feature",
