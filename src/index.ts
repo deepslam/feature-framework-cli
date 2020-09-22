@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
+import { Command } from "commander";
+import chalk from "chalk";
 import greete from "./greete";
 import createFeature from "./commands/createFeature";
-import chalk from "chalk";
-import { Command } from "commander";
+import createModel from "./commands/createModel";
 
 const pckg = require("../package.json");
 const log = console.log;
@@ -27,6 +28,24 @@ try {
           result
             ? chalk.green.bold("Feature successully created")
             : chalk.red.bold("Feature was not created due to the error")
+        );
+      });
+    });
+
+  program
+    .command("new:model <name> [path]")
+    .description("define a new model")
+    .action((name: string, path: string) => {
+      createModel(
+        {
+          name,
+        },
+        path
+      ).then((result) => {
+        log(
+          result
+            ? chalk.green.bold("Model successully created")
+            : chalk.red.bold("Model was not created due to the error")
         );
       });
     });

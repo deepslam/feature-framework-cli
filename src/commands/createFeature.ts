@@ -1,8 +1,8 @@
 import chalk from "chalk";
+import inquirer from "inquirer";
 import { NewPropertiesType, transformFile } from "../utils/common";
 import { getPath } from "../utils/path";
 import { getProject } from "../utils/project";
-import inquirer from "inquirer";
 
 type createFeatureDataType = {
   name: string;
@@ -163,7 +163,7 @@ const createFeature = (data: createFeatureDataType): Promise<boolean> => {
             name: "view",
             type: "IView<unknown> | null",
             isStatic: false,
-            initializer: "{}",
+            initializer: "null",
           };
         }
 

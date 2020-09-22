@@ -17,7 +17,7 @@ try {
     if (fs.existsSync(packageJsonPath)) {
         var pckg_1 = require(packageJsonPath);
         if (pckg_1.version)
-            additionalInfo.push(chalk.white("Feature framework detected: v." + pckg_1.version));
+            additionalInfo.push(chalk.white("Feature framework: v." + pckg_1.version));
     }
 }
 catch (e) { }

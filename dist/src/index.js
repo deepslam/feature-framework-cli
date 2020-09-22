@@ -4,10 +4,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var commander_1 = require("commander");
+var chalk_1 = __importDefault(require("chalk"));
 var greete_1 = __importDefault(require("./greete"));
 var createFeature_1 = __importDefault(require("./commands/createFeature"));
-var chalk_1 = __importDefault(require("chalk"));
-var commander_1 = require("commander");
+var createModel_1 = __importDefault(require("./commands/createModel"));
 var pckg = require("../package.json");
 var log = console.log;
 log(greete_1.default());
@@ -24,6 +25,18 @@ try {
             log(result
                 ? chalk_1.default.green.bold("Feature successully created")
                 : chalk_1.default.red.bold("Feature was not created due to the error"));
+        });
+    });
+    program
+        .command("new:model <name> [path]")
+        .description("define a new model")
+        .action(function (name, path) {
+        createModel_1.default({
+            name: name,
+        }, path).then(function (result) {
+            log(result
+                ? chalk_1.default.green.bold("Model successully created")
+                : chalk_1.default.red.bold("Model was not created due to the error"));
         });
     });
     program.parse(process.argv);

@@ -1,5 +1,15 @@
-import { Feature, IFeature } from "@feature-framework/core";
+import {
+  Feature,
+  IFeature,
+  IView,
+  IDataCollection,
+  IDataManager,
+  IEvent,
+  IModel,
+  TranslationType,
+} from "@feature-framework/core";
 
+// Feature config type here
 type NewFeatureConfig = {};
 
 export default class NewFeature

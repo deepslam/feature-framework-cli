@@ -31,6 +31,7 @@ export function transformFile(
       Object.keys(classesMap).forEach((oldClassName) => {
         const featureClass = file.getClassOrThrow(oldClassName);
         const currentClass = classesMap[oldClassName];
+
         featureClass.rename(currentClass.name);
         if (currentClass.existingProperties) {
           Object.keys(currentClass.existingProperties).forEach(

@@ -1,6 +1,6 @@
 {
     "name": "@feature-framework/cli",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Cli interface for feature framework",
     "scripts": {
         "watch": "tsc --watch",
@@ -43,6 +43,7 @@
         "yargs": "^16.0.3"
     },
     "devDependencies": {
+        "@types/chalk": "^2.2.0",
         "@types/inquirer": "^7.3.1",
         "@types/node": "^14.10.2"
     }

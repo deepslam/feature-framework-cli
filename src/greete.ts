@@ -10,9 +10,7 @@ try {
   if (fs.existsSync(packageJsonPath)) {
     const pckg = require(packageJsonPath);
     if (pckg.version)
-      additionalInfo.push(
-        chalk.white(`Feature framework detected: v.${pckg.version}`)
-      );
+      additionalInfo.push(chalk.white(`Feature framework: v.${pckg.version}`));
   }
 } catch (e) {}
 

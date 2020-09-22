@@ -51,10 +51,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var chalk_1 = __importDefault(require("chalk"));
+var inquirer_1 = __importDefault(require("inquirer"));
 var common_1 = require("../utils/common");
 var path_1 = require("../utils/path");
 var project_1 = require("../utils/project");
-var inquirer_1 = __importDefault(require("inquirer"));
 var defaultData = {
     implements: {
         events: true,
@@ -192,7 +192,7 @@ var createFeature = function (data) {
                             name: "view",
                             type: "IView<unknown> | null",
                             isStatic: false,
-                            initializer: "{}",
+                            initializer: "null",
                         };
                     }
                     if ((_f = data.implements) === null || _f === void 0 ? void 0 : _f.collections) {
