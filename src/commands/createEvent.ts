@@ -50,7 +50,7 @@ export default (data: createEventDataType, path?: string): Promise<boolean> => {
       ...data,
     };
 
-    let pathToSave = getPath();
+    let pathToSave = getPath("Events");
 
     if (path) {
       pathToSave = getPath(path);

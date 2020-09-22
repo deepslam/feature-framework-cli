@@ -27,9 +27,6 @@ const createProvider = (data: createDataProviderType): Promise<boolean> => {
             name: `${data.name}DataProvider`,
           },
         },
-        typesMap: {
-          NewModelFieldsType: `${data.name}DataProviderType`,
-        },
       })
         .then((result) => resolve(result))
         .catch((e) => {
@@ -53,7 +50,7 @@ export default (
       ...data,
     };
 
-    let pathToSave = getPath();
+    let pathToSave = getPath("Providers");
 
     if (path) {
       pathToSave = getPath(path);

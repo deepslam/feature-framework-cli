@@ -53,7 +53,7 @@ export default (
       ...data,
     };
 
-    let pathToSave = getPath();
+    let pathToSave = getPath("Collections");
 
     if (path) {
       pathToSave = getPath(path);

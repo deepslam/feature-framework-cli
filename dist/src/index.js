@@ -12,12 +12,11 @@ var createEvent_1 = __importDefault(require("./commands/createEvent"));
 var createModel_1 = __importDefault(require("./commands/createModel"));
 var createCollection_1 = __importDefault(require("./commands/createCollection"));
 var createDataProvider_1 = __importDefault(require("./commands/createDataProvider"));
-var pckg = require("../package.json");
 var log = console.log;
 log(greete_1.default());
 try {
     var program = new commander_1.Command();
-    program.version(pckg.version, "-v", "output the current CLI version");
+    program.version("", "-v", "output the current CLI version");
     program
         .command("new:feature <name> [path]")
         .description("define a new feature")

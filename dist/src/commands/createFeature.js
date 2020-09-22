@@ -254,7 +254,7 @@ exports.default = (function (data, path) {
         var pathToSave;
         return __generator(this, function (_a) {
             data = __assign(__assign({}, defaultData), data);
-            pathToSave = path_1.getPath();
+            pathToSave = path_1.getPath("Features/" + data.name);
             if (path) {
                 pathToSave = path_1.getPath(path);
             }

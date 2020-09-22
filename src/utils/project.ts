@@ -1,10 +1,13 @@
-import { Project } from "ts-morph";
-const inquirer = require("inquirer");
+import { Project, ProjectOptions } from "ts-morph";
+import fs from "fs";
 
 export const getProject = (): Project => {
-  const project = new Project({
-    tsConfigFilePath: `${process.cwd()}/tsconfig.json`,
-  });
+  const projectOptions: ProjectOptions = {};
+  const tsConfigFilePath = `${process.cwd()}/tsconfig.json`;
+  if (fs.existsSync(tsConfigFilePath)) {
+    projectOptions.tsConfigFilePath = tsConfigFilePath;
+  }
+  const project = new Project(projectOptions);
 
   return project;
 };

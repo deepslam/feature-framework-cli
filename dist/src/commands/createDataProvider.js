@@ -71,9 +71,6 @@ var createProvider = function (data) {
                             name: data.name + "DataProvider",
                         },
                     },
-                    typesMap: {
-                        NewModelFieldsType: data.name + "DataProviderType",
-                    },
                 })
                     .then(function (result) { return resolve(result); })
                     .catch(function (e) {
@@ -94,7 +91,7 @@ exports.default = (function (data, path) {
         var pathToSave;
         return __generator(this, function (_a) {
             data = __assign(__assign({}, defaultData), data);
-            pathToSave = path_1.getPath();
+            pathToSave = path_1.getPath("Providers");
             if (path) {
                 pathToSave = path_1.getPath(path);
             }

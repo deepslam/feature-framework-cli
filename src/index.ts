@@ -9,13 +9,12 @@ import createModel from "./commands/createModel";
 import createCollection from "./commands/createCollection";
 import createDataProvider from "./commands/createDataProvider";
 
-const pckg = require("../package.json");
 const log = console.log;
 
 log(greete());
 try {
   const program = new Command();
-  program.version(pckg.version, "-v", "output the current CLI version");
+  program.version("", "-v", "output the current CLI version");
 
   program
     .command("new:feature <name> [path]")

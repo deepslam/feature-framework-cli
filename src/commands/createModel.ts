@@ -50,7 +50,7 @@ export default (data: createModelDataType, path?: string): Promise<boolean> => {
       ...data,
     };
 
-    let pathToSave = getPath();
+    let pathToSave = getPath("Models");
 
     if (path) {
       pathToSave = getPath(path);

@@ -232,7 +232,7 @@ export default (
       ...data,
     };
 
-    let pathToSave = getPath();
+    let pathToSave = getPath(`Features/${data.name}`);
 
     if (path) {
       pathToSave = getPath(path);

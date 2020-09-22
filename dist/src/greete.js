@@ -24,10 +24,11 @@ try {
 catch (e) { }
 exports.default = (function () {
     var greetings = __spreadArrays([
-        chalk.green.bold("Feature Framework CLI v." + ownPckg.version),
+        chalk.green.bold("Feature Framework CLI v." + ownPckg.version)
+    ], additionalInfo, [
         chalk.white(""),
-        chalk.blue("" + pckg.author.url)
-    ], additionalInfo);
+        chalk.blue("" + pckg.author.url),
+    ]);
     var boxenOptions = {
         padding: 1,
         margin: 1,

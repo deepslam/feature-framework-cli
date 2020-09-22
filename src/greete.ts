@@ -18,9 +18,9 @@ try {
 export default () => {
   const greetings = [
     chalk.green.bold(`Feature Framework CLI v.${ownPckg.version}`),
+    ...additionalInfo,
     chalk.white(""),
     chalk.blue(`${pckg.author.url}`),
-    ...additionalInfo,
   ];
 
   const boxenOptions = {
