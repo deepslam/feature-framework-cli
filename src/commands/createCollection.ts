@@ -1,12 +1,16 @@
 import chalk from "chalk";
 import inquirer from "inquirer";
-import { transformFile } from "../utils/common";
+import { Project } from "ts-morph";
+import path from "path";
+import { transformFile, ImportType } from "../utils/common";
 import { getPath } from "../utils/path";
-import { getProject } from "../utils/project";
+import { getProject, findClassInProject } from "../utils/project";
 
 type createCollectionType = {
   name: string;
+  model: string;
   path?: string;
+  project?: Project;
 };
 
 const defaultData: Partial<createCollectionType> = {};
@@ -14,21 +18,33 @@ const defaultData: Partial<createCollectionType> = {};
 const createCollection = (data: createCollectionType): Promise<boolean> => {
   return new Promise(async (resolve) => {
     try {
-      const project = getProject();
       const newFeatureFileName = `${data.path}/${data.name}.ts`;
-      project.addSourceFileAtPath(
+      data.project!.addSourceFileAtPath(
         __dirname + "../../../../src/templates/NewCollection.ts"
       );
+      const imports: ImportType[] = [];
+      const modelFiles = findClassInProject(data.project!, data.model);
 
-      transformFile(project, newFeatureFileName, {
+      if (modelFiles && modelFiles[0]) {
+        imports.push({
+          defaultImport: data.model,
+          moduleSpecifier: path
+            .relative(
+              path.dirname(newFeatureFileName),
+              modelFiles[0].getSourceFile().getFilePath()
+            )
+            .replace(".ts", ""),
+        });
+      }
+
+      transformFile(data.project!, newFeatureFileName, {
         fileName: "NewCollection.ts",
         classesMap: {
           NewCollection: {
             name: `${data.name}Collection`,
+            parameters: [data.model],
+            imports,
           },
-        },
-        typesMap: {
-          CollectionDataType: `${data.name}DataType`,
         },
       })
         .then((result) => resolve(result))
@@ -48,6 +64,8 @@ export default (
   path?: string
 ): Promise<boolean> => {
   return new Promise(async (resolve) => {
+    data.project = await getProject();
+
     data = {
       ...defaultData,
       ...data,
@@ -74,6 +92,19 @@ export default (
         },
         {
           type: "question",
+          name: "model",
+          message: "Model to attach to the collection",
+          default: data.model,
+          validate: function (value) {
+            if (findClassInProject(data.project!, value)) {
+              return true;
+            }
+
+            return "Model has not been found";
+          },
+        },
+        {
+          type: "question",
           name: "path",
           message: "Path to save",
           default: pathToSave,
@@ -82,6 +113,7 @@ export default (
       .then((answers: Partial<createCollectionType>) => {
         data.path = answers.path!;
         data.name = answers.name!;
+        data.model = answers.model!;
 
         createCollection(data).then((res) => {
           resolve(res);

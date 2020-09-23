@@ -14,7 +14,7 @@ const defaultData: Partial<createModelDataType> = {};
 const createModel = (data: createModelDataType): Promise<boolean> => {
   return new Promise(async (resolve) => {
     try {
-      const project = getProject();
+      const project = await getProject();
       const newFeatureFileName = `${data.path}/${data.name}.ts`;
       project.addSourceFileAtPath(
         __dirname + "../../../../src/templates/NewModel.ts"

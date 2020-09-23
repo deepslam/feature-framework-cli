@@ -14,7 +14,7 @@ const defaultData: Partial<createEventDataType> = {};
 const createEvent = (data: createEventDataType): Promise<boolean> => {
   return new Promise(async (resolve) => {
     try {
-      const project = getProject();
+      const project = await getProject();
       const newFeatureFileName = `${data.path}/${data.name}.ts`;
       project.addSourceFileAtPath(
         __dirname + "../../../../src/templates/NewEvent.ts"

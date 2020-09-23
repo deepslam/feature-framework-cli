@@ -14,7 +14,7 @@ const defaultData: Partial<createDataProviderType> = {};
 const createProvider = (data: createDataProviderType): Promise<boolean> => {
   return new Promise(async (resolve) => {
     try {
-      const project = getProject();
+      const project = await getProject();
       const newFeatureFileName = `${data.path}/${data.name}.ts`;
       project.addSourceFileAtPath(
         __dirname + "../../../../src/templates/NewDataProvider.ts"

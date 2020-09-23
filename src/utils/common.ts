@@ -1,4 +1,10 @@
-import { Project, OptionalKind, PropertyDeclarationStructure } from "ts-morph";
+import {
+  Project,
+  OptionalKind,
+  PropertyDeclarationStructure,
+  TypeParameterDeclarationStructure,
+  ImportDeclarationStructure,
+} from "ts-morph";
 import chalk from "chalk";
 import { copyImmediately } from "./path";
 
@@ -7,12 +13,16 @@ export type NewPropertiesType = Record<
   OptionalKind<PropertyDeclarationStructure>
 >;
 
+export type ImportType = OptionalKind<ImportDeclarationStructure>;
+
 export type TransformFileParams = {
   fileName: string;
   classesMap?: Record<
     string,
     {
       name: string;
+      parameters?: (string | OptionalKind<TypeParameterDeclarationStructure>)[];
+      imports?: ImportType[];
       existingProperties?: Record<string, string>;
       newProperties?: NewPropertiesType;
     }
@@ -33,6 +43,18 @@ export function transformFile(
         const currentClass = classesMap[oldClassName];
 
         featureClass.rename(currentClass.name);
+        if (currentClass.parameters) {
+          currentClass.parameters.forEach((parameter) => {
+            featureClass.addTypeParameter(parameter);
+            file.fixMissingImports();
+          });
+        }
+        if (currentClass.imports) {
+          currentClass.imports.forEach((importStatement) => {
+            console.log(importStatement);
+            file.addImportDeclaration(importStatement);
+          });
+        }
         if (currentClass.existingProperties) {
           Object.keys(currentClass.existingProperties).forEach(
             (existingProperty) => {
@@ -68,7 +90,9 @@ export function transformFile(
         type.rename(typesMap[oldType]);
       });
 
-      file.organizeImports();
+      // file.organizeImports();
+      file.fixMissingImports();
+      file.formatText();
 
       copyImmediately(file, newPath)
         .then((result) => {
