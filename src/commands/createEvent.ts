@@ -24,11 +24,11 @@ const createEvent = (data: createEventDataType): Promise<boolean> => {
         fileName: "NewEvent.ts",
         classesMap: {
           NewEvent: {
-            name: `${data.name}Event`,
+            name: `${data.name}`,
           },
         },
         typesMap: {
-          NewEventCallbackType: `${data.name}EventCallbackType`,
+          NewEventCallbackType: `${data.name}CallbackType`,
         },
       })
         .then((result) => resolve(result))

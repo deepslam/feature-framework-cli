@@ -72,11 +72,11 @@ var createEvent = function (data) {
                         fileName: "NewEvent.ts",
                         classesMap: {
                             NewEvent: {
-                                name: data.name + "Event",
+                                name: "" + data.name,
                             },
                         },
                         typesMap: {
-                            NewEventCallbackType: data.name + "EventCallbackType",
+                            NewEventCallbackType: data.name + "CallbackType",
                         },
                     })
                         .then(function (result) { return resolve(result); })

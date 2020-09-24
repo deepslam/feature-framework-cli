@@ -63,7 +63,6 @@ export function transformFile(
         }
         if (currentClass.imports) {
           currentClass.imports.forEach((importStatement) => {
-            console.log(importStatement);
             file.addImportDeclaration(importStatement);
           });
         }

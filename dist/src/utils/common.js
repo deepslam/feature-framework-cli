@@ -26,7 +26,6 @@ function transformFile(project, newPath, _a) {
                 }
                 if (currentClass.imports) {
                     currentClass.imports.forEach(function (importStatement) {
-                        console.log(importStatement);
                         file_1.addImportDeclaration(importStatement);
                     });
                 }
