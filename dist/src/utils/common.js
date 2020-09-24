@@ -7,14 +7,29 @@ exports.transformFile = void 0;
 var chalk_1 = __importDefault(require("chalk"));
 var path_1 = require("./path");
 function transformFile(project, newPath, _a) {
-    var _b = _a.classesMap, classesMap = _b === void 0 ? {} : _b, _c = _a.typesMap, typesMap = _c === void 0 ? {} : _c, fileName = _a.fileName;
+    var _b = _a.classesMap, classesMap = _b === void 0 ? {} : _b, _c = _a.typesMap, typesMap = _c === void 0 ? {} : _c, fileName = _a.fileName, fileCallback = _a.fileCallback;
     return new Promise(function (resolve) {
         try {
             var file_1 = project.getSourceFileOrThrow(fileName);
+            if (fileCallback) {
+                fileCallback(file_1);
+            }
             Object.keys(classesMap).forEach(function (oldClassName) {
                 var featureClass = file_1.getClassOrThrow(oldClassName);
                 var currentClass = classesMap[oldClassName];
                 featureClass.rename(currentClass.name);
+                if (currentClass.parameters) {
+                    currentClass.parameters.forEach(function (parameter) {
+                        featureClass.addTypeParameter(parameter);
+                        file_1.fixMissingImports();
+                    });
+                }
+                if (currentClass.imports) {
+                    currentClass.imports.forEach(function (importStatement) {
+                        console.log(importStatement);
+                        file_1.addImportDeclaration(importStatement);
+                    });
+                }
                 if (currentClass.existingProperties) {
                     Object.keys(currentClass.existingProperties).forEach(function (existingProperty) {
                         var property = featureClass.getPropertyOrThrow(existingProperty);
@@ -33,12 +48,17 @@ function transformFile(project, newPath, _a) {
                         file_1.fixMissingImports();
                     });
                 }
+                if (currentClass.classCallback) {
+                    currentClass.classCallback(featureClass);
+                }
             });
             Object.keys(typesMap).forEach(function (oldType) {
                 var type = file_1.getTypeAliasOrThrow(oldType);
                 type.rename(typesMap[oldType]);
             });
-            file_1.organizeImports();
+            // file.organizeImports();
+            file_1.fixMissingImports();
+            file_1.formatText();
             path_1.copyImmediately(file_1, newPath)
                 .then(function (result) {
                 resolve(result);

@@ -4,6 +4,8 @@ import {
   PropertyDeclarationStructure,
   TypeParameterDeclarationStructure,
   ImportDeclarationStructure,
+  SourceFile,
+  ClassDeclaration,
 } from "ts-morph";
 import chalk from "chalk";
 import { copyImmediately } from "./path";
@@ -17,10 +19,12 @@ export type ImportType = OptionalKind<ImportDeclarationStructure>;
 
 export type TransformFileParams = {
   fileName: string;
+  fileCallback?: (file: SourceFile) => void;
   classesMap?: Record<
     string,
     {
       name: string;
+      classCallback?: (currentClass: ClassDeclaration) => void;
       parameters?: (string | OptionalKind<TypeParameterDeclarationStructure>)[];
       imports?: ImportType[];
       existingProperties?: Record<string, string>;
@@ -33,11 +37,19 @@ export type TransformFileParams = {
 export function transformFile(
   project: Project,
   newPath: string,
-  { classesMap = {}, typesMap = {}, fileName }: TransformFileParams
+  {
+    classesMap = {},
+    typesMap = {},
+    fileName,
+    fileCallback,
+  }: TransformFileParams
 ): Promise<boolean> {
   return new Promise((resolve) => {
     try {
       const file = project.getSourceFileOrThrow(fileName);
+      if (fileCallback) {
+        fileCallback(file);
+      }
       Object.keys(classesMap).forEach((oldClassName) => {
         const featureClass = file.getClassOrThrow(oldClassName);
         const currentClass = classesMap[oldClassName];
@@ -82,6 +94,9 @@ export function transformFile(
               file.fixMissingImports();
             }
           );
+        }
+        if (currentClass.classCallback) {
+          currentClass.classCallback(featureClass);
         }
       });
 

@@ -41,9 +41,11 @@ const createCollection = (data: createCollectionType): Promise<boolean> => {
         fileName: "NewCollection.ts",
         classesMap: {
           NewCollection: {
-            name: `${data.name}Collection`,
-            parameters: [data.model],
+            name: `${data.name}`,
             imports,
+            classCallback: (cls) => {
+              cls.setExtends(`DataCollection<${data.model}>`);
+            },
           },
         },
       })

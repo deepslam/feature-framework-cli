@@ -1,6 +1,6 @@
 const pckg = require("../package.json");
 import chalk from "chalk";
-import boxen from "boxen";
+import boxen, { Options, BorderStyle } from "boxen";
 import fs from "fs";
 import path from "path";
 import { tsconfigResolver } from "tsconfig-resolver";
@@ -32,10 +32,10 @@ export default async () => {
     chalk.blue(`${pckg.author.url}`),
   ];
 
-  const boxenOptions = {
+  const boxenOptions: Options = {
     padding: 1,
     margin: 1,
-    borderStyle: "double",
+    borderStyle: BorderStyle.Double,
     borderColor: "white",
     float: "center",
     align: "center",

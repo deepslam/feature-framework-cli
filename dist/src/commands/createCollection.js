@@ -52,27 +52,38 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var chalk_1 = __importDefault(require("chalk"));
 var inquirer_1 = __importDefault(require("inquirer"));
+var path_1 = __importDefault(require("path"));
 var common_1 = require("../utils/common");
-var path_1 = require("../utils/path");
+var path_2 = require("../utils/path");
 var project_1 = require("../utils/project");
 var defaultData = {};
 var createCollection = function (data) {
     return new Promise(function (resolve) { return __awaiter(void 0, void 0, void 0, function () {
-        var project, newFeatureFileName;
+        var newFeatureFileName, imports, modelFiles;
         return __generator(this, function (_a) {
             try {
-                project = project_1.getProject();
                 newFeatureFileName = data.path + "/" + data.name + ".ts";
-                project.addSourceFileAtPath(__dirname + "../../../../src/templates/NewCollection.ts");
-                common_1.transformFile(project, newFeatureFileName, {
+                data.project.addSourceFileAtPath(__dirname + "../../../../src/templates/NewCollection.ts");
+                imports = [];
+                modelFiles = project_1.findClassInProject(data.project, data.model);
+                if (modelFiles && modelFiles[0]) {
+                    imports.push({
+                        defaultImport: data.model,
+                        moduleSpecifier: path_1.default
+                            .relative(path_1.default.dirname(newFeatureFileName), modelFiles[0].getSourceFile().getFilePath())
+                            .replace(".ts", ""),
+                    });
+                }
+                common_1.transformFile(data.project, newFeatureFileName, {
                     fileName: "NewCollection.ts",
                     classesMap: {
                         NewCollection: {
-                            name: data.name + "Collection",
+                            name: "" + data.name,
+                            imports: imports,
+                            classCallback: function (cls) {
+                                cls.setExtends("DataCollection<" + data.model + ">");
+                            },
                         },
-                    },
-                    typesMap: {
-                        CollectionDataType: data.name + "DataType",
                     },
                 })
                     .then(function (result) { return resolve(result); })
@@ -91,37 +102,57 @@ var createCollection = function (data) {
 };
 exports.default = (function (data, path) {
     return new Promise(function (resolve) { return __awaiter(void 0, void 0, void 0, function () {
-        var pathToSave;
-        return __generator(this, function (_a) {
-            data = __assign(__assign({}, defaultData), data);
-            pathToSave = path_1.getPath("Collections");
-            if (path) {
-                pathToSave = path_1.getPath(path);
+        var _a, pathToSave;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _a = data;
+                    return [4 /*yield*/, project_1.getProject()];
+                case 1:
+                    _a.project = _b.sent();
+                    data = __assign(__assign({}, defaultData), data);
+                    pathToSave = path_2.getPath("Collections");
+                    if (path) {
+                        pathToSave = path_2.getPath(path);
+                    }
+                    console.log(chalk_1.default.white.bold("Crafting a new model. Answer a few questions, please.\r\n"));
+                    inquirer_1.default
+                        .prompt([
+                        {
+                            type: "question",
+                            name: "name",
+                            message: "Name",
+                            default: data.name,
+                        },
+                        {
+                            type: "question",
+                            name: "model",
+                            message: "Model to attach to the collection",
+                            default: data.model,
+                            validate: function (value) {
+                                if (project_1.findClassInProject(data.project, value)) {
+                                    return true;
+                                }
+                                return "Model has not been found";
+                            },
+                        },
+                        {
+                            type: "question",
+                            name: "path",
+                            message: "Path to save",
+                            default: pathToSave,
+                        },
+                    ])
+                        .then(function (answers) {
+                        data.path = answers.path;
+                        data.name = answers.name;
+                        data.model = answers.model;
+                        createCollection(data).then(function (res) {
+                            resolve(res);
+                        });
+                    });
+                    return [2 /*return*/];
             }
-            console.log(chalk_1.default.white.bold("Crafting a new model. Answer a few questions, please.\r\n"));
-            inquirer_1.default
-                .prompt([
-                {
-                    type: "question",
-                    name: "name",
-                    message: "Name",
-                    default: data.name,
-                },
-                {
-                    type: "question",
-                    name: "path",
-                    message: "Path to save",
-                    default: pathToSave,
-                },
-            ])
-                .then(function (answers) {
-                data.path = answers.path;
-                data.name = answers.name;
-                createCollection(data).then(function (res) {
-                    resolve(res);
-                });
-            });
-            return [2 /*return*/];
         });
     }); });
 });

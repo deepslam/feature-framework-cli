@@ -58,34 +58,40 @@ var project_1 = require("../utils/project");
 var defaultData = {};
 var createModel = function (data) {
     return new Promise(function (resolve) { return __awaiter(void 0, void 0, void 0, function () {
-        var project, newFeatureFileName;
+        var project, newFeatureFileName, e_1;
         return __generator(this, function (_a) {
-            try {
-                project = project_1.getProject();
-                newFeatureFileName = data.path + "/" + data.name + ".ts";
-                project.addSourceFileAtPath(__dirname + "../../../../src/templates/NewModel.ts");
-                common_1.transformFile(project, newFeatureFileName, {
-                    fileName: "NewModel.ts",
-                    classesMap: {
-                        NewModel: {
-                            name: data.name + "Model",
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, project_1.getProject()];
+                case 1:
+                    project = _a.sent();
+                    newFeatureFileName = data.path + "/" + data.name + ".ts";
+                    project.addSourceFileAtPath(__dirname + "../../../../src/templates/NewModel.ts");
+                    common_1.transformFile(project, newFeatureFileName, {
+                        fileName: "NewModel.ts",
+                        classesMap: {
+                            NewModel: {
+                                name: "" + data.name,
+                            },
                         },
-                    },
-                    typesMap: {
-                        NewModelFieldsType: data.name + "FieldsType",
-                    },
-                })
-                    .then(function (result) { return resolve(result); })
-                    .catch(function (e) {
-                    console.log(chalk_1.default.red.bold(e));
+                        typesMap: {
+                            NewModelFieldsType: data.name + "FieldsType",
+                        },
+                    })
+                        .then(function (result) { return resolve(result); })
+                        .catch(function (e) {
+                        console.log(chalk_1.default.red.bold(e));
+                        resolve(false);
+                    });
+                    return [3 /*break*/, 3];
+                case 2:
+                    e_1 = _a.sent();
+                    console.log(chalk_1.default.red.bold(e_1));
                     resolve(false);
-                });
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
             }
-            catch (e) {
-                console.log(chalk_1.default.red.bold(e));
-                resolve(false);
-            }
-            return [2 /*return*/];
         });
     }); });
 };

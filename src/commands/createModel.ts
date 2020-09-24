@@ -24,7 +24,7 @@ const createModel = (data: createModelDataType): Promise<boolean> => {
         fileName: "NewModel.ts",
         classesMap: {
           NewModel: {
-            name: `${data.name}Model`,
+            name: `${data.name}`,
           },
         },
         typesMap: {

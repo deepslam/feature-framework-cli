@@ -146,106 +146,112 @@ var getCustomSettings = function () {
 };
 var createFeature = function (data) {
     return new Promise(function (resolve) { return __awaiter(void 0, void 0, void 0, function () {
-        var project, newFeatureFileName, newProperties;
+        var project, newFeatureFileName, newProperties, e_1;
         var _a, _b, _c, _d, _e, _f, _g, _h;
         return __generator(this, function (_j) {
-            try {
-                project = project_1.getProject();
-                newFeatureFileName = data.path + "/" + data.name + ".ts";
-                project.addSourceFileAtPath(__dirname + "../../../../src/templates/NewFeature.ts");
-                newProperties = {};
-                if (data.implements) {
-                    if ((_a = data.implements) === null || _a === void 0 ? void 0 : _a.features) {
-                        newProperties.features = {
-                            name: "features",
-                            type: "Record<string, IFeature>",
-                            isStatic: false,
-                            initializer: "{}",
-                        };
+            switch (_j.label) {
+                case 0:
+                    _j.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, project_1.getProject()];
+                case 1:
+                    project = _j.sent();
+                    newFeatureFileName = data.path + "/" + data.name + ".ts";
+                    project.addSourceFileAtPath(__dirname + "../../../../src/templates/NewFeature.ts");
+                    newProperties = {};
+                    if (data.implements) {
+                        if ((_a = data.implements) === null || _a === void 0 ? void 0 : _a.features) {
+                            newProperties.features = {
+                                name: "features",
+                                type: "Record<string, IFeature>",
+                                isStatic: false,
+                                initializer: "{}",
+                            };
+                        }
+                        if ((_b = data.implements) === null || _b === void 0 ? void 0 : _b.slices) {
+                            newProperties.slices = {
+                                name: "slices",
+                                type: "Record<string, Slice>",
+                                isStatic: false,
+                                initializer: "{}",
+                            };
+                        }
+                        if ((_c = data.implements) === null || _c === void 0 ? void 0 : _c.translations) {
+                            newProperties.translations = {
+                                name: "translations",
+                                type: "TranslationType",
+                                isStatic: false,
+                                initializer: "{}",
+                            };
+                        }
+                        if ((_d = data.implements) === null || _d === void 0 ? void 0 : _d.events) {
+                            newProperties.events = {
+                                name: "events",
+                                type: "Record<string, IEvent<unknown>>",
+                                isStatic: false,
+                                initializer: "{}",
+                            };
+                        }
+                        if ((_e = data.implements) === null || _e === void 0 ? void 0 : _e.view) {
+                            newProperties.view = {
+                                name: "view",
+                                type: "IView<unknown> | null",
+                                isStatic: false,
+                                initializer: "null",
+                            };
+                        }
+                        if ((_f = data.implements) === null || _f === void 0 ? void 0 : _f.collections) {
+                            newProperties.collections = {
+                                name: "collections",
+                                type: "Record<string, IDataCollection<unknown, unknown>>",
+                                isStatic: false,
+                                initializer: "{}",
+                            };
+                        }
+                        if ((_g = data.implements) === null || _g === void 0 ? void 0 : _g.dataManagers) {
+                            newProperties.dataManagers = {
+                                name: "dataManagers",
+                                type: "Record<string, IDataManager<unknown>>",
+                                isStatic: false,
+                                initializer: "{}",
+                            };
+                        }
+                        if ((_h = data.implements) === null || _h === void 0 ? void 0 : _h.models) {
+                            newProperties.models = {
+                                name: "models",
+                                type: "Record<string, IModel<unknown>>",
+                                isStatic: false,
+                                initializer: "{}",
+                            };
+                        }
                     }
-                    if ((_b = data.implements) === null || _b === void 0 ? void 0 : _b.slices) {
-                        newProperties.slices = {
-                            name: "slices",
-                            type: "Record<string, Slice>",
-                            isStatic: false,
-                            initializer: "{}",
-                        };
-                    }
-                    if ((_c = data.implements) === null || _c === void 0 ? void 0 : _c.translations) {
-                        newProperties.translations = {
-                            name: "translations",
-                            type: "TranslationType",
-                            isStatic: false,
-                            initializer: "{}",
-                        };
-                    }
-                    if ((_d = data.implements) === null || _d === void 0 ? void 0 : _d.events) {
-                        newProperties.events = {
-                            name: "events",
-                            type: "Record<string, IEvent<unknown>>",
-                            isStatic: false,
-                            initializer: "{}",
-                        };
-                    }
-                    if ((_e = data.implements) === null || _e === void 0 ? void 0 : _e.view) {
-                        newProperties.view = {
-                            name: "view",
-                            type: "IView<unknown> | null",
-                            isStatic: false,
-                            initializer: "null",
-                        };
-                    }
-                    if ((_f = data.implements) === null || _f === void 0 ? void 0 : _f.collections) {
-                        newProperties.collections = {
-                            name: "collections",
-                            type: "Record<string, IDataCollection<unknown, unknown>>",
-                            isStatic: false,
-                            initializer: "{}",
-                        };
-                    }
-                    if ((_g = data.implements) === null || _g === void 0 ? void 0 : _g.dataManagers) {
-                        newProperties.dataManagers = {
-                            name: "dataManagers",
-                            type: "Record<string, IDataManager<unknown>>",
-                            isStatic: false,
-                            initializer: "{}",
-                        };
-                    }
-                    if ((_h = data.implements) === null || _h === void 0 ? void 0 : _h.models) {
-                        newProperties.models = {
-                            name: "models",
-                            type: "Record<string, IModel<unknown>>",
-                            isStatic: false,
-                            initializer: "{}",
-                        };
-                    }
-                }
-                common_1.transformFile(project, newFeatureFileName, {
-                    fileName: "NewFeature.ts",
-                    classesMap: {
-                        NewFeature: {
-                            name: data.name + "Feature",
-                            existingProperties: {
+                    common_1.transformFile(project, newFeatureFileName, {
+                        fileName: "NewFeature.ts",
+                        classesMap: {
+                            NewFeature: {
                                 name: data.name + "Feature",
+                                existingProperties: {
+                                    name: data.name + "Feature",
+                                },
+                                newProperties: newProperties,
                             },
-                            newProperties: newProperties,
                         },
-                    },
-                    typesMap: {
-                        NewFeatureConfig: data.name + "FeatureConfig",
-                    },
-                })
-                    .then(function (result) { return resolve(result); })
-                    .catch(function (e) {
-                    console.log(chalk_1.default.red.bold(e));
+                        typesMap: {
+                            NewFeatureConfig: data.name + "FeatureConfig",
+                        },
+                    })
+                        .then(function (result) { return resolve(result); })
+                        .catch(function (e) {
+                        console.log(chalk_1.default.red.bold(e));
+                        resolve(false);
+                    });
+                    return [3 /*break*/, 3];
+                case 2:
+                    e_1 = _j.sent();
+                    console.log(chalk_1.default.red.bold(e_1));
                     resolve(false);
-                });
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
             }
-            catch (e) {
-                console.log(chalk_1.default.red.bold(e));
-                resolve(false);
-            }
-            return [2 /*return*/];
         });
     }); });
 };
