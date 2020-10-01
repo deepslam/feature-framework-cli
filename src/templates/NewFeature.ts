@@ -6,7 +6,7 @@ import {
   IDataManager,
   IEvent,
   IModel,
-  TranslationType,
+  Translations,
 } from "@feature-framework/core";
 
 // Feature config type here

@@ -143,7 +143,7 @@ const createFeature = (data: createFeatureDataType): Promise<boolean> => {
         if (data.implements?.translations) {
           newProperties.translations = {
             name: "translations",
-            type: "TranslationType",
+            type: "Translations<unknown>",
             isStatic: false,
             initializer: "{}",
           };

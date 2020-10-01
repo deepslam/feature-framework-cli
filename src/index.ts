@@ -8,6 +8,7 @@ import createEvent from "./commands/createEvent";
 import createModel from "./commands/createModel";
 import createCollection from "./commands/createCollection";
 import createDataProvider from "./commands/createDataProvider";
+import createTranslation from "./commands/createTranslation";
 
 const log = console.log;
 
@@ -104,6 +105,24 @@ const log = console.log;
             result
               ? chalk.green.bold("Collection successully created")
               : chalk.red.bold("Collection was not created due to the error")
+          );
+        });
+      });
+
+    program
+      .command("new:translations <name> [path]")
+      .description("define a new translations file")
+      .action((name: string, path: string) => {
+        createTranslation(
+          {
+            name,
+          },
+          path
+        ).then((result) => {
+          log(
+            result
+              ? chalk.green.bold("Translations successully created")
+              : chalk.red.bold("Translations were not created due to the error")
           );
         });
       });

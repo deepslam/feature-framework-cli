@@ -48,6 +48,7 @@ var createEvent_1 = __importDefault(require("./commands/createEvent"));
 var createModel_1 = __importDefault(require("./commands/createModel"));
 var createCollection_1 = __importDefault(require("./commands/createCollection"));
 var createDataProvider_1 = __importDefault(require("./commands/createDataProvider"));
+var createTranslation_1 = __importDefault(require("./commands/createTranslation"));
 var log = console.log;
 (function () { return __awaiter(void 0, void 0, void 0, function () {
     var _a, program;
@@ -120,6 +121,18 @@ var log = console.log;
                             log(result
                                 ? chalk_1.default.green.bold("Collection successully created")
                                 : chalk_1.default.red.bold("Collection was not created due to the error"));
+                        });
+                    });
+                    program
+                        .command("new:translations <name> [path]")
+                        .description("define a new translations file")
+                        .action(function (name, path) {
+                        createTranslation_1.default({
+                            name: name,
+                        }, path).then(function (result) {
+                            log(result
+                                ? chalk_1.default.green.bold("Translations successully created")
+                                : chalk_1.default.red.bold("Translations were not created due to the error"));
                         });
                     });
                     program.parse(process.argv);

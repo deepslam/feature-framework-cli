@@ -178,7 +178,7 @@ var createFeature = function (data) {
                         if ((_c = data.implements) === null || _c === void 0 ? void 0 : _c.translations) {
                             newProperties.translations = {
                                 name: "translations",
-                                type: "TranslationType",
+                                type: "Translations<unknown>",
                                 isStatic: false,
                                 initializer: "{}",
                             };
