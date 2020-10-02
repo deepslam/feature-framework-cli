@@ -26,11 +26,11 @@ export type TransformFileParams = {
       name: string;
       classCallback?: (currentClass: ClassDeclaration) => void;
       parameters?: (string | OptionalKind<TypeParameterDeclarationStructure>)[];
-      imports?: ImportType[];
       existingProperties?: Record<string, string>;
       newProperties?: NewPropertiesType;
     }
   >;
+  imports?: ImportType[];
   typesMap?: Record<string, string>;
 };
 
@@ -41,6 +41,7 @@ export function transformFile(
     classesMap = {},
     typesMap = {},
     fileName,
+    imports = [],
     fileCallback,
   }: TransformFileParams
 ): Promise<boolean> {
@@ -61,8 +62,8 @@ export function transformFile(
             file.fixMissingImports();
           });
         }
-        if (currentClass.imports) {
-          currentClass.imports.forEach((importStatement) => {
+        if (imports) {
+          imports.forEach((importStatement) => {
             file.addImportDeclaration(importStatement);
           });
         }

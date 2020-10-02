@@ -7,7 +7,7 @@ exports.transformFile = void 0;
 var chalk_1 = __importDefault(require("chalk"));
 var path_1 = require("./path");
 function transformFile(project, newPath, _a) {
-    var _b = _a.classesMap, classesMap = _b === void 0 ? {} : _b, _c = _a.typesMap, typesMap = _c === void 0 ? {} : _c, fileName = _a.fileName, fileCallback = _a.fileCallback;
+    var _b = _a.classesMap, classesMap = _b === void 0 ? {} : _b, _c = _a.typesMap, typesMap = _c === void 0 ? {} : _c, fileName = _a.fileName, _d = _a.imports, imports = _d === void 0 ? [] : _d, fileCallback = _a.fileCallback;
     return new Promise(function (resolve) {
         try {
             var file_1 = project.getSourceFileOrThrow(fileName);
@@ -24,8 +24,8 @@ function transformFile(project, newPath, _a) {
                         file_1.fixMissingImports();
                     });
                 }
-                if (currentClass.imports) {
-                    currentClass.imports.forEach(function (importStatement) {
+                if (imports) {
+                    imports.forEach(function (importStatement) {
                         file_1.addImportDeclaration(importStatement);
                     });
                 }

@@ -146,7 +146,7 @@ var getCustomSettings = function () {
 };
 var createFeature = function (data) {
     return new Promise(function (resolve) { return __awaiter(void 0, void 0, void 0, function () {
-        var project, newFeatureFileName, newProperties, e_1;
+        var project, newFeatureFileName, newProperties, importsFromFramework, imports_1, importSlice, e_1;
         var _a, _b, _c, _d, _e, _f, _g, _h;
         return __generator(this, function (_j) {
             switch (_j.label) {
@@ -158,6 +158,9 @@ var createFeature = function (data) {
                     newFeatureFileName = data.path + "/" + data.name + ".ts";
                     project.addSourceFileAtPath(__dirname + "../../../../src/templates/NewFeature.ts");
                     newProperties = {};
+                    importsFromFramework = ["Feature", "IFeature"];
+                    imports_1 = [];
+                    importSlice = false;
                     if (data.implements) {
                         if ((_a = data.implements) === null || _a === void 0 ? void 0 : _a.features) {
                             newProperties.features = {
@@ -174,14 +177,16 @@ var createFeature = function (data) {
                                 isStatic: false,
                                 initializer: "{}",
                             };
+                            importSlice = true;
                         }
                         if ((_c = data.implements) === null || _c === void 0 ? void 0 : _c.translations) {
                             newProperties.translations = {
                                 name: "translations",
-                                type: "Translations<unknown>",
+                                type: "Record<string, Translations<unknown>>",
                                 isStatic: false,
                                 initializer: "{}",
                             };
+                            importsFromFramework.push("Translations");
                         }
                         if ((_d = data.implements) === null || _d === void 0 ? void 0 : _d.events) {
                             newProperties.events = {
@@ -190,6 +195,7 @@ var createFeature = function (data) {
                                 isStatic: false,
                                 initializer: "{}",
                             };
+                            importsFromFramework.push("IEvent");
                         }
                         if ((_e = data.implements) === null || _e === void 0 ? void 0 : _e.view) {
                             newProperties.view = {
@@ -206,6 +212,7 @@ var createFeature = function (data) {
                                 isStatic: false,
                                 initializer: "{}",
                             };
+                            importsFromFramework.push("IDataCollection");
                         }
                         if ((_g = data.implements) === null || _g === void 0 ? void 0 : _g.dataManagers) {
                             newProperties.dataManagers = {
@@ -214,6 +221,7 @@ var createFeature = function (data) {
                                 isStatic: false,
                                 initializer: "{}",
                             };
+                            importsFromFramework.push("IDataManager");
                         }
                         if ((_h = data.implements) === null || _h === void 0 ? void 0 : _h.models) {
                             newProperties.models = {
@@ -222,7 +230,20 @@ var createFeature = function (data) {
                                 isStatic: false,
                                 initializer: "{}",
                             };
+                            importsFromFramework.push("IModel");
                         }
+                    }
+                    if (importsFromFramework.length > 0) {
+                        imports_1.push({
+                            defaultImport: "{" + importsFromFramework.join(", ") + "}",
+                            moduleSpecifier: "@feature-framework/core",
+                        });
+                    }
+                    if (importSlice) {
+                        imports_1.push({
+                            defaultImport: "{ Slice }",
+                            moduleSpecifier: "@reduxjs/toolkit",
+                        });
                     }
                     common_1.transformFile(project, newFeatureFileName, {
                         fileName: "NewFeature.ts",
@@ -237,6 +258,14 @@ var createFeature = function (data) {
                         },
                         typesMap: {
                             NewFeatureConfig: data.name + "FeatureConfig",
+                        },
+                        fileCallback: function (file) {
+                            file.getImportDeclarations().forEach(function (importDeclaration) {
+                                importDeclaration.remove();
+                            });
+                            imports_1.forEach(function (newImport) {
+                                file.addImportDeclaration(newImport);
+                            });
                         },
                     })
                         .then(function (result) { return resolve(result); })

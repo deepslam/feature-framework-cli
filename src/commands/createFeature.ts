@@ -1,6 +1,6 @@
 import chalk from "chalk";
 import inquirer from "inquirer";
-import { NewPropertiesType, transformFile } from "../utils/common";
+import { ImportType, NewPropertiesType, transformFile } from "../utils/common";
 import { getPath } from "../utils/path";
 import { getProject } from "../utils/project";
 
@@ -121,6 +121,9 @@ const createFeature = (data: createFeatureDataType): Promise<boolean> => {
         __dirname + "../../../../src/templates/NewFeature.ts"
       );
       const newProperties: NewPropertiesType = {};
+      const importsFromFramework = ["Feature", "IFeature"];
+      const imports: ImportType[] = [];
+      let importSlice = false;
       if (data.implements) {
         if (data.implements?.features) {
           newProperties.features = {
@@ -138,15 +141,17 @@ const createFeature = (data: createFeatureDataType): Promise<boolean> => {
             isStatic: false,
             initializer: "{}",
           };
+          importSlice = true;
         }
 
         if (data.implements?.translations) {
           newProperties.translations = {
             name: "translations",
-            type: "Translations<unknown>",
+            type: "Record<string, Translations<unknown>>",
             isStatic: false,
             initializer: "{}",
           };
+          importsFromFramework.push("Translations");
         }
 
         if (data.implements?.events) {
@@ -156,6 +161,7 @@ const createFeature = (data: createFeatureDataType): Promise<boolean> => {
             isStatic: false,
             initializer: "{}",
           };
+          importsFromFramework.push("IEvent");
         }
 
         if (data.implements?.view) {
@@ -174,6 +180,7 @@ const createFeature = (data: createFeatureDataType): Promise<boolean> => {
             isStatic: false,
             initializer: "{}",
           };
+          importsFromFramework.push("IDataCollection");
         }
 
         if (data.implements?.dataManagers) {
@@ -183,6 +190,7 @@ const createFeature = (data: createFeatureDataType): Promise<boolean> => {
             isStatic: false,
             initializer: "{}",
           };
+          importsFromFramework.push("IDataManager");
         }
 
         if (data.implements?.models) {
@@ -192,7 +200,21 @@ const createFeature = (data: createFeatureDataType): Promise<boolean> => {
             isStatic: false,
             initializer: "{}",
           };
+          importsFromFramework.push("IModel");
         }
+      }
+
+      if (importsFromFramework.length > 0) {
+        imports.push({
+          defaultImport: `{${importsFromFramework.join(", ")}}`,
+          moduleSpecifier: "@feature-framework/core",
+        });
+      }
+      if (importSlice) {
+        imports.push({
+          defaultImport: "{ Slice }",
+          moduleSpecifier: "@reduxjs/toolkit",
+        });
       }
 
       transformFile(project, newFeatureFileName, {
@@ -208,6 +230,14 @@ const createFeature = (data: createFeatureDataType): Promise<boolean> => {
         },
         typesMap: {
           NewFeatureConfig: `${data.name}FeatureConfig`,
+        },
+        fileCallback: (file) => {
+          file.getImportDeclarations().forEach((importDeclaration) => {
+            importDeclaration.remove();
+          });
+          imports.forEach((newImport) => {
+            file.addImportDeclaration(newImport);
+          });
         },
       })
         .then((result) => resolve(result))

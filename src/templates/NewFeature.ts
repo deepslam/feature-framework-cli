@@ -1,13 +1,4 @@
-import {
-  Feature,
-  IFeature,
-  IView,
-  IDataCollection,
-  IDataManager,
-  IEvent,
-  IModel,
-  Translations,
-} from "@feature-framework/core";
+import { Feature, IFeature } from "@feature-framework/core";
 
 // Feature config type here
 type NewFeatureConfig = {};

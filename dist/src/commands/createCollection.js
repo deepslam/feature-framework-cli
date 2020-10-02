@@ -76,10 +76,10 @@ var createCollection = function (data) {
                 }
                 common_1.transformFile(data.project, newFeatureFileName, {
                     fileName: "NewCollection.ts",
+                    imports: imports,
                     classesMap: {
                         NewCollection: {
                             name: "" + data.name,
-                            imports: imports,
                             classCallback: function (cls) {
                                 cls.setExtends("DataCollection<" + data.model + ">");
                             },

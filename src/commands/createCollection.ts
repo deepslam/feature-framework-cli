@@ -39,10 +39,10 @@ const createCollection = (data: createCollectionType): Promise<boolean> => {
 
       transformFile(data.project!, newFeatureFileName, {
         fileName: "NewCollection.ts",
+        imports,
         classesMap: {
           NewCollection: {
             name: `${data.name}`,
-            imports,
             classCallback: (cls) => {
               cls.setExtends(`DataCollection<${data.model}>`);
             },
