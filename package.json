@@ -1,6 +1,6 @@
 {
   "name": "@feature-framework/cli",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Cli interface for feature framework",
   "scripts": {
     "watch": "tsc --watch",
