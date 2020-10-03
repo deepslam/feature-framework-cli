@@ -6,7 +6,7 @@ export const copyImmediately = (
   file: SourceFile,
   path: string
 ): Promise<boolean> => {
-  return new Promise((resolve) => {
+  return new Promise(async (resolve) => {
     if (fs.existsSync(path)) {
       inquirer
         .prompt({
@@ -14,11 +14,14 @@ export const copyImmediately = (
           name: "overwrite_file_confirm",
           message: `File ${path} already exists. Would you like to overwrite it?`,
         })
-        .then((answer: { overwrite_file_confirm: boolean }) => {
+        .then(async (answer: { overwrite_file_confirm: boolean }) => {
           if (!answer.overwrite_file_confirm) {
             resolve(false);
           } else {
-            if (file.copyImmediately(path, { overwrite: true })) {
+            const result = await file.copyImmediately(path, {
+              overwrite: true,
+            });
+            if (result) {
               resolve(true);
             }
 
@@ -29,7 +32,8 @@ export const copyImmediately = (
           resolve(false);
         });
     } else {
-      if (file.copyImmediately(path)) {
+      const result = await file.copyImmediately(path);
+      if (result) {
         resolve(true);
       }
 

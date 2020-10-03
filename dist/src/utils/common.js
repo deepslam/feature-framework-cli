@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.transformFile = void 0;
 var chalk_1 = __importDefault(require("chalk"));
 var path_1 = require("./path");
+var prettier_1 = require("./prettier");
 function transformFile(project, newPath, _a) {
     var _b = _a.classesMap, classesMap = _b === void 0 ? {} : _b, _c = _a.typesMap, typesMap = _c === void 0 ? {} : _c, fileName = _a.fileName, _d = _a.imports, imports = _d === void 0 ? [] : _d, fileCallback = _a.fileCallback;
     return new Promise(function (resolve) {
@@ -60,6 +61,7 @@ function transformFile(project, newPath, _a) {
             file_1.formatText();
             path_1.copyImmediately(file_1, newPath)
                 .then(function (result) {
+                prettier_1.runPrettierOnFile(newPath);
                 resolve(result);
             })
                 .catch(function (e) {

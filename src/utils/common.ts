@@ -9,6 +9,7 @@ import {
 } from "ts-morph";
 import chalk from "chalk";
 import { copyImmediately } from "./path";
+import { runPrettierOnFile } from "./prettier";
 
 export type NewPropertiesType = Record<
   string,
@@ -111,6 +112,7 @@ export function transformFile(
 
       copyImmediately(file, newPath)
         .then((result) => {
+          runPrettierOnFile(newPath);
           resolve(result);
         })
         .catch((e) => {
