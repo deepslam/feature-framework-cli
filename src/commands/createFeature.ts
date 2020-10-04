@@ -171,6 +171,7 @@ const createFeature = (data: createFeatureDataType): Promise<boolean> => {
             isStatic: false,
             initializer: "null",
           };
+          importsFromFramework.push("IView");
         }
 
         if (data.implements?.collections) {

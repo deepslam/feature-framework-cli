@@ -204,6 +204,7 @@ var createFeature = function (data) {
                                 isStatic: false,
                                 initializer: "null",
                             };
+                            importsFromFramework.push("IView");
                         }
                         if ((_f = data.implements) === null || _f === void 0 ? void 0 : _f.collections) {
                             newProperties.collections = {
