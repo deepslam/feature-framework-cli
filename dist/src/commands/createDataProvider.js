@@ -71,7 +71,7 @@ var createProvider = function (data) {
                     common_1.transformFile(project, newFeatureFileName, {
                         fileName: "NewDataProvider.ts",
                         classesMap: {
-                            NewModel: {
+                            NewDataProvider: {
                                 name: data.name + "DataProvider",
                             },
                         },
@@ -94,37 +94,44 @@ var createProvider = function (data) {
 };
 exports.default = (function (data, path) {
     return new Promise(function (resolve) { return __awaiter(void 0, void 0, void 0, function () {
-        var pathToSave;
-        return __generator(this, function (_a) {
-            data = __assign(__assign({}, defaultData), data);
-            pathToSave = path_1.getPath("Providers");
-            if (path) {
-                pathToSave = path_1.getPath(path);
+        var _a, pathToSave;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _a = data;
+                    return [4 /*yield*/, project_1.getProject()];
+                case 1:
+                    _a.project = _b.sent();
+                    data = __assign(__assign({}, defaultData), data);
+                    pathToSave = path_1.getPath("Providers");
+                    if (path) {
+                        pathToSave = path_1.getPath(path);
+                    }
+                    console.log(chalk_1.default.white.bold("Crafting a new data provider. Answer a few questions, please.\r\n"));
+                    inquirer_1.default
+                        .prompt([
+                        {
+                            type: "question",
+                            name: "name",
+                            message: "Name",
+                            default: data.name,
+                        },
+                        {
+                            type: "question",
+                            name: "path",
+                            message: "Path to save",
+                            default: pathToSave,
+                        },
+                    ])
+                        .then(function (answers) {
+                        data.path = answers.path;
+                        data.name = answers.name;
+                        createProvider(data).then(function (res) {
+                            resolve(res);
+                        });
+                    });
+                    return [2 /*return*/];
             }
-            console.log(chalk_1.default.white.bold("Crafting a new data provider. Answer a few questions, please.\r\n"));
-            inquirer_1.default
-                .prompt([
-                {
-                    type: "question",
-                    name: "name",
-                    message: "Name",
-                    default: data.name,
-                },
-                {
-                    type: "question",
-                    name: "path",
-                    message: "Path to save",
-                    default: pathToSave,
-                },
-            ])
-                .then(function (answers) {
-                data.path = answers.path;
-                data.name = answers.name;
-                createProvider(data).then(function (res) {
-                    resolve(res);
-                });
-            });
-            return [2 /*return*/];
         });
     }); });
 });

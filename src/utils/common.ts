@@ -112,7 +112,9 @@ export function transformFile(
 
       copyImmediately(file, newPath)
         .then((result) => {
-          runPrettierOnFile(newPath);
+          if (result) {
+            runPrettierOnFile(newPath);
+          }
           resolve(result);
         })
         .catch((e) => {

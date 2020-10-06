@@ -9,6 +9,7 @@ type createFeatureDataType = {
   path?: string;
   implements?: {
     events?: boolean;
+    factories?: boolean;
     features?: boolean;
     slices?: boolean;
     translations?: boolean;
@@ -22,6 +23,7 @@ type createFeatureDataType = {
 const defaultData: Partial<createFeatureDataType> = {
   implements: {
     events: true,
+    factories: true,
     features: true,
     slices: true,
     translations: true,
@@ -46,6 +48,10 @@ const getCustomSettings = (): Promise<
           choices: [
             {
               name: "Events",
+              checked: true,
+            },
+            {
+              name: "Factories",
               checked: true,
             },
             {
@@ -85,6 +91,9 @@ const getCustomSettings = (): Promise<
         };
         if (answers.features.includes("Events")) {
           implementMembers.implements!.events = true;
+        }
+        if (answers.features.includes("Factories")) {
+          implementMembers.implements!.factories = true;
         }
         if (answers.features.includes("Features")) {
           implementMembers.implements!.features = true;
@@ -132,6 +141,16 @@ const createFeature = (data: createFeatureDataType): Promise<boolean> => {
             isStatic: false,
             initializer: "{}",
           };
+        }
+
+        if (data.implements?.factories) {
+          newProperties.factories = {
+            name: "factories",
+            type: "Record<string, Factory<unknown>>",
+            isStatic: false,
+            initializer: "{}",
+          };
+          importsFromFramework.push("Factory");
         }
 
         if (data.implements?.slices) {

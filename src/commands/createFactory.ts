@@ -6,21 +6,21 @@ import { transformFile, ImportType } from "../utils/common";
 import { getPath } from "../utils/path";
 import { getProject, findClassInProject } from "../utils/project";
 
-type createCollectionType = {
+type createFactoryType = {
   name: string;
   model: string;
   path?: string;
   project?: Project;
 };
 
-const defaultData: Partial<createCollectionType> = {};
+const defaultData: Partial<createFactoryType> = {};
 
-const createCollection = (data: createCollectionType): Promise<boolean> => {
+const createFactory = (data: createFactoryType): Promise<boolean> => {
   return new Promise(async (resolve) => {
     try {
       const newFeatureFileName = `${data.path}/${data.name}.ts`;
       data.project!.addSourceFileAtPath(
-        __dirname + "../../../../src/templates/NewCollection.ts"
+        __dirname + "../../../../src/templates/NewFactory.ts"
       );
       const imports: ImportType[] = [];
       const modelFiles = findClassInProject(data.project!, data.model);
@@ -38,15 +38,21 @@ const createCollection = (data: createCollectionType): Promise<boolean> => {
       }
 
       transformFile(data.project!, newFeatureFileName, {
-        fileName: "NewCollection.ts",
+        fileName: "NewFactory.ts",
         imports,
         classesMap: {
-          NewCollection: {
+          NewFactory: {
             name: `${data.name}`,
             classCallback: (cls) => {
-              cls.setExtends(`DataCollection<${data.model}>`);
+              cls.setExtends(`Factory<typeof ${data.model}>`);
+              const modelProperty = cls.getPropertyOrThrow("model");
+              modelProperty.setInitializer(data.model);
+              modelProperty.setType(`typeof ${data.model}`);
             },
           },
+        },
+        fileCallback: (file) => {
+          file.getImportDeclarations()[1].remove();
         },
       })
         .then((result) => resolve(result))
@@ -61,10 +67,7 @@ const createCollection = (data: createCollectionType): Promise<boolean> => {
   });
 };
 
-export default (
-  data: createCollectionType,
-  path?: string
-): Promise<boolean> => {
+export default (data: createFactoryType, path?: string): Promise<boolean> => {
   return new Promise(async (resolve) => {
     data.project = await getProject();
 
@@ -73,7 +76,7 @@ export default (
       ...data,
     };
 
-    let pathToSave = getPath("Collections");
+    let pathToSave = getPath("Factories");
 
     if (path) {
       pathToSave = getPath(path);
@@ -81,7 +84,7 @@ export default (
 
     console.log(
       chalk.white.bold(
-        "Crafting a new collection. Answer a few questions, please.\r\n"
+        "Crafting a new factory. Answer a few questions, please.\r\n"
       )
     );
     inquirer
@@ -95,7 +98,7 @@ export default (
         {
           type: "question",
           name: "model",
-          message: "Model to attach to the collection",
+          message: "Model to attach to the factory",
           default: data.model,
           validate: function (value) {
             if (findClassInProject(data.project!, value)) {
@@ -112,12 +115,12 @@ export default (
           default: pathToSave,
         },
       ])
-      .then((answers: Partial<createCollectionType>) => {
+      .then((answers: Partial<createFactoryType>) => {
         data.path = answers.path!;
         data.name = answers.name!;
         data.model = answers.model!;
 
-        createCollection(data).then((res) => {
+        createFactory(data).then((res) => {
           resolve(res);
         });
       });

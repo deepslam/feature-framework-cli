@@ -57,13 +57,13 @@ var common_1 = require("../utils/common");
 var path_2 = require("../utils/path");
 var project_1 = require("../utils/project");
 var defaultData = {};
-var createCollection = function (data) {
+var createFactory = function (data) {
     return new Promise(function (resolve) { return __awaiter(void 0, void 0, void 0, function () {
         var newFeatureFileName, imports, modelFiles;
         return __generator(this, function (_a) {
             try {
                 newFeatureFileName = data.path + "/" + data.name + ".ts";
-                data.project.addSourceFileAtPath(__dirname + "../../../../src/templates/NewCollection.ts");
+                data.project.addSourceFileAtPath(__dirname + "../../../../src/templates/NewFactory.ts");
                 imports = [];
                 modelFiles = project_1.findClassInProject(data.project, data.model);
                 if (modelFiles && modelFiles[0]) {
@@ -75,15 +75,21 @@ var createCollection = function (data) {
                     });
                 }
                 common_1.transformFile(data.project, newFeatureFileName, {
-                    fileName: "NewCollection.ts",
+                    fileName: "NewFactory.ts",
                     imports: imports,
                     classesMap: {
-                        NewCollection: {
+                        NewFactory: {
                             name: "" + data.name,
                             classCallback: function (cls) {
-                                cls.setExtends("DataCollection<" + data.model + ">");
+                                cls.setExtends("Factory<typeof " + data.model + ">");
+                                var modelProperty = cls.getPropertyOrThrow("model");
+                                modelProperty.setInitializer(data.model);
+                                modelProperty.setType("typeof " + data.model);
                             },
                         },
+                    },
+                    fileCallback: function (file) {
+                        file.getImportDeclarations()[1].remove();
                     },
                 })
                     .then(function (result) { return resolve(result); })
@@ -111,11 +117,11 @@ exports.default = (function (data, path) {
                 case 1:
                     _a.project = _b.sent();
                     data = __assign(__assign({}, defaultData), data);
-                    pathToSave = path_2.getPath("Collections");
+                    pathToSave = path_2.getPath("Factories");
                     if (path) {
                         pathToSave = path_2.getPath(path);
                     }
-                    console.log(chalk_1.default.white.bold("Crafting a new collection. Answer a few questions, please.\r\n"));
+                    console.log(chalk_1.default.white.bold("Crafting a new factory. Answer a few questions, please.\r\n"));
                     inquirer_1.default
                         .prompt([
                         {
@@ -127,7 +133,7 @@ exports.default = (function (data, path) {
                         {
                             type: "question",
                             name: "model",
-                            message: "Model to attach to the collection",
+                            message: "Model to attach to the factory",
                             default: data.model,
                             validate: function (value) {
                                 if (project_1.findClassInProject(data.project, value)) {
@@ -147,7 +153,7 @@ exports.default = (function (data, path) {
                         data.path = answers.path;
                         data.name = answers.name;
                         data.model = answers.model;
-                        createCollection(data).then(function (res) {
+                        createFactory(data).then(function (res) {
                             resolve(res);
                         });
                     });
@@ -156,4 +162,4 @@ exports.default = (function (data, path) {
         });
     }); });
 });
-//# sourceMappingURL=createCollection.js.map
+//# sourceMappingURL=createFactory.js.map

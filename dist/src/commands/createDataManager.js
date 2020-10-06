@@ -57,65 +57,81 @@ var common_1 = require("../utils/common");
 var path_2 = require("../utils/path");
 var project_1 = require("../utils/project");
 var defaultData = {};
-var createCollection = function (data) {
+var createManager = function (data) {
     return new Promise(function (resolve) { return __awaiter(void 0, void 0, void 0, function () {
-        var newFeatureFileName, imports, modelFiles;
+        var project, newFeatureFileName, imports, modelFiles, e_1;
         return __generator(this, function (_a) {
-            try {
-                newFeatureFileName = data.path + "/" + data.name + ".ts";
-                data.project.addSourceFileAtPath(__dirname + "../../../../src/templates/NewCollection.ts");
-                imports = [];
-                modelFiles = project_1.findClassInProject(data.project, data.model);
-                if (modelFiles && modelFiles[0]) {
-                    imports.push({
-                        defaultImport: data.model,
-                        moduleSpecifier: path_1.default
-                            .relative(path_1.default.dirname(newFeatureFileName), modelFiles[0].getSourceFile().getFilePath())
-                            .replace(".ts", ""),
-                    });
-                }
-                common_1.transformFile(data.project, newFeatureFileName, {
-                    fileName: "NewCollection.ts",
-                    imports: imports,
-                    classesMap: {
-                        NewCollection: {
-                            name: "" + data.name,
-                            classCallback: function (cls) {
-                                cls.setExtends("DataCollection<" + data.model + ">");
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, project_1.getProject()];
+                case 1:
+                    project = _a.sent();
+                    newFeatureFileName = data.path + "/" + data.name + ".ts";
+                    project.addSourceFileAtPath(__dirname + "../../../../src/templates/NewDataManager.ts");
+                    imports = [];
+                    modelFiles = project_1.findClassInProject(data.project, data.model);
+                    if (modelFiles && modelFiles[0]) {
+                        imports.push({
+                            defaultImport: data.model,
+                            moduleSpecifier: path_1.default
+                                .relative(path_1.default.dirname(newFeatureFileName), modelFiles[0].getSourceFile().getFilePath())
+                                .replace(".ts", ""),
+                        });
+                    }
+                    common_1.transformFile(project, newFeatureFileName, {
+                        fileName: "NewDataManager.ts",
+                        imports: imports,
+                        classesMap: {
+                            NewDataManager: {
+                                name: data.name + "DataManager",
+                                classCallback: function (cls) {
+                                    var _a;
+                                    var packMethod = cls.getMethodOrThrow("pack");
+                                    var restoreMethod = cls.getMethodOrThrow("restore");
+                                    restoreMethod.setReturnType(data.model);
+                                    restoreMethod.setBodyText(restoreMethod.getBodyText().replace("NewModel", data.model));
+                                    (_a = packMethod.getParameter("data")) === null || _a === void 0 ? void 0 : _a.setType(data.model);
+                                    cls.setExtends("DataManager<" + data.model + ">");
+                                },
                             },
                         },
-                    },
-                })
-                    .then(function (result) { return resolve(result); })
-                    .catch(function (e) {
-                    console.log(chalk_1.default.red.bold(e));
+                        fileCallback: function (file) {
+                            file.getImportDeclarations()[1].remove();
+                        },
+                    })
+                        .then(function (result) { return resolve(result); })
+                        .catch(function (e) {
+                        console.log(chalk_1.default.red.bold(e));
+                        resolve(false);
+                    });
+                    return [3 /*break*/, 3];
+                case 2:
+                    e_1 = _a.sent();
+                    console.log(chalk_1.default.red.bold(e_1));
                     resolve(false);
-                });
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
             }
-            catch (e) {
-                console.log(chalk_1.default.red.bold(e));
-                resolve(false);
-            }
-            return [2 /*return*/];
         });
     }); });
 };
-exports.default = (function (data, path) {
+exports.default = (function (initialData, path) {
     return new Promise(function (resolve) { return __awaiter(void 0, void 0, void 0, function () {
-        var _a, pathToSave;
+        var data, _a, pathToSave;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
+                    data = __assign(__assign({}, defaultData), initialData);
                     _a = data;
                     return [4 /*yield*/, project_1.getProject()];
                 case 1:
                     _a.project = _b.sent();
-                    data = __assign(__assign({}, defaultData), data);
-                    pathToSave = path_2.getPath("Collections");
+                    pathToSave = path_2.getPath("Managers");
                     if (path) {
                         pathToSave = path_2.getPath(path);
                     }
-                    console.log(chalk_1.default.white.bold("Crafting a new collection. Answer a few questions, please.\r\n"));
+                    console.log(chalk_1.default.white.bold("Crafting a new data manager. Answer a few questions, please.\r\n"));
                     inquirer_1.default
                         .prompt([
                         {
@@ -127,7 +143,7 @@ exports.default = (function (data, path) {
                         {
                             type: "question",
                             name: "model",
-                            message: "Model to attach to the collection",
+                            message: "Model to attach to the data manager",
                             default: data.model,
                             validate: function (value) {
                                 if (project_1.findClassInProject(data.project, value)) {
@@ -147,7 +163,7 @@ exports.default = (function (data, path) {
                         data.path = answers.path;
                         data.name = answers.name;
                         data.model = answers.model;
-                        createCollection(data).then(function (res) {
+                        createManager(data).then(function (res) {
                             resolve(res);
                         });
                     });
@@ -156,4 +172,4 @@ exports.default = (function (data, path) {
         });
     }); });
 });
-//# sourceMappingURL=createCollection.js.map
+//# sourceMappingURL=createDataManager.js.map

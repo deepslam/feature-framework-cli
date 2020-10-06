@@ -61,7 +61,9 @@ function transformFile(project, newPath, _a) {
             file_1.formatText();
             path_1.copyImmediately(file_1, newPath)
                 .then(function (result) {
-                prettier_1.runPrettierOnFile(newPath);
+                if (result) {
+                    prettier_1.runPrettierOnFile(newPath);
+                }
                 resolve(result);
             })
                 .catch(function (e) {

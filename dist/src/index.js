@@ -48,7 +48,9 @@ var createEvent_1 = __importDefault(require("./commands/createEvent"));
 var createModel_1 = __importDefault(require("./commands/createModel"));
 var createCollection_1 = __importDefault(require("./commands/createCollection"));
 var createDataProvider_1 = __importDefault(require("./commands/createDataProvider"));
+var createDataManager_1 = __importDefault(require("./commands/createDataManager"));
 var createTranslation_1 = __importDefault(require("./commands/createTranslation"));
+var createFactory_1 = __importDefault(require("./commands/createFactory"));
 var log = console.log;
 (function () { return __awaiter(void 0, void 0, void 0, function () {
     var _a, program;
@@ -99,7 +101,7 @@ var log = console.log;
                         });
                     });
                     program
-                        .command("new:dataprovider <name> [path]")
+                        .command("new:provider <name> [path]")
                         .description("define a new data provider")
                         .action(function (name, path) {
                         createDataProvider_1.default({
@@ -108,6 +110,19 @@ var log = console.log;
                             log(result
                                 ? chalk_1.default.green.bold("Data provider successully created")
                                 : chalk_1.default.red.bold("Data provider was not created due to the error"));
+                        });
+                    });
+                    program
+                        .command("new:manager <name> <model> [path]")
+                        .description("define a new data manager")
+                        .action(function (name, model, path) {
+                        createDataManager_1.default({
+                            name: name,
+                            model: model,
+                        }, path).then(function (result) {
+                            log(result
+                                ? chalk_1.default.green.bold("Data manager successully created")
+                                : chalk_1.default.red.bold("Data manager was not created due to the error"));
                         });
                     });
                     program
@@ -121,6 +136,19 @@ var log = console.log;
                             log(result
                                 ? chalk_1.default.green.bold("Collection successully created")
                                 : chalk_1.default.red.bold("Collection was not created due to the error"));
+                        });
+                    });
+                    program
+                        .command("new:factory <name> <model> [path]")
+                        .description("define a new factory")
+                        .action(function (name, model, path) {
+                        createFactory_1.default({
+                            name: name,
+                            model: model,
+                        }, path).then(function (result) {
+                            log(result
+                                ? chalk_1.default.green.bold("Factory successully created")
+                                : chalk_1.default.red.bold("Factory was not created due to the error"));
                         });
                     });
                     program

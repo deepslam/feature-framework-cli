@@ -1,12 +1,14 @@
 import chalk from "chalk";
 import inquirer from "inquirer";
+import { Project } from "ts-morph";
 import { transformFile } from "../utils/common";
 import { getPath } from "../utils/path";
-import { getProject } from "../utils/project";
+import { getProject, findClassInProject } from "../utils/project";
 
 type createDataProviderType = {
   name: string;
   path?: string;
+  project?: Project;
 };
 
 const defaultData: Partial<createDataProviderType> = {};
@@ -23,7 +25,7 @@ const createProvider = (data: createDataProviderType): Promise<boolean> => {
       transformFile(project, newFeatureFileName, {
         fileName: "NewDataProvider.ts",
         classesMap: {
-          NewModel: {
+          NewDataProvider: {
             name: `${data.name}DataProvider`,
           },
         },
@@ -45,6 +47,8 @@ export default (
   path?: string
 ): Promise<boolean> => {
   return new Promise(async (resolve) => {
+    data.project = await getProject();
+
     data = {
       ...defaultData,
       ...data,

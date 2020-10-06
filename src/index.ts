@@ -8,7 +8,9 @@ import createEvent from "./commands/createEvent";
 import createModel from "./commands/createModel";
 import createCollection from "./commands/createCollection";
 import createDataProvider from "./commands/createDataProvider";
+import createDataManager from "./commands/createDataManager";
 import createTranslation from "./commands/createTranslation";
+import createFactory from "./commands/createFactory";
 
 const log = console.log;
 
@@ -73,7 +75,7 @@ const log = console.log;
       });
 
     program
-      .command("new:dataprovider <name> [path]")
+      .command("new:provider <name> [path]")
       .description("define a new data provider")
       .action((name: string, path: string) => {
         createDataProvider(
@@ -86,6 +88,25 @@ const log = console.log;
             result
               ? chalk.green.bold("Data provider successully created")
               : chalk.red.bold("Data provider was not created due to the error")
+          );
+        });
+      });
+
+    program
+      .command("new:manager <name> <model> [path]")
+      .description("define a new data manager")
+      .action((name: string, model: string, path: string) => {
+        createDataManager(
+          {
+            name,
+            model,
+          },
+          path
+        ).then((result) => {
+          log(
+            result
+              ? chalk.green.bold("Data manager successully created")
+              : chalk.red.bold("Data manager was not created due to the error")
           );
         });
       });
@@ -105,6 +126,25 @@ const log = console.log;
             result
               ? chalk.green.bold("Collection successully created")
               : chalk.red.bold("Collection was not created due to the error")
+          );
+        });
+      });
+
+    program
+      .command("new:factory <name> <model> [path]")
+      .description("define a new factory")
+      .action((name: string, model: string, path: string) => {
+        createFactory(
+          {
+            name,
+            model,
+          },
+          path
+        ).then((result) => {
+          log(
+            result
+              ? chalk.green.bold("Factory successully created")
+              : chalk.red.bold("Factory was not created due to the error")
           );
         });
       });

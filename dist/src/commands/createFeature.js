@@ -58,6 +58,7 @@ var project_1 = require("../utils/project");
 var defaultData = {
     implements: {
         events: true,
+        factories: true,
         features: true,
         slices: true,
         translations: true,
@@ -79,6 +80,10 @@ var getCustomSettings = function () {
                 choices: [
                     {
                         name: "Events",
+                        checked: true,
+                    },
+                    {
+                        name: "Factories",
                         checked: true,
                     },
                     {
@@ -119,6 +124,9 @@ var getCustomSettings = function () {
             if (answers.features.includes("Events")) {
                 implementMembers.implements.events = true;
             }
+            if (answers.features.includes("Factories")) {
+                implementMembers.implements.factories = true;
+            }
             if (answers.features.includes("Features")) {
                 implementMembers.implements.features = true;
             }
@@ -147,14 +155,14 @@ var getCustomSettings = function () {
 var createFeature = function (data) {
     return new Promise(function (resolve) { return __awaiter(void 0, void 0, void 0, function () {
         var project, newFeatureFileName, newProperties, importsFromFramework, imports_1, importSlice, e_1;
-        var _a, _b, _c, _d, _e, _f, _g, _h;
-        return __generator(this, function (_j) {
-            switch (_j.label) {
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j;
+        return __generator(this, function (_k) {
+            switch (_k.label) {
                 case 0:
-                    _j.trys.push([0, 2, , 3]);
+                    _k.trys.push([0, 2, , 3]);
                     return [4 /*yield*/, project_1.getProject()];
                 case 1:
-                    project = _j.sent();
+                    project = _k.sent();
                     newFeatureFileName = data.path + "/" + data.name + ".ts";
                     project.addSourceFileAtPath(__dirname + "../../../../src/templates/NewFeature.ts");
                     newProperties = {};
@@ -170,7 +178,16 @@ var createFeature = function (data) {
                                 initializer: "{}",
                             };
                         }
-                        if ((_b = data.implements) === null || _b === void 0 ? void 0 : _b.slices) {
+                        if ((_b = data.implements) === null || _b === void 0 ? void 0 : _b.factories) {
+                            newProperties.factories = {
+                                name: "factories",
+                                type: "Record<string, Factory<unknown>>",
+                                isStatic: false,
+                                initializer: "{}",
+                            };
+                            importsFromFramework.push("Factory");
+                        }
+                        if ((_c = data.implements) === null || _c === void 0 ? void 0 : _c.slices) {
                             newProperties.slices = {
                                 name: "slices",
                                 type: "Record<string, Slice>",
@@ -179,7 +196,7 @@ var createFeature = function (data) {
                             };
                             importSlice = true;
                         }
-                        if ((_c = data.implements) === null || _c === void 0 ? void 0 : _c.translations) {
+                        if ((_d = data.implements) === null || _d === void 0 ? void 0 : _d.translations) {
                             newProperties.translations = {
                                 name: "translations",
                                 type: "Record<string, Translations<unknown>>",
@@ -188,7 +205,7 @@ var createFeature = function (data) {
                             };
                             importsFromFramework.push("Translations");
                         }
-                        if ((_d = data.implements) === null || _d === void 0 ? void 0 : _d.events) {
+                        if ((_e = data.implements) === null || _e === void 0 ? void 0 : _e.events) {
                             newProperties.events = {
                                 name: "events",
                                 type: "Record<string, IEvent<unknown>>",
@@ -197,7 +214,7 @@ var createFeature = function (data) {
                             };
                             importsFromFramework.push("IEvent");
                         }
-                        if ((_e = data.implements) === null || _e === void 0 ? void 0 : _e.view) {
+                        if ((_f = data.implements) === null || _f === void 0 ? void 0 : _f.view) {
                             newProperties.view = {
                                 name: "view",
                                 type: "IView<unknown> | null",
@@ -206,7 +223,7 @@ var createFeature = function (data) {
                             };
                             importsFromFramework.push("IView");
                         }
-                        if ((_f = data.implements) === null || _f === void 0 ? void 0 : _f.collections) {
+                        if ((_g = data.implements) === null || _g === void 0 ? void 0 : _g.collections) {
                             newProperties.collections = {
                                 name: "collections",
                                 type: "Record<string, IDataCollection<unknown, unknown>>",
@@ -215,7 +232,7 @@ var createFeature = function (data) {
                             };
                             importsFromFramework.push("IDataCollection");
                         }
-                        if ((_g = data.implements) === null || _g === void 0 ? void 0 : _g.dataManagers) {
+                        if ((_h = data.implements) === null || _h === void 0 ? void 0 : _h.dataManagers) {
                             newProperties.dataManagers = {
                                 name: "dataManagers",
                                 type: "Record<string, IDataManager<unknown>>",
@@ -224,7 +241,7 @@ var createFeature = function (data) {
                             };
                             importsFromFramework.push("IDataManager");
                         }
-                        if ((_h = data.implements) === null || _h === void 0 ? void 0 : _h.models) {
+                        if ((_j = data.implements) === null || _j === void 0 ? void 0 : _j.models) {
                             newProperties.models = {
                                 name: "models",
                                 type: "Record<string, IModel<unknown>>",
@@ -276,7 +293,7 @@ var createFeature = function (data) {
                     });
                     return [3 /*break*/, 3];
                 case 2:
-                    e_1 = _j.sent();
+                    e_1 = _k.sent();
                     console.log(chalk_1.default.red.bold(e_1));
                     resolve(false);
                     return [3 /*break*/, 3];
