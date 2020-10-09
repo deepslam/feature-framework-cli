@@ -29,7 +29,7 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@feature-framework/core": "^0.3.11",
+    "@feature-framework/core": "^0.3.13",
     "@ts-morph/bootstrap": "^0.6.0",
     "boxen": "^4.2.0",
     "chalk": "^4.1.0",
