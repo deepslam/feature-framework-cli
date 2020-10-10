@@ -11,6 +11,7 @@ import createDataProvider from "./commands/createDataProvider";
 import createDataManager from "./commands/createDataManager";
 import createTranslation from "./commands/createTranslation";
 import createFactory from "./commands/createFactory";
+import createSlice from './commands/createSlice';
 
 const log = console.log;
 
@@ -166,6 +167,24 @@ const log = console.log;
           );
         });
       });
+
+      program
+      .command("new:slice <name> [path]")
+      .description("define a new slice file")
+      .action((name: string, path: string) => {
+        createSlice(
+          {
+            name,
+          },
+          path
+        ).then((result) => {
+          log(
+            result
+              ? chalk.green.bold("The slice successully created")
+              : chalk.red.bold("The slice were not created due to the error")
+          );
+        });
+      });      
 
     program.parse(process.argv);
   } catch (e) {
