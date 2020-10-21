@@ -4,14 +4,14 @@ import { transformFile } from "../utils/common";
 import { getPath } from "../utils/path";
 import { getProject } from "../utils/project";
 
-type createDataProviderType = {
+type createTranslationType = {
   name: string;
   path?: string;
 };
 
-const defaultData: Partial<createDataProviderType> = {};
+const defaultData: Partial<createTranslationType> = {};
 
-const createProvider = (data: createDataProviderType): Promise<boolean> => {
+const createTranslation = (data: createTranslationType): Promise<boolean> => {
   return new Promise(async (resolve) => {
     try {
       const project = await getProject();
@@ -44,7 +44,7 @@ const createProvider = (data: createDataProviderType): Promise<boolean> => {
 };
 
 export default (
-  data: createDataProviderType,
+  data: createTranslationType,
   path?: string
 ): Promise<boolean> => {
   return new Promise(async (resolve) => {
@@ -79,11 +79,11 @@ export default (
           default: pathToSave,
         },
       ])
-      .then((answers: Partial<createDataProviderType>) => {
+      .then((answers: Partial<createTranslationType>) => {
         data.path = answers.path!;
         data.name = answers.name!;
 
-        createProvider(data).then((res) => {
+        createTranslation(data).then((res) => {
           resolve(res);
         });
       });

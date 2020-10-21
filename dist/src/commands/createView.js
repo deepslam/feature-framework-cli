@@ -56,7 +56,7 @@ var common_1 = require("../utils/common");
 var path_1 = require("../utils/path");
 var project_1 = require("../utils/project");
 var defaultData = {};
-var createTranslation = function (data) {
+var createView = function (data) {
     return new Promise(function (resolve) { return __awaiter(void 0, void 0, void 0, function () {
         var project, newFeatureFileName, e_1;
         return __generator(this, function (_a) {
@@ -67,16 +67,13 @@ var createTranslation = function (data) {
                 case 1:
                     project = _a.sent();
                     newFeatureFileName = data.path + "/" + data.name + ".ts";
-                    project.addSourceFileAtPath(__dirname + "../../../../src/templates/NewTranslations.ts");
+                    project.addSourceFileAtPath(__dirname + "../../../../src/templates/NewView.ts");
                     common_1.transformFile(project, newFeatureFileName, {
-                        fileName: "NewTranslations.ts",
+                        fileName: "NewView.ts",
                         classesMap: {
-                            NewTranslations: {
-                                name: data.name + "Translations",
+                            NewView: {
+                                name: data.name + "View",
                             },
-                        },
-                        typesMap: {
-                            NewTranslationsType: data.name + "TranslationsType",
                         },
                     })
                         .then(function (result) { return resolve(result); })
@@ -100,11 +97,11 @@ exports.default = (function (data, path) {
         var pathToSave;
         return __generator(this, function (_a) {
             data = __assign(__assign({}, defaultData), data);
-            pathToSave = path_1.getPath("Translations");
+            pathToSave = path_1.getPath("Views");
             if (path) {
                 pathToSave = path_1.getPath(path);
             }
-            console.log(chalk_1.default.white.bold("Crafting a new translations file. Answer a few questions, please.\r\n"));
+            console.log(chalk_1.default.white.bold("Crafting a new view file. Answer a few questions, please.\r\n"));
             inquirer_1.default
                 .prompt([
                 {
@@ -123,7 +120,7 @@ exports.default = (function (data, path) {
                 .then(function (answers) {
                 data.path = answers.path;
                 data.name = answers.name;
-                createTranslation(data).then(function (res) {
+                createView(data).then(function (res) {
                     resolve(res);
                 });
             });
@@ -131,4 +128,4 @@ exports.default = (function (data, path) {
         });
     }); });
 });
-//# sourceMappingURL=createTranslation.js.map
+//# sourceMappingURL=createView.js.map

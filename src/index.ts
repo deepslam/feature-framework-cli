@@ -11,7 +11,8 @@ import createDataProvider from "./commands/createDataProvider";
 import createDataManager from "./commands/createDataManager";
 import createTranslation from "./commands/createTranslation";
 import createFactory from "./commands/createFactory";
-import createSlice from './commands/createSlice';
+import createSlice from "./commands/createSlice";
+import createView from "./commands/createView";
 
 const log = console.log;
 
@@ -168,7 +169,7 @@ const log = console.log;
         });
       });
 
-      program
+    program
       .command("new:slice <name> [path]")
       .description("define a new slice file")
       .action((name: string, path: string) => {
@@ -184,7 +185,25 @@ const log = console.log;
               : chalk.red.bold("The slice were not created due to the error")
           );
         });
-      });      
+      });
+
+    program
+      .command("new:view <name> [path]")
+      .description("define a new view file")
+      .action((name: string, path: string) => {
+        createView(
+          {
+            name,
+          },
+          path
+        ).then((result) => {
+          log(
+            result
+              ? chalk.green.bold("Translations successully created")
+              : chalk.red.bold("Translations were not created due to the error")
+          );
+        });
+      });
 
     program.parse(process.argv);
   } catch (e) {

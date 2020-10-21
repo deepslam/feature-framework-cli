@@ -181,7 +181,7 @@ var createFeature = function (data) {
                         if ((_b = data.implements) === null || _b === void 0 ? void 0 : _b.factories) {
                             newProperties.factories = {
                                 name: "factories",
-                                type: "Record<string, Factory<unknown>>",
+                                type: "Record<string, Factory<any>>",
                                 isStatic: false,
                                 initializer: "{}",
                             };
@@ -226,7 +226,7 @@ var createFeature = function (data) {
                         if ((_g = data.implements) === null || _g === void 0 ? void 0 : _g.collections) {
                             newProperties.collections = {
                                 name: "collections",
-                                type: "Record<string, IDataCollection<unknown, unknown>>",
+                                type: "Record<string, IDataCollection<unknown>>",
                                 isStatic: false,
                                 initializer: "{}",
                             };

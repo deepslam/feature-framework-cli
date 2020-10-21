@@ -74,9 +74,12 @@ var createSlice = function (data) {
                             NewSliceStateType: data.name + "StateType",
                         },
                         fileCallback: function (file) {
-                            var sliceVar = file.getVariableDeclarationOrThrow('slice');
-                            sliceVar.setInitializer(sliceVar.getInitializer().getFullText().replace('NewSlice', data.name));
-                        }
+                            var sliceVar = file.getVariableDeclarationOrThrow("slice");
+                            sliceVar.setInitializer(sliceVar
+                                .getInitializer()
+                                .getFullText()
+                                .replace("NewSlice", data.name));
+                        },
                     })
                         .then(function (result) { return resolve(result); })
                         .catch(function (e) {

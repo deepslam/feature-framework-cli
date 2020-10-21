@@ -1,39 +1,31 @@
 import chalk from "chalk";
 import inquirer from "inquirer";
-import slice from "../templates/NewSlice";
 import { transformFile } from "../utils/common";
 import { getPath } from "../utils/path";
 import { getProject } from "../utils/project";
 
-type createSliceDataType = {
+type createViewType = {
   name: string;
   path?: string;
 };
 
-const defaultData: Partial<createSliceDataType> = {};
+const defaultData: Partial<createViewType> = {};
 
-const createSlice = (data: createSliceDataType): Promise<boolean> => {
+const createView = (data: createViewType): Promise<boolean> => {
   return new Promise(async (resolve) => {
     try {
       const project = await getProject();
       const newFeatureFileName = `${data.path}/${data.name}.ts`;
       project.addSourceFileAtPath(
-        __dirname + "../../../../src/templates/NewSlice.ts"
+        __dirname + "../../../../src/templates/NewView.ts"
       );
 
       transformFile(project, newFeatureFileName, {
-        fileName: "NewSlice.ts",
-        typesMap: {
-          NewSliceStateType: `${data.name}StateType`,
-        },
-        fileCallback: (file) => {
-          const sliceVar = file.getVariableDeclarationOrThrow("slice");
-          sliceVar.setInitializer(
-            sliceVar
-              .getInitializer()!
-              .getFullText()
-              .replace("NewSlice", data.name)
-          );
+        fileName: "NewView.ts",
+        classesMap: {
+          NewView: {
+            name: `${data.name}View`,
+          },
         },
       })
         .then((result) => resolve(result))
@@ -48,14 +40,14 @@ const createSlice = (data: createSliceDataType): Promise<boolean> => {
   });
 };
 
-export default (data: createSliceDataType, path?: string): Promise<boolean> => {
+export default (data: createViewType, path?: string): Promise<boolean> => {
   return new Promise(async (resolve) => {
     data = {
       ...defaultData,
       ...data,
     };
 
-    let pathToSave = getPath("Slices");
+    let pathToSave = getPath("Views");
 
     if (path) {
       pathToSave = getPath(path);
@@ -63,7 +55,7 @@ export default (data: createSliceDataType, path?: string): Promise<boolean> => {
 
     console.log(
       chalk.white.bold(
-        "Crafting a new slice. Answer a few questions, please.\r\n"
+        "Crafting a new view file. Answer a few questions, please.\r\n"
       )
     );
     inquirer
@@ -81,11 +73,11 @@ export default (data: createSliceDataType, path?: string): Promise<boolean> => {
           default: pathToSave,
         },
       ])
-      .then((answers: Partial<createSliceDataType>) => {
+      .then((answers: Partial<createViewType>) => {
         data.path = answers.path!;
         data.name = answers.name!;
 
-        createSlice(data).then((res) => {
+        createView(data).then((res) => {
           resolve(res);
         });
       });

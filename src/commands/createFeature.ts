@@ -146,7 +146,7 @@ const createFeature = (data: createFeatureDataType): Promise<boolean> => {
         if (data.implements?.factories) {
           newProperties.factories = {
             name: "factories",
-            type: "Record<string, Factory<unknown>>",
+            type: "Record<string, Factory<any>>",
             isStatic: false,
             initializer: "{}",
           };
@@ -196,7 +196,7 @@ const createFeature = (data: createFeatureDataType): Promise<boolean> => {
         if (data.implements?.collections) {
           newProperties.collections = {
             name: "collections",
-            type: "Record<string, IDataCollection<unknown, unknown>>",
+            type: "Record<string, IDataCollection<unknown>>",
             isStatic: false,
             initializer: "{}",
           };
