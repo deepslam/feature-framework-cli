@@ -72,7 +72,7 @@ var createProvider = function (data) {
                         fileName: "NewDataProvider.ts",
                         classesMap: {
                             NewDataProvider: {
-                                name: data.name + "DataProvider",
+                                name: "" + data.name,
                             },
                         },
                     })

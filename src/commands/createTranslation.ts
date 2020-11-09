@@ -24,7 +24,7 @@ const createProvider = (data: createDataProviderType): Promise<boolean> => {
         fileName: "NewTranslations.ts",
         classesMap: {
           NewTranslations: {
-            name: `${data.name}Translations`,
+            name: `${data.name}`,
           },
         },
         typesMap: {

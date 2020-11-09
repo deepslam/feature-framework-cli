@@ -26,7 +26,7 @@ const createProvider = (data: createDataProviderType): Promise<boolean> => {
         fileName: "NewDataProvider.ts",
         classesMap: {
           NewDataProvider: {
-            name: `${data.name}DataProvider`,
+            name: `${data.name}`,
           },
         },
       })

@@ -44,7 +44,7 @@ const createManager = (data: createDataManagerType): Promise<boolean> => {
         imports,
         classesMap: {
           NewDataManager: {
-            name: `${data.name}DataManager`,
+            name: `${data.name}`,
             classCallback: (cls) => {
               const packMethod = cls.getMethodOrThrow("pack");
               const restoreMethod = cls.getMethodOrThrow("restore");

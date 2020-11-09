@@ -42,7 +42,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var commander_1 = require("commander");
 var chalk_1 = __importDefault(require("chalk"));
-var greete_1 = __importDefault(require("./greete"));
+var greeting_1 = __importDefault(require("./greeting"));
 var createFeature_1 = __importDefault(require("./commands/createFeature"));
 var createEvent_1 = __importDefault(require("./commands/createEvent"));
 var createModel_1 = __importDefault(require("./commands/createModel"));
@@ -58,7 +58,7 @@ var log = console.log;
         switch (_b.label) {
             case 0:
                 _a = log;
-                return [4 /*yield*/, greete_1.default()];
+                return [4 /*yield*/, greeting_1.default()];
             case 1:
                 _a.apply(void 0, [_b.sent()]);
                 try {
@@ -72,7 +72,7 @@ var log = console.log;
                             name: name,
                         }, path).then(function (result) {
                             log(result
-                                ? chalk_1.default.green.bold("Feature successully created")
+                                ? chalk_1.default.green.bold("Feature successfully created")
                                 : chalk_1.default.red.bold("Feature was not created due to the error"));
                         });
                     });
@@ -84,7 +84,7 @@ var log = console.log;
                             name: name,
                         }, path).then(function (result) {
                             log(result
-                                ? chalk_1.default.green.bold("Model successully created")
+                                ? chalk_1.default.green.bold("Model successfully created")
                                 : chalk_1.default.red.bold("Model was not created due to the error"));
                         });
                     });
@@ -96,7 +96,7 @@ var log = console.log;
                             name: name,
                         }, path).then(function (result) {
                             log(result
-                                ? chalk_1.default.green.bold("Event successully created")
+                                ? chalk_1.default.green.bold("Event successfully created")
                                 : chalk_1.default.red.bold("Event was not created due to the error"));
                         });
                     });
@@ -108,7 +108,7 @@ var log = console.log;
                             name: name,
                         }, path).then(function (result) {
                             log(result
-                                ? chalk_1.default.green.bold("Data provider successully created")
+                                ? chalk_1.default.green.bold("Data provider successfully created")
                                 : chalk_1.default.red.bold("Data provider was not created due to the error"));
                         });
                     });
@@ -121,7 +121,7 @@ var log = console.log;
                             model: model,
                         }, path).then(function (result) {
                             log(result
-                                ? chalk_1.default.green.bold("Data manager successully created")
+                                ? chalk_1.default.green.bold("Data manager successfully created")
                                 : chalk_1.default.red.bold("Data manager was not created due to the error"));
                         });
                     });
@@ -134,7 +134,7 @@ var log = console.log;
                             model: model,
                         }, path).then(function (result) {
                             log(result
-                                ? chalk_1.default.green.bold("Collection successully created")
+                                ? chalk_1.default.green.bold("Collection successfully created")
                                 : chalk_1.default.red.bold("Collection was not created due to the error"));
                         });
                     });
@@ -147,7 +147,7 @@ var log = console.log;
                             model: model,
                         }, path).then(function (result) {
                             log(result
-                                ? chalk_1.default.green.bold("Factory successully created")
+                                ? chalk_1.default.green.bold("Factory successfully created")
                                 : chalk_1.default.red.bold("Factory was not created due to the error"));
                         });
                     });
@@ -159,7 +159,7 @@ var log = console.log;
                             name: name,
                         }, path).then(function (result) {
                             log(result
-                                ? chalk_1.default.green.bold("Translations successully created")
+                                ? chalk_1.default.green.bold("Translations successfully created")
                                 : chalk_1.default.red.bold("Translations were not created due to the error"));
                         });
                     });

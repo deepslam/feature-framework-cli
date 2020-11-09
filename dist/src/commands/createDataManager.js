@@ -84,7 +84,7 @@ var createManager = function (data) {
                         imports: imports,
                         classesMap: {
                             NewDataManager: {
-                                name: data.name + "DataManager",
+                                name: "" + data.name,
                                 classCallback: function (cls) {
                                     var _a;
                                     var packMethod = cls.getMethodOrThrow("pack");

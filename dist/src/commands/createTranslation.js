@@ -72,7 +72,7 @@ var createProvider = function (data) {
                         fileName: "NewTranslations.ts",
                         classesMap: {
                             NewTranslations: {
-                                name: data.name + "Translations",
+                                name: "" + data.name,
                             },
                         },
                         typesMap: {

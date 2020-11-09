@@ -2,7 +2,7 @@
 
 import { Command } from "commander";
 import chalk from "chalk";
-import greete from "./greete";
+import greeting from "./greeting";
 import createFeature from "./commands/createFeature";
 import createEvent from "./commands/createEvent";
 import createModel from "./commands/createModel";
@@ -15,7 +15,7 @@ import createFactory from "./commands/createFactory";
 const log = console.log;
 
 (async () => {
-  log(await greete());
+  log(await greeting());
   try {
     const program = new Command();
     program.version("", "-v", "output the current CLI version");
@@ -32,7 +32,7 @@ const log = console.log;
         ).then((result) => {
           log(
             result
-              ? chalk.green.bold("Feature successully created")
+              ? chalk.green.bold("Feature successfully created")
               : chalk.red.bold("Feature was not created due to the error")
           );
         });
@@ -50,7 +50,7 @@ const log = console.log;
         ).then((result) => {
           log(
             result
-              ? chalk.green.bold("Model successully created")
+              ? chalk.green.bold("Model successfully created")
               : chalk.red.bold("Model was not created due to the error")
           );
         });
@@ -68,7 +68,7 @@ const log = console.log;
         ).then((result) => {
           log(
             result
-              ? chalk.green.bold("Event successully created")
+              ? chalk.green.bold("Event successfully created")
               : chalk.red.bold("Event was not created due to the error")
           );
         });
@@ -86,7 +86,7 @@ const log = console.log;
         ).then((result) => {
           log(
             result
-              ? chalk.green.bold("Data provider successully created")
+              ? chalk.green.bold("Data provider successfully created")
               : chalk.red.bold("Data provider was not created due to the error")
           );
         });
@@ -105,7 +105,7 @@ const log = console.log;
         ).then((result) => {
           log(
             result
-              ? chalk.green.bold("Data manager successully created")
+              ? chalk.green.bold("Data manager successfully created")
               : chalk.red.bold("Data manager was not created due to the error")
           );
         });
@@ -124,7 +124,7 @@ const log = console.log;
         ).then((result) => {
           log(
             result
-              ? chalk.green.bold("Collection successully created")
+              ? chalk.green.bold("Collection successfully created")
               : chalk.red.bold("Collection was not created due to the error")
           );
         });
@@ -143,7 +143,7 @@ const log = console.log;
         ).then((result) => {
           log(
             result
-              ? chalk.green.bold("Factory successully created")
+              ? chalk.green.bold("Factory successfully created")
               : chalk.red.bold("Factory was not created due to the error")
           );
         });
@@ -161,7 +161,7 @@ const log = console.log;
         ).then((result) => {
           log(
             result
-              ? chalk.green.bold("Translations successully created")
+              ? chalk.green.bold("Translations successfully created")
               : chalk.red.bold("Translations were not created due to the error")
           );
         });

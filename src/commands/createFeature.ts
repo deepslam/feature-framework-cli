@@ -11,7 +11,6 @@ type createFeatureDataType = {
     events?: boolean;
     factories?: boolean;
     features?: boolean;
-    slices?: boolean;
     translations?: boolean;
     view?: boolean;
     models?: boolean;
@@ -25,7 +24,6 @@ const defaultData: Partial<createFeatureDataType> = {
     events: true,
     factories: true,
     features: true,
-    slices: true,
     translations: true,
     view: true,
     models: true,
@@ -56,10 +54,6 @@ const getCustomSettings = (): Promise<
             },
             {
               name: "Features",
-              checked: true,
-            },
-            {
-              name: "Slices",
               checked: true,
             },
             {
@@ -98,9 +92,6 @@ const getCustomSettings = (): Promise<
         if (answers.features.includes("Features")) {
           implementMembers.implements!.features = true;
         }
-        if (answers.features.includes("Slices")) {
-          implementMembers.implements!.slices = true;
-        }
         if (answers.features.includes("Translations")) {
           implementMembers.implements!.translations = true;
         }
@@ -132,12 +123,11 @@ const createFeature = (data: createFeatureDataType): Promise<boolean> => {
       const newProperties: NewPropertiesType = {};
       const importsFromFramework = ["Feature", "IFeature"];
       const imports: ImportType[] = [];
-      let importSlice = false;
       if (data.implements) {
         if (data.implements?.features) {
           newProperties.features = {
             name: "features",
-            type: "Record<string, IFeature>",
+            type: "Record<string, IFeature<any, any>>",
             isStatic: false,
             initializer: "{}",
           };
@@ -146,21 +136,11 @@ const createFeature = (data: createFeatureDataType): Promise<boolean> => {
         if (data.implements?.factories) {
           newProperties.factories = {
             name: "factories",
-            type: "Record<string, Factory<unknown>>",
+            type: "Record<string, Factory<any>>",
             isStatic: false,
             initializer: "{}",
           };
           importsFromFramework.push("Factory");
-        }
-
-        if (data.implements?.slices) {
-          newProperties.slices = {
-            name: "slices",
-            type: "Record<string, Slice>",
-            isStatic: false,
-            initializer: "{}",
-          };
-          importSlice = true;
         }
 
         if (data.implements?.translations) {
@@ -196,7 +176,7 @@ const createFeature = (data: createFeatureDataType): Promise<boolean> => {
         if (data.implements?.collections) {
           newProperties.collections = {
             name: "collections",
-            type: "Record<string, IDataCollection<unknown, unknown>>",
+            type: "Record<string, IDataCollection<unknown>>",
             isStatic: false,
             initializer: "{}",
           };
@@ -230,26 +210,21 @@ const createFeature = (data: createFeatureDataType): Promise<boolean> => {
           moduleSpecifier: "@feature-framework/core",
         });
       }
-      if (importSlice) {
-        imports.push({
-          defaultImport: "{ Slice }",
-          moduleSpecifier: "@reduxjs/toolkit",
-        });
-      }
 
       transformFile(project, newFeatureFileName, {
         fileName: "NewFeature.ts",
         classesMap: {
           NewFeature: {
-            name: `${data.name}Feature`,
+            name: `${data.name}`,
             existingProperties: {
-              name: `${data.name}Feature`,
+              name: `${data.name}`,
             },
             newProperties,
           },
         },
         typesMap: {
-          NewFeatureConfig: `${data.name}FeatureConfig`,
+          NewFeatureConfigType: `${data.name}ConfigType`,
+          NewFeatureSubFeaturesType: `${data.name}FeaturesType`,
         },
         fileCallback: (file) => {
           file.getImportDeclarations().forEach((importDeclaration) => {
