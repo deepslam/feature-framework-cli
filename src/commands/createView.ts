@@ -4,31 +4,28 @@ import { transformFile } from "../utils/common";
 import { getPath } from "../utils/path";
 import { getProject } from "../utils/project";
 
-type createTranslationType = {
+type createViewType = {
   name: string;
   path?: string;
 };
 
-const defaultData: Partial<createTranslationType> = {};
+const defaultData: Partial<createViewType> = {};
 
-const createTranslation = (data: createTranslationType): Promise<boolean> => {
+const createView = (data: createViewType): Promise<boolean> => {
   return new Promise(async (resolve) => {
     try {
       const project = await getProject();
       const newFeatureFileName = `${data.path}/${data.name}.ts`;
       project.addSourceFileAtPath(
-        __dirname + "../../../../src/templates/NewTranslations.ts"
+        __dirname + "../../../../src/templates/NewView.ts"
       );
 
       transformFile(project, newFeatureFileName, {
-        fileName: "NewTranslations.ts",
+        fileName: "NewView.ts",
         classesMap: {
-          NewTranslations: {
-            name: `${data.name}`,
+          NewView: {
+            name: `${data.name}View`,
           },
-        },
-        typesMap: {
-          NewTranslationsType: `${data.name}TranslationsType`,
         },
       })
         .then((result) => resolve(result))
@@ -43,17 +40,14 @@ const createTranslation = (data: createTranslationType): Promise<boolean> => {
   });
 };
 
-export default (
-  data: createTranslationType,
-  path?: string
-): Promise<boolean> => {
+export default (data: createViewType, path?: string): Promise<boolean> => {
   return new Promise(async (resolve) => {
     data = {
       ...defaultData,
       ...data,
     };
 
-    let pathToSave = getPath("Translations");
+    let pathToSave = getPath("Views");
 
     if (path) {
       pathToSave = getPath(path);
@@ -61,7 +55,7 @@ export default (
 
     console.log(
       chalk.white.bold(
-        "Crafting a new translations file. Answer a few questions, please.\r\n"
+        "Crafting a new view file. Answer a few questions, please.\r\n"
       )
     );
     inquirer
@@ -79,11 +73,11 @@ export default (
           default: pathToSave,
         },
       ])
-      .then((answers: Partial<createTranslationType>) => {
+      .then((answers: Partial<createViewType>) => {
         data.path = answers.path!;
         data.name = answers.name!;
 
-        createTranslation(data).then((res) => {
+        createView(data).then((res) => {
           resolve(res);
         });
       });

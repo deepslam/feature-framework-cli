@@ -51,6 +51,7 @@ var createDataProvider_1 = __importDefault(require("./commands/createDataProvide
 var createDataManager_1 = __importDefault(require("./commands/createDataManager"));
 var createTranslation_1 = __importDefault(require("./commands/createTranslation"));
 var createFactory_1 = __importDefault(require("./commands/createFactory"));
+var createView_1 = __importDefault(require("./commands/createView"));
 var log = console.log;
 (function () { return __awaiter(void 0, void 0, void 0, function () {
     var _a, program;
@@ -160,6 +161,18 @@ var log = console.log;
                         }, path).then(function (result) {
                             log(result
                                 ? chalk_1.default.green.bold("Translations successfully created")
+                                : chalk_1.default.red.bold("Translations were not created due to the error"));
+                        });
+                    });
+                    program
+                        .command("new:view <name> [path]")
+                        .description("define a new view file")
+                        .action(function (name, path) {
+                        createView_1.default({
+                            name: name,
+                        }, path).then(function (result) {
+                            log(result
+                                ? chalk_1.default.green.bold("Translations successully created")
                                 : chalk_1.default.red.bold("Translations were not created due to the error"));
                         });
                     });
