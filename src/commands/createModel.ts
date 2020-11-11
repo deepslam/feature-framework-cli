@@ -1,8 +1,8 @@
-import chalk from "chalk";
-import inquirer from "inquirer";
-import { transformFile } from "../utils/common";
-import { getPath } from "../utils/path";
-import { getProject } from "../utils/project";
+import chalk from 'chalk';
+import inquirer from 'inquirer';
+import { transformFile } from '../utils/common';
+import { getPath } from '../utils/path';
+import { getProject } from '../utils/project';
 
 type createModelDataType = {
   name: string;
@@ -17,11 +17,11 @@ const createModel = (data: createModelDataType): Promise<boolean> => {
       const project = await getProject();
       const newFeatureFileName = `${data.path}/${data.name}.ts`;
       project.addSourceFileAtPath(
-        __dirname + "../../../../src/templates/NewModel.ts"
+        __dirname + '../../../../src/templates/NewModel.ts',
       );
 
       transformFile(project, newFeatureFileName, {
-        fileName: "NewModel.ts",
+        fileName: 'NewModel.ts',
         classesMap: {
           NewModel: {
             name: `${data.name}`,
@@ -50,7 +50,7 @@ export default (data: createModelDataType, path?: string): Promise<boolean> => {
       ...data,
     };
 
-    let pathToSave = getPath("Models");
+    let pathToSave = getPath('Models');
 
     if (path) {
       pathToSave = getPath(path);
@@ -58,21 +58,21 @@ export default (data: createModelDataType, path?: string): Promise<boolean> => {
 
     console.log(
       chalk.white.bold(
-        "Crafting a new model. Answer a few questions, please.\r\n"
-      )
+        'Crafting a new model. Answer a few questions, please.\r\n',
+      ),
     );
     inquirer
       .prompt([
         {
-          type: "question",
-          name: "name",
-          message: "Name",
+          type: 'question',
+          name: 'name',
+          message: 'Name',
           default: data.name,
         },
         {
-          type: "question",
-          name: "path",
-          message: "Path to save",
+          type: 'question',
+          name: 'path',
+          message: 'Path to save',
           default: pathToSave,
         },
       ])

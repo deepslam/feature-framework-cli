@@ -1,9 +1,9 @@
-import chalk from "chalk";
-import inquirer from "inquirer";
-import { Project } from "ts-morph";
-import { transformFile } from "../utils/common";
-import { getPath } from "../utils/path";
-import { getProject, findClassInProject } from "../utils/project";
+import chalk from 'chalk';
+import inquirer from 'inquirer';
+import { Project } from 'ts-morph';
+import { transformFile } from '../utils/common';
+import { getPath } from '../utils/path';
+import { getProject } from '../utils/project';
 
 type createDataProviderType = {
   name: string;
@@ -19,11 +19,11 @@ const createProvider = (data: createDataProviderType): Promise<boolean> => {
       const project = await getProject();
       const newFeatureFileName = `${data.path}/${data.name}.ts`;
       project.addSourceFileAtPath(
-        __dirname + "../../../../src/templates/NewDataProvider.ts"
+        __dirname + '../../../../src/templates/NewDataProvider.ts',
       );
 
       transformFile(project, newFeatureFileName, {
-        fileName: "NewDataProvider.ts",
+        fileName: 'NewDataProvider.ts',
         classesMap: {
           NewDataProvider: {
             name: `${data.name}`,
@@ -44,7 +44,7 @@ const createProvider = (data: createDataProviderType): Promise<boolean> => {
 
 export default (
   data: createDataProviderType,
-  path?: string
+  path?: string,
 ): Promise<boolean> => {
   return new Promise(async (resolve) => {
     data.project = await getProject();
@@ -54,7 +54,7 @@ export default (
       ...data,
     };
 
-    let pathToSave = getPath("Providers");
+    let pathToSave = getPath('Providers');
 
     if (path) {
       pathToSave = getPath(path);
@@ -62,21 +62,21 @@ export default (
 
     console.log(
       chalk.white.bold(
-        "Crafting a new data provider. Answer a few questions, please.\r\n"
-      )
+        'Crafting a new data provider. Answer a few questions, please.\r\n',
+      ),
     );
     inquirer
       .prompt([
         {
-          type: "question",
-          name: "name",
-          message: "Name",
+          type: 'question',
+          name: 'name',
+          message: 'Name',
           default: data.name,
         },
         {
-          type: "question",
-          name: "path",
-          message: "Path to save",
+          type: 'question',
+          name: 'path',
+          message: 'Path to save',
           default: pathToSave,
         },
       ])

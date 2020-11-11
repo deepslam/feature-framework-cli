@@ -1,5 +1,5 @@
-import { DataManager, DefaultDataProvider } from "@feature-framework/core";
-import NewModel from "./NewModel";
+import { DataManager, DefaultDataProvider } from '@feature-framework/core';
+import NewModel from './NewModel';
 
 export default class NewDataManager extends DataManager<NewModel> {
   public readonly provider: DefaultDataProvider = new DefaultDataProvider();

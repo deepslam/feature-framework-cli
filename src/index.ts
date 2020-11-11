@@ -1,17 +1,17 @@
 #!/usr/bin/env node
 
-import { Command } from "commander";
-import chalk from "chalk";
-import greeting from "./greeting";
-import createFeature from "./commands/createFeature";
-import createEvent from "./commands/createEvent";
-import createModel from "./commands/createModel";
-import createCollection from "./commands/createCollection";
-import createDataProvider from "./commands/createDataProvider";
-import createDataManager from "./commands/createDataManager";
-import createTranslation from "./commands/createTranslation";
-import createFactory from "./commands/createFactory";
-import createView from "./commands/createView";
+import { Command } from 'commander';
+import chalk from 'chalk';
+import greeting from './greeting';
+import createFeature from './commands/createFeature';
+import createEvent from './commands/createEvent';
+import createModel from './commands/createModel';
+import createCollection from './commands/createCollection';
+import createDataProvider from './commands/createDataProvider';
+import createDataManager from './commands/createDataManager';
+import createTranslation from './commands/createTranslation';
+import createFactory from './commands/createFactory';
+import createView from './commands/createView';
 
 const log = console.log;
 
@@ -19,169 +19,175 @@ const log = console.log;
   log(await greeting());
   try {
     const program = new Command();
-    program.version("", "-v", "output the current CLI version");
+    program.version('', '-v', 'output the current CLI version');
 
     program
-      .command("new:feature <name> [path]")
-      .description("define a new feature")
+      .command('new:feature <name> [path]')
+      .description('define a new feature')
       .action((name: string, path: string) => {
         createFeature(
           {
             name,
           },
-          path
+          path,
         ).then((result) => {
           log(
             result
-              ? chalk.green.bold("Feature successfully created")
-              : chalk.red.bold("Feature was not created due to the error")
+              ? chalk.green.bold('Feature successfully created')
+              : chalk.red.bold('Feature was not created due to the error'),
           );
         });
       });
 
     program
-      .command("new:model <name> [path]")
-      .description("define a new model")
+      .command('new:model <name> [path]')
+      .description('define a new model')
       .action((name: string, path: string) => {
         createModel(
           {
             name,
           },
-          path
+          path,
         ).then((result) => {
           log(
             result
-              ? chalk.green.bold("Model successfully created")
-              : chalk.red.bold("Model was not created due to the error")
+              ? chalk.green.bold('Model successfully created')
+              : chalk.red.bold('Model was not created due to the error'),
           );
         });
       });
 
     program
-      .command("new:event <name> [path]")
-      .description("define a new event")
+      .command('new:event <name> [path]')
+      .description('define a new event')
       .action((name: string, path: string) => {
         createEvent(
           {
             name,
           },
-          path
+          path,
         ).then((result) => {
           log(
             result
-              ? chalk.green.bold("Event successfully created")
-              : chalk.red.bold("Event was not created due to the error")
+              ? chalk.green.bold('Event successfully created')
+              : chalk.red.bold('Event was not created due to the error'),
           );
         });
       });
 
     program
-      .command("new:provider <name> [path]")
-      .description("define a new data provider")
+      .command('new:provider <name> [path]')
+      .description('define a new data provider')
       .action((name: string, path: string) => {
         createDataProvider(
           {
             name,
           },
-          path
+          path,
         ).then((result) => {
           log(
             result
-              ? chalk.green.bold("Data provider successfully created")
-              : chalk.red.bold("Data provider was not created due to the error")
+              ? chalk.green.bold('Data provider successfully created')
+              : chalk.red.bold(
+                  'Data provider was not created due to the error',
+                ),
           );
         });
       });
 
     program
-      .command("new:manager <name> <model> [path]")
-      .description("define a new data manager")
+      .command('new:manager <name> <model> [path]')
+      .description('define a new data manager')
       .action((name: string, model: string, path: string) => {
         createDataManager(
           {
             name,
             model,
           },
-          path
+          path,
         ).then((result) => {
           log(
             result
-              ? chalk.green.bold("Data manager successfully created")
-              : chalk.red.bold("Data manager was not created due to the error")
+              ? chalk.green.bold('Data manager successfully created')
+              : chalk.red.bold('Data manager was not created due to the error'),
           );
         });
       });
 
     program
-      .command("new:collection <name> <model> [path]")
-      .description("define a new collection")
+      .command('new:collection <name> <model> [path]')
+      .description('define a new collection')
       .action((name: string, model: string, path: string) => {
         createCollection(
           {
             name,
             model,
           },
-          path
+          path,
         ).then((result) => {
           log(
             result
-              ? chalk.green.bold("Collection successfully created")
-              : chalk.red.bold("Collection was not created due to the error")
+              ? chalk.green.bold('Collection successfully created')
+              : chalk.red.bold('Collection was not created due to the error'),
           );
         });
       });
 
     program
-      .command("new:factory <name> <model> [path]")
-      .description("define a new factory")
+      .command('new:factory <name> <model> [path]')
+      .description('define a new factory')
       .action((name: string, model: string, path: string) => {
         createFactory(
           {
             name,
             model,
           },
-          path
+          path,
         ).then((result) => {
           log(
             result
-              ? chalk.green.bold("Factory successfully created")
-              : chalk.red.bold("Factory was not created due to the error")
+              ? chalk.green.bold('Factory successfully created')
+              : chalk.red.bold('Factory was not created due to the error'),
           );
         });
       });
 
     program
-      .command("new:translations <name> [path]")
-      .description("define a new translations file")
+      .command('new:translations <name> [path]')
+      .description('define a new translations file')
       .action((name: string, path: string) => {
         createTranslation(
           {
             name,
           },
-          path
+          path,
         ).then((result) => {
           log(
             result
-              ? chalk.green.bold("Translations successfully created")
-              : chalk.red.bold("Translations were not created due to the error")
+              ? chalk.green.bold('Translations successfully created')
+              : chalk.red.bold(
+                  'Translations were not created due to the error',
+                ),
           );
         });
       });
 
     program
-      .command("new:view <name> [path]")
-      .description("define a new view file")
+      .command('new:view <name> [path]')
+      .description('define a new view file')
       .action((name: string, path: string) => {
         createView(
           {
             name,
           },
-          path
+          path,
         ).then((result) => {
           log(
             result
-              ? chalk.green.bold("Translations successully created")
-              : chalk.red.bold("Translations were not created due to the error")
+              ? chalk.green.bold('Translations successfully created')
+              : chalk.red.bold(
+                  'Translations were not created due to the error',
+                ),
           );
         });
       });

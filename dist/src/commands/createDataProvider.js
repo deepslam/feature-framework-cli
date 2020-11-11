@@ -67,9 +67,9 @@ var createProvider = function (data) {
                 case 1:
                     project = _a.sent();
                     newFeatureFileName = data.path + "/" + data.name + ".ts";
-                    project.addSourceFileAtPath(__dirname + "../../../../src/templates/NewDataProvider.ts");
+                    project.addSourceFileAtPath(__dirname + '../../../../src/templates/NewDataProvider.ts');
                     common_1.transformFile(project, newFeatureFileName, {
-                        fileName: "NewDataProvider.ts",
+                        fileName: 'NewDataProvider.ts',
                         classesMap: {
                             NewDataProvider: {
                                 name: "" + data.name,
@@ -103,23 +103,23 @@ exports.default = (function (data, path) {
                 case 1:
                     _a.project = _b.sent();
                     data = __assign(__assign({}, defaultData), data);
-                    pathToSave = path_1.getPath("Providers");
+                    pathToSave = path_1.getPath('Providers');
                     if (path) {
                         pathToSave = path_1.getPath(path);
                     }
-                    console.log(chalk_1.default.white.bold("Crafting a new data provider. Answer a few questions, please.\r\n"));
+                    console.log(chalk_1.default.white.bold('Crafting a new data provider. Answer a few questions, please.\r\n'));
                     inquirer_1.default
                         .prompt([
                         {
-                            type: "question",
-                            name: "name",
-                            message: "Name",
+                            type: 'question',
+                            name: 'name',
+                            message: 'Name',
                             default: data.name,
                         },
                         {
-                            type: "question",
-                            name: "path",
-                            message: "Path to save",
+                            type: 'question',
+                            name: 'path',
+                            message: 'Path to save',
                             default: pathToSave,
                         },
                     ])

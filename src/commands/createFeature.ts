@@ -1,8 +1,8 @@
-import chalk from "chalk";
-import inquirer from "inquirer";
-import { ImportType, NewPropertiesType, transformFile } from "../utils/common";
-import { getPath } from "../utils/path";
-import { getProject } from "../utils/project";
+import chalk from 'chalk';
+import inquirer from 'inquirer';
+import { ImportType, NewPropertiesType, transformFile } from '../utils/common';
+import { getPath } from '../utils/path';
+import { getProject } from '../utils/project';
 
 type createFeatureDataType = {
   name: string;
@@ -33,78 +33,78 @@ const defaultData: Partial<createFeatureDataType> = {
 };
 
 const getCustomSettings = (): Promise<
-  Pick<createFeatureDataType, "implements">
+  Pick<createFeatureDataType, 'implements'>
 > => {
   return new Promise((resolve) => {
     inquirer
       .prompt([
         {
-          type: "checkbox",
-          message: "Please select what you would like to implement",
-          name: "features",
+          type: 'checkbox',
+          message: 'Please select what you would like to implement',
+          name: 'features',
           loop: false,
           choices: [
             {
-              name: "Events",
+              name: 'Events',
               checked: true,
             },
             {
-              name: "Factories",
+              name: 'Factories',
               checked: true,
             },
             {
-              name: "Features",
+              name: 'Features',
               checked: true,
             },
             {
-              name: "Translations",
+              name: 'Translations',
               checked: true,
             },
             {
-              name: "Models",
+              name: 'Models',
               checked: true,
             },
             {
-              name: "View",
+              name: 'View',
               checked: true,
             },
             {
-              name: "Collections",
+              name: 'Collections',
               checked: true,
             },
             {
-              name: "Data Managers",
+              name: 'Data Managers',
               checked: true,
             },
           ],
         },
       ])
       .then((answers: { features: string[] }) => {
-        const implementMembers: Pick<createFeatureDataType, "implements"> = {
+        const implementMembers: Pick<createFeatureDataType, 'implements'> = {
           implements: {},
         };
-        if (answers.features.includes("Events")) {
+        if (answers.features.includes('Events')) {
           implementMembers.implements!.events = true;
         }
-        if (answers.features.includes("Factories")) {
+        if (answers.features.includes('Factories')) {
           implementMembers.implements!.factories = true;
         }
-        if (answers.features.includes("Features")) {
+        if (answers.features.includes('Features')) {
           implementMembers.implements!.features = true;
         }
-        if (answers.features.includes("Translations")) {
+        if (answers.features.includes('Translations')) {
           implementMembers.implements!.translations = true;
         }
-        if (answers.features.includes("Models")) {
+        if (answers.features.includes('Models')) {
           implementMembers.implements!.models = true;
         }
-        if (answers.features.includes("View")) {
+        if (answers.features.includes('View')) {
           implementMembers.implements!.view = true;
         }
-        if (answers.features.includes("Collections")) {
+        if (answers.features.includes('Collections')) {
           implementMembers.implements!.collections = true;
         }
-        if (answers.features.includes("Data Managers")) {
+        if (answers.features.includes('Data Managers')) {
           implementMembers.implements!.dataManagers = true;
         }
         resolve(implementMembers);
@@ -118,101 +118,106 @@ const createFeature = (data: createFeatureDataType): Promise<boolean> => {
       const project = await getProject();
       const newFeatureFileName = `${data.path}/${data.name}.ts`;
       project.addSourceFileAtPath(
-        __dirname + "../../../../src/templates/NewFeature.ts"
+        __dirname + '../../../../src/templates/NewFeature.ts',
       );
       const newProperties: NewPropertiesType = {};
-      const importsFromFramework = ["Feature", "IFeature"];
+      const importsFromFramework = [
+        'Feature',
+        'IFeature',
+        'IApp',
+        'ConfigType',
+      ];
       const imports: ImportType[] = [];
       if (data.implements) {
         if (data.implements?.features) {
           newProperties.features = {
-            name: "features",
-            type: "Record<string, IFeature<any, any>>",
+            name: 'features',
+            type: 'Record<string, IFeature<any, any>>',
             isStatic: false,
-            initializer: "{}",
+            initializer: '{}',
           };
         }
 
         if (data.implements?.factories) {
           newProperties.factories = {
-            name: "factories",
-            type: "Record<string, Factory<any>>",
+            name: 'factories',
+            type: 'Record<string, Factory<any>>',
             isStatic: false,
-            initializer: "{}",
+            initializer: '{}',
           };
-          importsFromFramework.push("Factory");
+          importsFromFramework.push('Factory');
         }
 
         if (data.implements?.translations) {
           newProperties.translations = {
-            name: "translations",
-            type: "Record<string, Translations<unknown>>",
+            name: 'translations',
+            type: 'Record<string, Translations<unknown>>',
             isStatic: false,
-            initializer: "{}",
+            initializer: '{}',
           };
-          importsFromFramework.push("Translations");
+          importsFromFramework.push('Translations');
         }
 
         if (data.implements?.events) {
           newProperties.events = {
-            name: "events",
-            type: "Record<string, IEvent<unknown>>",
+            name: 'events',
+            type: 'Record<string, IEvent<unknown>>',
             isStatic: false,
-            initializer: "{}",
+            initializer: '{}',
           };
-          importsFromFramework.push("IEvent");
+          importsFromFramework.push('IEvent');
         }
 
         if (data.implements?.view) {
           newProperties.view = {
-            name: "view",
-            type: "IView<unknown> | null",
+            name: 'view',
+            type: 'IView<unknown> | null',
             isStatic: false,
-            initializer: "null",
+            initializer: 'null',
           };
-          importsFromFramework.push("IView");
+          importsFromFramework.push('IView');
         }
 
         if (data.implements?.collections) {
           newProperties.collections = {
-            name: "collections",
-            type: "Record<string, IDataCollection<unknown>>",
+            name: 'collections',
+            type: 'Record<string, IDataCollection<unknown>>',
             isStatic: false,
-            initializer: "{}",
+            initializer: '{}',
           };
-          importsFromFramework.push("IDataCollection");
+          importsFromFramework.push('IDataCollection');
         }
 
         if (data.implements?.dataManagers) {
           newProperties.dataManagers = {
-            name: "dataManagers",
-            type: "Record<string, IDataManager<unknown>>",
+            name: 'dataManagers',
+            type: 'Record<string, IDataManager<unknown>>',
             isStatic: false,
-            initializer: "{}",
+            initializer: '{}',
           };
-          importsFromFramework.push("IDataManager");
+          importsFromFramework.push('IDataManager');
         }
 
         if (data.implements?.models) {
           newProperties.models = {
-            name: "models",
-            type: "Record<string, IModel<unknown>>",
+            name: 'models',
+            type: 'Record<string, IModel<unknown>>',
             isStatic: false,
-            initializer: "{}",
+            initializer: '{}',
           };
-          importsFromFramework.push("IModel");
+          importsFromFramework.push('IModel');
         }
       }
 
       if (importsFromFramework.length > 0) {
         imports.push({
-          defaultImport: `{${importsFromFramework.join(", ")}}`,
-          moduleSpecifier: "@feature-framework/core",
+          defaultImport: `{${importsFromFramework.join(', ')}}`,
+          moduleSpecifier: '@feature-framework/core',
         });
       }
 
       transformFile(project, newFeatureFileName, {
-        fileName: "NewFeature.ts",
+        fileName: 'NewFeature.ts',
         classesMap: {
           NewFeature: {
             name: `${data.name}`,
@@ -249,7 +254,7 @@ const createFeature = (data: createFeatureDataType): Promise<boolean> => {
 
 export default (
   data: createFeatureDataType,
-  path?: string
+  path?: string,
 ): Promise<boolean> => {
   return new Promise(async (resolve) => {
     data = {
@@ -265,45 +270,45 @@ export default (
 
     console.log(
       chalk.white.bold(
-        "Crafting a new feature. Answer a few questions, please.\r\n"
-      )
+        'Crafting a new feature. Answer a few questions, please.\r\n',
+      ),
     );
     inquirer
       .prompt([
         {
-          type: "question",
-          name: "name",
-          message: "Name",
+          type: 'question',
+          name: 'name',
+          message: 'Name',
           default: data.name,
         },
         {
-          type: "question",
-          name: "path",
-          message: "Path to save",
+          type: 'question',
+          name: 'path',
+          message: 'Path to save',
           default: pathToSave,
         },
         {
-          type: "list",
-          name: "implements",
-          message: "Which members to implement?",
-          choices: ["All", "Custom"],
+          type: 'list',
+          name: 'implements',
+          message: 'Which members to implement?',
+          choices: ['All', 'Custom'],
         },
       ])
       .then((answers: Partial<createFeatureDataType>) => {
         data.path = answers.path!;
         data.name = answers.name!;
 
-        if (answers.implements === "Custom") {
+        if (answers.implements === 'Custom') {
           return getCustomSettings();
         } else {
           return new Promise((resolve) => {
             resolve({
               implements: data.implements,
             });
-          }) as Promise<Pick<createFeatureDataType, "implements">>;
+          }) as Promise<Pick<createFeatureDataType, 'implements'>>;
         }
       })
-      .then((answers: Pick<createFeatureDataType, "implements">) => {
+      .then((answers: Pick<createFeatureDataType, 'implements'>) => {
         data = {
           ...data,
           implements: {

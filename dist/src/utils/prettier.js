@@ -21,11 +21,11 @@ exports.runPrettierOnFile = function (fileName) {
     var result = false;
     var prettierOptions = prettier_1.default.resolveConfig.sync(fileName);
     try {
-        var input = fs_1.default.readFileSync(fileName, "utf8");
+        var input = fs_1.default.readFileSync(fileName, 'utf8');
         console.log("Formatting " + fileName);
         var output = prettier_1.default.format(input, __assign(__assign({}, prettierOptions), { filepath: fileName }));
         if (output !== input) {
-            fs_1.default.writeFileSync(fileName, output, "utf8");
+            fs_1.default.writeFileSync(fileName, output, 'utf8');
         }
     }
     catch (error) {

@@ -67,9 +67,9 @@ var createView = function (data) {
                 case 1:
                     project = _a.sent();
                     newFeatureFileName = data.path + "/" + data.name + ".ts";
-                    project.addSourceFileAtPath(__dirname + "../../../../src/templates/NewView.ts");
+                    project.addSourceFileAtPath(__dirname + '../../../../src/templates/NewView.ts');
                     common_1.transformFile(project, newFeatureFileName, {
-                        fileName: "NewView.ts",
+                        fileName: 'NewView.ts',
                         classesMap: {
                             NewView: {
                                 name: data.name + "View",
@@ -97,23 +97,23 @@ exports.default = (function (data, path) {
         var pathToSave;
         return __generator(this, function (_a) {
             data = __assign(__assign({}, defaultData), data);
-            pathToSave = path_1.getPath("Views");
+            pathToSave = path_1.getPath('Views');
             if (path) {
                 pathToSave = path_1.getPath(path);
             }
-            console.log(chalk_1.default.white.bold("Crafting a new view file. Answer a few questions, please.\r\n"));
+            console.log(chalk_1.default.white.bold('Crafting a new view file. Answer a few questions, please.\r\n'));
             inquirer_1.default
                 .prompt([
                 {
-                    type: "question",
-                    name: "name",
-                    message: "Name",
+                    type: 'question',
+                    name: 'name',
+                    message: 'Name',
                     default: data.name,
                 },
                 {
-                    type: "question",
-                    name: "path",
-                    message: "Path to save",
+                    type: 'question',
+                    name: 'path',
+                    message: 'Path to save',
                     default: pathToSave,
                 },
             ])

@@ -65,14 +65,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var pckg = require("../package.json");
+/* eslint-disable @typescript-eslint/no-var-requires */
+var pckg = require('../package.json');
 var chalk_1 = __importDefault(require("chalk"));
 var boxen_1 = __importStar(require("boxen"));
 var fs_1 = __importDefault(require("fs"));
 var path_1 = __importDefault(require("path"));
 var tsconfig_resolver_1 = require("tsconfig-resolver");
 var additionalInfo = [];
-var ownPckg = require("../../package.json");
+var ownPckg = require('../../package.json');
 exports.default = (function () { return __awaiter(void 0, void 0, void 0, function () {
     var result, packageJsonPath, pckg_1, greetings, boxenOptions;
     return __generator(this, function (_a) {
@@ -94,18 +95,18 @@ exports.default = (function () { return __awaiter(void 0, void 0, void 0, functi
                 greetings = __spreadArrays([
                     chalk_1.default.green.bold("Feature Framework CLI v." + ownPckg.version)
                 ], additionalInfo, [
-                    chalk_1.default.white(""),
+                    chalk_1.default.white(''),
                     chalk_1.default.blue("" + pckg.author.url),
                 ]);
                 boxenOptions = {
                     padding: 1,
                     margin: 1,
                     borderStyle: "double" /* Double */,
-                    borderColor: "white",
-                    float: "center",
-                    align: "center",
+                    borderColor: 'white',
+                    float: 'center',
+                    align: 'center',
                 };
-                return [2 /*return*/, boxen_1.default(greetings.join("\n"), boxenOptions)];
+                return [2 /*return*/, boxen_1.default(greetings.join('\n'), boxenOptions)];
         }
     });
 }); });

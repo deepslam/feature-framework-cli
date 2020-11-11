@@ -1,6 +1,6 @@
-import { Translations } from "@feature-framework/core";
+import { Translations, TranslationItemType } from '@feature-framework/core';
 
-export type NewTranslationsType = {};
+export type NewTranslationsType = TranslationItemType;
 
 export default class NewTranslations extends Translations<
   NewTranslationsType

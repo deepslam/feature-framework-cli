@@ -1,18 +1,19 @@
-const pckg = require("../package.json");
-import chalk from "chalk";
-import boxen, { Options, BorderStyle } from "boxen";
-import fs from "fs";
-import path from "path";
-import { tsconfigResolver } from "tsconfig-resolver";
+/* eslint-disable @typescript-eslint/no-var-requires */
+const pckg = require('../package.json');
+import chalk from 'chalk';
+import boxen, { Options, BorderStyle } from 'boxen';
+import fs from 'fs';
+import path from 'path';
+import { tsconfigResolver } from 'tsconfig-resolver';
 
 const additionalInfo: string[] = [];
-const ownPckg = require("../../package.json");
+const ownPckg = require('../../package.json');
 
 export default async () => {
   const result = await tsconfigResolver();
   if (result.exists) {
     const packageJsonPath = `${path.dirname(
-      result.path
+      result.path,
     )}/node_modules/@feature-framework/core/package.json`;
 
     try {
@@ -20,7 +21,7 @@ export default async () => {
         const pckg = require(packageJsonPath);
         if (pckg.version)
           additionalInfo.push(
-            chalk.white(`Feature Framework: v.${pckg.version}`)
+            chalk.white(`Feature Framework: v.${pckg.version}`),
           );
       }
     } catch (e) {}
@@ -28,7 +29,7 @@ export default async () => {
   const greetings = [
     chalk.green.bold(`Feature Framework CLI v.${ownPckg.version}`),
     ...additionalInfo,
-    chalk.white(""),
+    chalk.white(''),
     chalk.blue(`${pckg.author.url}`),
   ];
 
@@ -36,9 +37,9 @@ export default async () => {
     padding: 1,
     margin: 1,
     borderStyle: BorderStyle.Double,
-    borderColor: "white",
-    float: "center",
-    align: "center",
+    borderColor: 'white',
+    float: 'center',
+    align: 'center',
   };
-  return boxen(greetings.join("\n"), boxenOptions);
+  return boxen(greetings.join('\n'), boxenOptions);
 };

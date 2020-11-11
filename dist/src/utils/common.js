@@ -34,10 +34,10 @@ function transformFile(project, newPath, _a) {
                     Object.keys(currentClass.existingProperties).forEach(function (existingProperty) {
                         var property = featureClass.getPropertyOrThrow(existingProperty);
                         var newValue = currentClass.existingProperties[existingProperty];
-                        if (typeof newValue === "number") {
+                        if (typeof newValue === 'number') {
                             property.setInitializer("" + newValue);
                         }
-                        if (typeof newValue === "string") {
+                        if (typeof newValue === 'string') {
                             property.setInitializer("'" + newValue + "'");
                         }
                     });

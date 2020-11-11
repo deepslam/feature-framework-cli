@@ -1,10 +1,10 @@
-import chalk from "chalk";
-import inquirer from "inquirer";
-import { Project } from "ts-morph";
-import path from "path";
-import { transformFile, ImportType } from "../utils/common";
-import { getPath } from "../utils/path";
-import { getProject, findClassInProject } from "../utils/project";
+import chalk from 'chalk';
+import inquirer from 'inquirer';
+import { Project } from 'ts-morph';
+import path from 'path';
+import { transformFile, ImportType } from '../utils/common';
+import { getPath } from '../utils/path';
+import { getProject, findClassInProject } from '../utils/project';
 
 type createDataManagerType = {
   name: string;
@@ -21,7 +21,7 @@ const createManager = (data: createDataManagerType): Promise<boolean> => {
       const project = await getProject();
       const newFeatureFileName = `${data.path}/${data.name}.ts`;
       project.addSourceFileAtPath(
-        __dirname + "../../../../src/templates/NewDataManager.ts"
+        __dirname + '../../../../src/templates/NewDataManager.ts',
       );
 
       const imports: ImportType[] = [];
@@ -33,28 +33,28 @@ const createManager = (data: createDataManagerType): Promise<boolean> => {
           moduleSpecifier: path
             .relative(
               path.dirname(newFeatureFileName),
-              modelFiles[0].getSourceFile().getFilePath()
+              modelFiles[0].getSourceFile().getFilePath(),
             )
-            .replace(".ts", ""),
+            .replace('.ts', ''),
         });
       }
 
       transformFile(project, newFeatureFileName, {
-        fileName: "NewDataManager.ts",
+        fileName: 'NewDataManager.ts',
         imports,
         classesMap: {
           NewDataManager: {
             name: `${data.name}`,
             classCallback: (cls) => {
-              const packMethod = cls.getMethodOrThrow("pack");
-              const restoreMethod = cls.getMethodOrThrow("restore");
+              const packMethod = cls.getMethodOrThrow('pack');
+              const restoreMethod = cls.getMethodOrThrow('restore');
 
               restoreMethod.setReturnType(data.model);
               restoreMethod.setBodyText(
-                restoreMethod.getBodyText()!.replace("NewModel", data.model)
+                restoreMethod.getBodyText()!.replace('NewModel', data.model),
               );
 
-              packMethod.getParameter("data")?.setType(data.model);
+              packMethod.getParameter('data')?.setType(data.model);
 
               cls.setExtends(`DataManager<${data.model}>`);
             },
@@ -78,7 +78,7 @@ const createManager = (data: createDataManagerType): Promise<boolean> => {
 
 export default (
   initialData: createDataManagerType,
-  path?: string
+  path?: string,
 ): Promise<boolean> => {
   return new Promise(async (resolve) => {
     const data: createDataManagerType = {
@@ -87,7 +87,7 @@ export default (
     };
     data.project = await getProject();
 
-    let pathToSave = getPath("Managers");
+    let pathToSave = getPath('Managers');
 
     if (path) {
       pathToSave = getPath(path);
@@ -95,34 +95,34 @@ export default (
 
     console.log(
       chalk.white.bold(
-        "Crafting a new data manager. Answer a few questions, please.\r\n"
-      )
+        'Crafting a new data manager. Answer a few questions, please.\r\n',
+      ),
     );
     inquirer
       .prompt([
         {
-          type: "question",
-          name: "name",
-          message: "Name",
+          type: 'question',
+          name: 'name',
+          message: 'Name',
           default: data.name,
         },
         {
-          type: "question",
-          name: "model",
-          message: "Model to attach to the data manager",
+          type: 'question',
+          name: 'model',
+          message: 'Model to attach to the data manager',
           default: data.model,
-          validate: function (value) {
+          validate(value) {
             if (findClassInProject(data.project!, value)) {
               return true;
             }
 
-            return "Model has not been found";
+            return 'Model has not been found';
           },
         },
         {
-          type: "question",
-          name: "path",
-          message: "Path to save",
+          type: 'question',
+          name: 'path',
+          message: 'Path to save',
           default: pathToSave,
         },
       ])

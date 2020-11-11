@@ -64,116 +64,116 @@ var log = console.log;
                 _a.apply(void 0, [_b.sent()]);
                 try {
                     program = new commander_1.Command();
-                    program.version("", "-v", "output the current CLI version");
+                    program.version('', '-v', 'output the current CLI version');
                     program
-                        .command("new:feature <name> [path]")
-                        .description("define a new feature")
+                        .command('new:feature <name> [path]')
+                        .description('define a new feature')
                         .action(function (name, path) {
                         createFeature_1.default({
                             name: name,
                         }, path).then(function (result) {
                             log(result
-                                ? chalk_1.default.green.bold("Feature successfully created")
-                                : chalk_1.default.red.bold("Feature was not created due to the error"));
+                                ? chalk_1.default.green.bold('Feature successfully created')
+                                : chalk_1.default.red.bold('Feature was not created due to the error'));
                         });
                     });
                     program
-                        .command("new:model <name> [path]")
-                        .description("define a new model")
+                        .command('new:model <name> [path]')
+                        .description('define a new model')
                         .action(function (name, path) {
                         createModel_1.default({
                             name: name,
                         }, path).then(function (result) {
                             log(result
-                                ? chalk_1.default.green.bold("Model successfully created")
-                                : chalk_1.default.red.bold("Model was not created due to the error"));
+                                ? chalk_1.default.green.bold('Model successfully created')
+                                : chalk_1.default.red.bold('Model was not created due to the error'));
                         });
                     });
                     program
-                        .command("new:event <name> [path]")
-                        .description("define a new event")
+                        .command('new:event <name> [path]')
+                        .description('define a new event')
                         .action(function (name, path) {
                         createEvent_1.default({
                             name: name,
                         }, path).then(function (result) {
                             log(result
-                                ? chalk_1.default.green.bold("Event successfully created")
-                                : chalk_1.default.red.bold("Event was not created due to the error"));
+                                ? chalk_1.default.green.bold('Event successfully created')
+                                : chalk_1.default.red.bold('Event was not created due to the error'));
                         });
                     });
                     program
-                        .command("new:provider <name> [path]")
-                        .description("define a new data provider")
+                        .command('new:provider <name> [path]')
+                        .description('define a new data provider')
                         .action(function (name, path) {
                         createDataProvider_1.default({
                             name: name,
                         }, path).then(function (result) {
                             log(result
-                                ? chalk_1.default.green.bold("Data provider successfully created")
-                                : chalk_1.default.red.bold("Data provider was not created due to the error"));
+                                ? chalk_1.default.green.bold('Data provider successfully created')
+                                : chalk_1.default.red.bold('Data provider was not created due to the error'));
                         });
                     });
                     program
-                        .command("new:manager <name> <model> [path]")
-                        .description("define a new data manager")
+                        .command('new:manager <name> <model> [path]')
+                        .description('define a new data manager')
                         .action(function (name, model, path) {
                         createDataManager_1.default({
                             name: name,
                             model: model,
                         }, path).then(function (result) {
                             log(result
-                                ? chalk_1.default.green.bold("Data manager successfully created")
-                                : chalk_1.default.red.bold("Data manager was not created due to the error"));
+                                ? chalk_1.default.green.bold('Data manager successfully created')
+                                : chalk_1.default.red.bold('Data manager was not created due to the error'));
                         });
                     });
                     program
-                        .command("new:collection <name> <model> [path]")
-                        .description("define a new collection")
+                        .command('new:collection <name> <model> [path]')
+                        .description('define a new collection')
                         .action(function (name, model, path) {
                         createCollection_1.default({
                             name: name,
                             model: model,
                         }, path).then(function (result) {
                             log(result
-                                ? chalk_1.default.green.bold("Collection successfully created")
-                                : chalk_1.default.red.bold("Collection was not created due to the error"));
+                                ? chalk_1.default.green.bold('Collection successfully created')
+                                : chalk_1.default.red.bold('Collection was not created due to the error'));
                         });
                     });
                     program
-                        .command("new:factory <name> <model> [path]")
-                        .description("define a new factory")
+                        .command('new:factory <name> <model> [path]')
+                        .description('define a new factory')
                         .action(function (name, model, path) {
                         createFactory_1.default({
                             name: name,
                             model: model,
                         }, path).then(function (result) {
                             log(result
-                                ? chalk_1.default.green.bold("Factory successfully created")
-                                : chalk_1.default.red.bold("Factory was not created due to the error"));
+                                ? chalk_1.default.green.bold('Factory successfully created')
+                                : chalk_1.default.red.bold('Factory was not created due to the error'));
                         });
                     });
                     program
-                        .command("new:translations <name> [path]")
-                        .description("define a new translations file")
+                        .command('new:translations <name> [path]')
+                        .description('define a new translations file')
                         .action(function (name, path) {
                         createTranslation_1.default({
                             name: name,
                         }, path).then(function (result) {
                             log(result
-                                ? chalk_1.default.green.bold("Translations successfully created")
-                                : chalk_1.default.red.bold("Translations were not created due to the error"));
+                                ? chalk_1.default.green.bold('Translations successfully created')
+                                : chalk_1.default.red.bold('Translations were not created due to the error'));
                         });
                     });
                     program
-                        .command("new:view <name> [path]")
-                        .description("define a new view file")
+                        .command('new:view <name> [path]')
+                        .description('define a new view file')
                         .action(function (name, path) {
                         createView_1.default({
                             name: name,
                         }, path).then(function (result) {
                             log(result
-                                ? chalk_1.default.green.bold("Translations successully created")
-                                : chalk_1.default.red.bold("Translations were not created due to the error"));
+                                ? chalk_1.default.green.bold('Translations successfully created')
+                                : chalk_1.default.red.bold('Translations were not created due to the error'));
                         });
                     });
                     program.parse(process.argv);

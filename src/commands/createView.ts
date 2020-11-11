@@ -1,8 +1,8 @@
-import chalk from "chalk";
-import inquirer from "inquirer";
-import { transformFile } from "../utils/common";
-import { getPath } from "../utils/path";
-import { getProject } from "../utils/project";
+import chalk from 'chalk';
+import inquirer from 'inquirer';
+import { transformFile } from '../utils/common';
+import { getPath } from '../utils/path';
+import { getProject } from '../utils/project';
 
 type createViewType = {
   name: string;
@@ -17,11 +17,11 @@ const createView = (data: createViewType): Promise<boolean> => {
       const project = await getProject();
       const newFeatureFileName = `${data.path}/${data.name}.ts`;
       project.addSourceFileAtPath(
-        __dirname + "../../../../src/templates/NewView.ts"
+        __dirname + '../../../../src/templates/NewView.ts',
       );
 
       transformFile(project, newFeatureFileName, {
-        fileName: "NewView.ts",
+        fileName: 'NewView.ts',
         classesMap: {
           NewView: {
             name: `${data.name}View`,
@@ -47,7 +47,7 @@ export default (data: createViewType, path?: string): Promise<boolean> => {
       ...data,
     };
 
-    let pathToSave = getPath("Views");
+    let pathToSave = getPath('Views');
 
     if (path) {
       pathToSave = getPath(path);
@@ -55,21 +55,21 @@ export default (data: createViewType, path?: string): Promise<boolean> => {
 
     console.log(
       chalk.white.bold(
-        "Crafting a new view file. Answer a few questions, please.\r\n"
-      )
+        'Crafting a new view file. Answer a few questions, please.\r\n',
+      ),
     );
     inquirer
       .prompt([
         {
-          type: "question",
-          name: "name",
-          message: "Name",
+          type: 'question',
+          name: 'name',
+          message: 'Name',
           default: data.name,
         },
         {
-          type: "question",
-          name: "path",
-          message: "Path to save",
+          type: 'question',
+          name: 'path',
+          message: 'Path to save',
           default: pathToSave,
         },
       ])

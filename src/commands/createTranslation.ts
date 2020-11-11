@@ -1,8 +1,8 @@
-import chalk from "chalk";
-import inquirer from "inquirer";
-import { transformFile } from "../utils/common";
-import { getPath } from "../utils/path";
-import { getProject } from "../utils/project";
+import chalk from 'chalk';
+import inquirer from 'inquirer';
+import { transformFile } from '../utils/common';
+import { getPath } from '../utils/path';
+import { getProject } from '../utils/project';
 
 type createTranslationType = {
   name: string;
@@ -17,11 +17,11 @@ const createTranslation = (data: createTranslationType): Promise<boolean> => {
       const project = await getProject();
       const newFeatureFileName = `${data.path}/${data.name}.ts`;
       project.addSourceFileAtPath(
-        __dirname + "../../../../src/templates/NewTranslations.ts"
+        __dirname + '../../../../src/templates/NewTranslations.ts',
       );
 
       transformFile(project, newFeatureFileName, {
-        fileName: "NewTranslations.ts",
+        fileName: 'NewTranslations.ts',
         classesMap: {
           NewTranslations: {
             name: `${data.name}`,
@@ -45,7 +45,7 @@ const createTranslation = (data: createTranslationType): Promise<boolean> => {
 
 export default (
   data: createTranslationType,
-  path?: string
+  path?: string,
 ): Promise<boolean> => {
   return new Promise(async (resolve) => {
     data = {
@@ -53,7 +53,7 @@ export default (
       ...data,
     };
 
-    let pathToSave = getPath("Translations");
+    let pathToSave = getPath('Translations');
 
     if (path) {
       pathToSave = getPath(path);
@@ -61,21 +61,21 @@ export default (
 
     console.log(
       chalk.white.bold(
-        "Crafting a new translations file. Answer a few questions, please.\r\n"
-      )
+        'Crafting a new translations file. Answer a few questions, please.\r\n',
+      ),
     );
     inquirer
       .prompt([
         {
-          type: "question",
-          name: "name",
-          message: "Name",
+          type: 'question',
+          name: 'name',
+          message: 'Name',
           default: data.name,
         },
         {
-          type: "question",
-          name: "path",
-          message: "Path to save",
+          type: 'question',
+          name: 'path',
+          message: 'Path to save',
           default: pathToSave,
         },
       ])

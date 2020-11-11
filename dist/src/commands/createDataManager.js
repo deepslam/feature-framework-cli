@@ -68,7 +68,7 @@ var createManager = function (data) {
                 case 1:
                     project = _a.sent();
                     newFeatureFileName = data.path + "/" + data.name + ".ts";
-                    project.addSourceFileAtPath(__dirname + "../../../../src/templates/NewDataManager.ts");
+                    project.addSourceFileAtPath(__dirname + '../../../../src/templates/NewDataManager.ts');
                     imports = [];
                     modelFiles = project_1.findClassInProject(data.project, data.model);
                     if (modelFiles && modelFiles[0]) {
@@ -76,22 +76,22 @@ var createManager = function (data) {
                             defaultImport: data.model,
                             moduleSpecifier: path_1.default
                                 .relative(path_1.default.dirname(newFeatureFileName), modelFiles[0].getSourceFile().getFilePath())
-                                .replace(".ts", ""),
+                                .replace('.ts', ''),
                         });
                     }
                     common_1.transformFile(project, newFeatureFileName, {
-                        fileName: "NewDataManager.ts",
+                        fileName: 'NewDataManager.ts',
                         imports: imports,
                         classesMap: {
                             NewDataManager: {
                                 name: "" + data.name,
                                 classCallback: function (cls) {
                                     var _a;
-                                    var packMethod = cls.getMethodOrThrow("pack");
-                                    var restoreMethod = cls.getMethodOrThrow("restore");
+                                    var packMethod = cls.getMethodOrThrow('pack');
+                                    var restoreMethod = cls.getMethodOrThrow('restore');
                                     restoreMethod.setReturnType(data.model);
-                                    restoreMethod.setBodyText(restoreMethod.getBodyText().replace("NewModel", data.model));
-                                    (_a = packMethod.getParameter("data")) === null || _a === void 0 ? void 0 : _a.setType(data.model);
+                                    restoreMethod.setBodyText(restoreMethod.getBodyText().replace('NewModel', data.model));
+                                    (_a = packMethod.getParameter('data')) === null || _a === void 0 ? void 0 : _a.setType(data.model);
                                     cls.setExtends("DataManager<" + data.model + ">");
                                 },
                             },
@@ -127,35 +127,35 @@ exports.default = (function (initialData, path) {
                     return [4 /*yield*/, project_1.getProject()];
                 case 1:
                     _a.project = _b.sent();
-                    pathToSave = path_2.getPath("Managers");
+                    pathToSave = path_2.getPath('Managers');
                     if (path) {
                         pathToSave = path_2.getPath(path);
                     }
-                    console.log(chalk_1.default.white.bold("Crafting a new data manager. Answer a few questions, please.\r\n"));
+                    console.log(chalk_1.default.white.bold('Crafting a new data manager. Answer a few questions, please.\r\n'));
                     inquirer_1.default
                         .prompt([
                         {
-                            type: "question",
-                            name: "name",
-                            message: "Name",
+                            type: 'question',
+                            name: 'name',
+                            message: 'Name',
                             default: data.name,
                         },
                         {
-                            type: "question",
-                            name: "model",
-                            message: "Model to attach to the data manager",
+                            type: 'question',
+                            name: 'model',
+                            message: 'Model to attach to the data manager',
                             default: data.model,
                             validate: function (value) {
                                 if (project_1.findClassInProject(data.project, value)) {
                                     return true;
                                 }
-                                return "Model has not been found";
+                                return 'Model has not been found';
                             },
                         },
                         {
-                            type: "question",
-                            name: "path",
-                            message: "Path to save",
+                            type: 'question',
+                            name: 'path',
+                            message: 'Path to save',
                             default: pathToSave,
                         },
                     ])

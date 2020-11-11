@@ -6,10 +6,10 @@ import {
   ImportDeclarationStructure,
   SourceFile,
   ClassDeclaration,
-} from "ts-morph";
-import chalk from "chalk";
-import { copyImmediately } from "./path";
-import { runPrettierOnFile } from "./prettier";
+} from 'ts-morph';
+import chalk from 'chalk';
+import { copyImmediately } from './path';
+import { runPrettierOnFile } from './prettier';
 
 export type NewPropertiesType = Record<
   string,
@@ -44,7 +44,7 @@ export function transformFile(
     fileName,
     imports = [],
     fileCallback,
-  }: TransformFileParams
+  }: TransformFileParams,
 ): Promise<boolean> {
   return new Promise((resolve) => {
     try {
@@ -72,28 +72,28 @@ export function transformFile(
           Object.keys(currentClass.existingProperties).forEach(
             (existingProperty) => {
               const property = featureClass.getPropertyOrThrow(
-                existingProperty
+                existingProperty,
               );
               const newValue = currentClass.existingProperties![
                 existingProperty
               ];
-              if (typeof newValue === "number") {
+              if (typeof newValue === 'number') {
                 property.setInitializer(`${newValue}`);
               }
-              if (typeof newValue === "string") {
+              if (typeof newValue === 'string') {
                 property.setInitializer(`'${newValue}'`);
               }
-            }
+            },
           );
         }
         if (currentClass.newProperties) {
           Object.keys(currentClass.newProperties).forEach(
             (newProperty: string) => {
               featureClass.addProperty(
-                currentClass.newProperties![newProperty]
+                currentClass.newProperties![newProperty],
               );
               file.fixMissingImports();
-            }
+            },
           );
         }
         if (currentClass.classCallback) {

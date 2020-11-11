@@ -1,10 +1,10 @@
-import chalk from "chalk";
-import inquirer from "inquirer";
-import { Project } from "ts-morph";
-import path from "path";
-import { transformFile, ImportType } from "../utils/common";
-import { getPath } from "../utils/path";
-import { getProject, findClassInProject } from "../utils/project";
+import chalk from 'chalk';
+import inquirer from 'inquirer';
+import { Project } from 'ts-morph';
+import path from 'path';
+import { transformFile, ImportType } from '../utils/common';
+import { getPath } from '../utils/path';
+import { getProject, findClassInProject } from '../utils/project';
 
 type createCollectionType = {
   name: string;
@@ -20,7 +20,7 @@ const createCollection = (data: createCollectionType): Promise<boolean> => {
     try {
       const newFeatureFileName = `${data.path}/${data.name}.ts`;
       data.project!.addSourceFileAtPath(
-        __dirname + "../../../../src/templates/NewCollection.ts"
+        __dirname + '../../../../src/templates/NewCollection.ts',
       );
       const imports: ImportType[] = [];
       const modelFiles = findClassInProject(data.project!, data.model);
@@ -31,14 +31,14 @@ const createCollection = (data: createCollectionType): Promise<boolean> => {
           moduleSpecifier: path
             .relative(
               path.dirname(newFeatureFileName),
-              modelFiles[0].getSourceFile().getFilePath()
+              modelFiles[0].getSourceFile().getFilePath(),
             )
-            .replace(".ts", ""),
+            .replace('.ts', ''),
         });
       }
 
       transformFile(data.project!, newFeatureFileName, {
-        fileName: "NewCollection.ts",
+        fileName: 'NewCollection.ts',
         imports,
         classesMap: {
           NewCollection: {
@@ -63,7 +63,7 @@ const createCollection = (data: createCollectionType): Promise<boolean> => {
 
 export default (
   data: createCollectionType,
-  path?: string
+  path?: string,
 ): Promise<boolean> => {
   return new Promise(async (resolve) => {
     data.project = await getProject();
@@ -73,7 +73,7 @@ export default (
       ...data,
     };
 
-    let pathToSave = getPath("Collections");
+    let pathToSave = getPath('Collections');
 
     if (path) {
       pathToSave = getPath(path);
@@ -81,34 +81,34 @@ export default (
 
     console.log(
       chalk.white.bold(
-        "Crafting a new collection. Answer a few questions, please.\r\n"
-      )
+        'Crafting a new collection. Answer a few questions, please.\r\n',
+      ),
     );
     inquirer
       .prompt([
         {
-          type: "question",
-          name: "name",
-          message: "Name",
+          type: 'question',
+          name: 'name',
+          message: 'Name',
           default: data.name,
         },
         {
-          type: "question",
-          name: "model",
-          message: "Model to attach to the collection",
+          type: 'question',
+          name: 'model',
+          message: 'Model to attach to the collection',
           default: data.model,
-          validate: function (value) {
+          validate(value) {
             if (findClassInProject(data.project!, value)) {
               return true;
             }
 
-            return "Model has not been found";
+            return 'Model has not been found';
           },
         },
         {
-          type: "question",
-          name: "path",
-          message: "Path to save",
+          type: 'question',
+          name: 'path',
+          message: 'Path to save',
           default: pathToSave,
         },
       ])

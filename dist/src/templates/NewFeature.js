@@ -18,7 +18,7 @@ var NewFeature = /** @class */ (function (_super) {
     __extends(NewFeature, _super);
     function NewFeature() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.name = "NewFeature";
+        _this.name = 'NewFeature';
         return _this;
     }
     NewFeature.prototype.initFeature = function () {

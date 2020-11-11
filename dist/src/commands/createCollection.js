@@ -63,7 +63,7 @@ var createCollection = function (data) {
         return __generator(this, function (_a) {
             try {
                 newFeatureFileName = data.path + "/" + data.name + ".ts";
-                data.project.addSourceFileAtPath(__dirname + "../../../../src/templates/NewCollection.ts");
+                data.project.addSourceFileAtPath(__dirname + '../../../../src/templates/NewCollection.ts');
                 imports = [];
                 modelFiles = project_1.findClassInProject(data.project, data.model);
                 if (modelFiles && modelFiles[0]) {
@@ -71,11 +71,11 @@ var createCollection = function (data) {
                         defaultImport: data.model,
                         moduleSpecifier: path_1.default
                             .relative(path_1.default.dirname(newFeatureFileName), modelFiles[0].getSourceFile().getFilePath())
-                            .replace(".ts", ""),
+                            .replace('.ts', ''),
                     });
                 }
                 common_1.transformFile(data.project, newFeatureFileName, {
-                    fileName: "NewCollection.ts",
+                    fileName: 'NewCollection.ts',
                     imports: imports,
                     classesMap: {
                         NewCollection: {
@@ -111,35 +111,35 @@ exports.default = (function (data, path) {
                 case 1:
                     _a.project = _b.sent();
                     data = __assign(__assign({}, defaultData), data);
-                    pathToSave = path_2.getPath("Collections");
+                    pathToSave = path_2.getPath('Collections');
                     if (path) {
                         pathToSave = path_2.getPath(path);
                     }
-                    console.log(chalk_1.default.white.bold("Crafting a new collection. Answer a few questions, please.\r\n"));
+                    console.log(chalk_1.default.white.bold('Crafting a new collection. Answer a few questions, please.\r\n'));
                     inquirer_1.default
                         .prompt([
                         {
-                            type: "question",
-                            name: "name",
-                            message: "Name",
+                            type: 'question',
+                            name: 'name',
+                            message: 'Name',
                             default: data.name,
                         },
                         {
-                            type: "question",
-                            name: "model",
-                            message: "Model to attach to the collection",
+                            type: 'question',
+                            name: 'model',
+                            message: 'Model to attach to the collection',
                             default: data.model,
                             validate: function (value) {
                                 if (project_1.findClassInProject(data.project, value)) {
                                     return true;
                                 }
-                                return "Model has not been found";
+                                return 'Model has not been found';
                             },
                         },
                         {
-                            type: "question",
-                            name: "path",
-                            message: "Path to save",
+                            type: 'question',
+                            name: 'path',
+                            message: 'Path to save',
                             default: pathToSave,
                         },
                     ])

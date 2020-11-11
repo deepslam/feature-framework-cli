@@ -1,5 +1,5 @@
-import { Project, ProjectOptions, ClassDeclaration } from "ts-morph";
-import { tsconfigResolver } from "tsconfig-resolver";
+import { Project, ProjectOptions, ClassDeclaration } from 'ts-morph';
+import { tsconfigResolver } from 'tsconfig-resolver';
 
 export const getProject = async (): Promise<Project> => {
   const projectOptions: ProjectOptions = {};
@@ -15,7 +15,7 @@ export const getProject = async (): Promise<Project> => {
 
 export function findClassInProject(
   project: Project,
-  className: string
+  className: string,
 ): false | ClassDeclaration[] {
   const foundClasses: ClassDeclaration[] = [];
   project.getSourceFiles().forEach((sourceFile) => {

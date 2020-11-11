@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPackageJsonPath = exports.getTsConfigPath = exports.getFeatureClassFilePath = exports.getCorePackageDirPath = exports.trimPathTrails = exports.getCwd = exports.getPath = exports.copyImmediately = void 0;
+exports.getPackageJsonPath = exports.getTsConfigPath = exports.getFeatureClassFilePath = exports.getCorePackageDirPath = exports.getPath = exports.trimPathTrails = exports.getCwd = exports.copyImmediately = void 0;
 var inquirer_1 = __importDefault(require("inquirer"));
 var fs_1 = __importDefault(require("fs"));
 exports.copyImmediately = function (file, path) {
@@ -51,8 +51,8 @@ exports.copyImmediately = function (file, path) {
                     if (!fs_1.default.existsSync(path)) return [3 /*break*/, 1];
                     inquirer_1.default
                         .prompt({
-                        type: "confirm",
-                        name: "overwrite_file_confirm",
+                        type: 'confirm',
+                        name: 'overwrite_file_confirm',
                         message: "File " + path + " already exists. Would you like to overwrite it?",
                     })
                         .then(function (answer) { return __awaiter(void 0, void 0, void 0, function () {
@@ -94,26 +94,26 @@ exports.copyImmediately = function (file, path) {
         });
     }); });
 };
-exports.getPath = function (path) {
-    if (path === void 0) { path = ""; }
-    return exports.getCwd() + "/" + exports.trimPathTrails(path);
-};
 exports.getCwd = function () {
     return process.cwd();
 };
 exports.trimPathTrails = function (path) {
-    return path.replace(/^\/|\/$/g, "");
+    return path.replace(/^\/|\/$/g, '');
+};
+exports.getPath = function (path) {
+    if (path === void 0) { path = ''; }
+    return exports.getCwd() + '/' + exports.trimPathTrails(path);
 };
 exports.getCorePackageDirPath = function () {
-    return "node_modules/@feature-framework/core";
+    return 'node_modules/@feature-framework/core';
 };
 exports.getFeatureClassFilePath = function () {
-    return exports.getPath("src/templates/NewFeature.ts");
+    return exports.getPath('src/templates/NewFeature.ts');
 };
 exports.getTsConfigPath = function () {
-    return exports.getPath(exports.getCorePackageDirPath() + "/tsconfig.json");
+    return exports.getPath(exports.getCorePackageDirPath() + '/tsconfig.json');
 };
 exports.getPackageJsonPath = function () {
-    return exports.getPath(exports.getCorePackageDirPath() + "/package.json");
+    return exports.getPath(exports.getCorePackageDirPath() + '/package.json');
 };
 //# sourceMappingURL=path.js.map

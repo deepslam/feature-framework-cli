@@ -72,41 +72,41 @@ var getCustomSettings = function () {
         inquirer_1.default
             .prompt([
             {
-                type: "checkbox",
-                message: "Please select what you would like to implement",
-                name: "features",
+                type: 'checkbox',
+                message: 'Please select what you would like to implement',
+                name: 'features',
                 loop: false,
                 choices: [
                     {
-                        name: "Events",
+                        name: 'Events',
                         checked: true,
                     },
                     {
-                        name: "Factories",
+                        name: 'Factories',
                         checked: true,
                     },
                     {
-                        name: "Features",
+                        name: 'Features',
                         checked: true,
                     },
                     {
-                        name: "Translations",
+                        name: 'Translations',
                         checked: true,
                     },
                     {
-                        name: "Models",
+                        name: 'Models',
                         checked: true,
                     },
                     {
-                        name: "View",
+                        name: 'View',
                         checked: true,
                     },
                     {
-                        name: "Collections",
+                        name: 'Collections',
                         checked: true,
                     },
                     {
-                        name: "Data Managers",
+                        name: 'Data Managers',
                         checked: true,
                     },
                 ],
@@ -116,28 +116,28 @@ var getCustomSettings = function () {
             var implementMembers = {
                 implements: {},
             };
-            if (answers.features.includes("Events")) {
+            if (answers.features.includes('Events')) {
                 implementMembers.implements.events = true;
             }
-            if (answers.features.includes("Factories")) {
+            if (answers.features.includes('Factories')) {
                 implementMembers.implements.factories = true;
             }
-            if (answers.features.includes("Features")) {
+            if (answers.features.includes('Features')) {
                 implementMembers.implements.features = true;
             }
-            if (answers.features.includes("Translations")) {
+            if (answers.features.includes('Translations')) {
                 implementMembers.implements.translations = true;
             }
-            if (answers.features.includes("Models")) {
+            if (answers.features.includes('Models')) {
                 implementMembers.implements.models = true;
             }
-            if (answers.features.includes("View")) {
+            if (answers.features.includes('View')) {
                 implementMembers.implements.view = true;
             }
-            if (answers.features.includes("Collections")) {
+            if (answers.features.includes('Collections')) {
                 implementMembers.implements.collections = true;
             }
-            if (answers.features.includes("Data Managers")) {
+            if (answers.features.includes('Data Managers')) {
                 implementMembers.implements.dataManagers = true;
             }
             resolve(implementMembers);
@@ -156,91 +156,96 @@ var createFeature = function (data) {
                 case 1:
                     project = _j.sent();
                     newFeatureFileName = data.path + "/" + data.name + ".ts";
-                    project.addSourceFileAtPath(__dirname + "../../../../src/templates/NewFeature.ts");
+                    project.addSourceFileAtPath(__dirname + '../../../../src/templates/NewFeature.ts');
                     newProperties = {};
-                    importsFromFramework = ["Feature", "IFeature"];
+                    importsFromFramework = [
+                        'Feature',
+                        'IFeature',
+                        'IApp',
+                        'ConfigType',
+                    ];
                     imports_1 = [];
                     if (data.implements) {
                         if ((_a = data.implements) === null || _a === void 0 ? void 0 : _a.features) {
                             newProperties.features = {
-                                name: "features",
-                                type: "Record<string, IFeature<any, any>>",
+                                name: 'features',
+                                type: 'Record<string, IFeature<any, any>>',
                                 isStatic: false,
-                                initializer: "{}",
+                                initializer: '{}',
                             };
                         }
                         if ((_b = data.implements) === null || _b === void 0 ? void 0 : _b.factories) {
                             newProperties.factories = {
-                                name: "factories",
-                                type: "Record<string, Factory<any>>",
+                                name: 'factories',
+                                type: 'Record<string, Factory<any>>',
                                 isStatic: false,
-                                initializer: "{}",
+                                initializer: '{}',
                             };
-                            importsFromFramework.push("Factory");
+                            importsFromFramework.push('Factory');
                         }
                         if ((_c = data.implements) === null || _c === void 0 ? void 0 : _c.translations) {
                             newProperties.translations = {
-                                name: "translations",
-                                type: "Record<string, Translations<unknown>>",
+                                name: 'translations',
+                                type: 'Record<string, Translations<unknown>>',
                                 isStatic: false,
-                                initializer: "{}",
+                                initializer: '{}',
                             };
-                            importsFromFramework.push("Translations");
+                            importsFromFramework.push('Translations');
                         }
                         if ((_d = data.implements) === null || _d === void 0 ? void 0 : _d.events) {
                             newProperties.events = {
-                                name: "events",
-                                type: "Record<string, IEvent<unknown>>",
+                                name: 'events',
+                                type: 'Record<string, IEvent<unknown>>',
                                 isStatic: false,
-                                initializer: "{}",
+                                initializer: '{}',
                             };
-                            importsFromFramework.push("IEvent");
+                            importsFromFramework.push('IEvent');
                         }
                         if ((_e = data.implements) === null || _e === void 0 ? void 0 : _e.view) {
                             newProperties.view = {
-                                name: "view",
-                                type: "IView<unknown> | null",
+                                name: 'view',
+                                type: 'IView<unknown> | null',
                                 isStatic: false,
-                                initializer: "null",
+                                initializer: 'null',
                             };
-                            importsFromFramework.push("IView");
+                            importsFromFramework.push('IView');
                         }
                         if ((_f = data.implements) === null || _f === void 0 ? void 0 : _f.collections) {
                             newProperties.collections = {
-                                name: "collections",
-                                type: "Record<string, IDataCollection<unknown>>",
+                                name: 'collections',
+                                type: 'Record<string, IDataCollection<unknown>>',
                                 isStatic: false,
-                                initializer: "{}",
+                                initializer: '{}',
                             };
-                            importsFromFramework.push("IDataCollection");
+                            importsFromFramework.push('IDataCollection');
                         }
                         if ((_g = data.implements) === null || _g === void 0 ? void 0 : _g.dataManagers) {
                             newProperties.dataManagers = {
-                                name: "dataManagers",
-                                type: "Record<string, IDataManager<unknown>>",
+                                name: 'dataManagers',
+                                type: 'Record<string, IDataManager<unknown>>',
                                 isStatic: false,
-                                initializer: "{}",
+                                initializer: '{}',
                             };
-                            importsFromFramework.push("IDataManager");
+                            importsFromFramework.push('IDataManager');
                         }
                         if ((_h = data.implements) === null || _h === void 0 ? void 0 : _h.models) {
                             newProperties.models = {
-                                name: "models",
-                                type: "Record<string, IModel<unknown>>",
+                                name: 'models',
+                                type: 'Record<string, IModel<unknown>>',
                                 isStatic: false,
-                                initializer: "{}",
+                                initializer: '{}',
                             };
-                            importsFromFramework.push("IModel");
+                            importsFromFramework.push('IModel');
                         }
                     }
                     if (importsFromFramework.length > 0) {
                         imports_1.push({
-                            defaultImport: "{" + importsFromFramework.join(", ") + "}",
-                            moduleSpecifier: "@feature-framework/core",
+                            defaultImport: "{" + importsFromFramework.join(', ') + "}",
+                            moduleSpecifier: '@feature-framework/core',
                         });
                     }
                     common_1.transformFile(project, newFeatureFileName, {
-                        fileName: "NewFeature.ts",
+                        fileName: 'NewFeature.ts',
                         classesMap: {
                             NewFeature: {
                                 name: "" + data.name,
@@ -288,32 +293,32 @@ exports.default = (function (data, path) {
             if (path) {
                 pathToSave = path_1.getPath(path);
             }
-            console.log(chalk_1.default.white.bold("Crafting a new feature. Answer a few questions, please.\r\n"));
+            console.log(chalk_1.default.white.bold('Crafting a new feature. Answer a few questions, please.\r\n'));
             inquirer_1.default
                 .prompt([
                 {
-                    type: "question",
-                    name: "name",
-                    message: "Name",
+                    type: 'question',
+                    name: 'name',
+                    message: 'Name',
                     default: data.name,
                 },
                 {
-                    type: "question",
-                    name: "path",
-                    message: "Path to save",
+                    type: 'question',
+                    name: 'path',
+                    message: 'Path to save',
                     default: pathToSave,
                 },
                 {
-                    type: "list",
-                    name: "implements",
-                    message: "Which members to implement?",
-                    choices: ["All", "Custom"],
+                    type: 'list',
+                    name: 'implements',
+                    message: 'Which members to implement?',
+                    choices: ['All', 'Custom'],
                 },
             ])
                 .then(function (answers) {
                 data.path = answers.path;
                 data.name = answers.name;
-                if (answers.implements === "Custom") {
+                if (answers.implements === 'Custom') {
                     return getCustomSettings();
                 }
                 else {
