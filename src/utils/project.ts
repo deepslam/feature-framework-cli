@@ -1,5 +1,6 @@
 import { Project, ProjectOptions, ClassDeclaration } from 'ts-morph';
 import { tsconfigResolver } from 'tsconfig-resolver';
+import chalk from 'chalk';
 
 export const getProject = async (): Promise<Project> => {
   const projectOptions: ProjectOptions = {};
@@ -7,6 +8,7 @@ export const getProject = async (): Promise<Project> => {
   if (result.exists) {
     projectOptions.tsConfigFilePath = result.path;
     projectOptions.addFilesFromTsConfig = true;
+    console.log(chalk.green(`tsconfig file path: ${result.path}`));
   }
   const project = new Project(projectOptions);
 
