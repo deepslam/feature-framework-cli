@@ -35,14 +35,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.findClassInProject = exports.getProject = void 0;
 var ts_morph_1 = require("ts-morph");
 var tsconfig_resolver_1 = require("tsconfig-resolver");
-var chalk_1 = __importDefault(require("chalk"));
+var debug_1 = require("../utils/debug");
 exports.getProject = function () { return __awaiter(void 0, void 0, void 0, function () {
     var projectOptions, result, project;
     return __generator(this, function (_a) {
@@ -55,7 +52,7 @@ exports.getProject = function () { return __awaiter(void 0, void 0, void 0, func
                 if (result.exists) {
                     projectOptions.tsConfigFilePath = result.path;
                     projectOptions.addFilesFromTsConfig = true;
-                    console.log(chalk_1.default.green("tsconfig file path: " + result.path));
+                    debug_1.debug("tsconfig path: " + result.path);
                 }
                 project = new ts_morph_1.Project(projectOptions);
                 return [2 /*return*/, project];

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-import { Command } from 'commander';
 import chalk from 'chalk';
+import program from './getProgram';
 import greeting from './greeting';
 import createFeature from './commands/createFeature';
 import createEvent from './commands/createEvent';
@@ -12,13 +12,14 @@ import createDataManager from './commands/createDataManager';
 import createTranslation from './commands/createTranslation';
 import createFactory from './commands/createFactory';
 import createView from './commands/createView';
+import { debug } from 'console';
 
 const log = console.log;
 
 (async () => {
   log(await greeting());
+
   try {
-    const program = new Command();
     program.version('', '-v', 'output the current CLI version');
 
     program
@@ -192,8 +193,11 @@ const log = console.log;
         });
       });
 
+    program.option('-d, --debug', 'output extra debugging');
     program.parse(process.argv);
+
+    debug('Debug is enabled');
   } catch (e) {
-    log(chalk.red.bold(`Error was happened during the execution: ${e}`));
+    log(chalk.red.bold(`Error happened during the execution: ${e}`));
   }
 })();

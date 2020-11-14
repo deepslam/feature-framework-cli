@@ -40,8 +40,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var commander_1 = require("commander");
 var chalk_1 = __importDefault(require("chalk"));
+var getProgram_1 = __importDefault(require("./getProgram"));
 var greeting_1 = __importDefault(require("./greeting"));
 var createFeature_1 = __importDefault(require("./commands/createFeature"));
 var createEvent_1 = __importDefault(require("./commands/createEvent"));
@@ -52,9 +52,10 @@ var createDataManager_1 = __importDefault(require("./commands/createDataManager"
 var createTranslation_1 = __importDefault(require("./commands/createTranslation"));
 var createFactory_1 = __importDefault(require("./commands/createFactory"));
 var createView_1 = __importDefault(require("./commands/createView"));
+var console_1 = require("console");
 var log = console.log;
 (function () { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, program;
+    var _a;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
@@ -63,9 +64,8 @@ var log = console.log;
             case 1:
                 _a.apply(void 0, [_b.sent()]);
                 try {
-                    program = new commander_1.Command();
-                    program.version('', '-v', 'output the current CLI version');
-                    program
+                    getProgram_1.default.version('', '-v', 'output the current CLI version');
+                    getProgram_1.default
                         .command('new:feature <name> [path]')
                         .description('define a new feature')
                         .action(function (name, path) {
@@ -77,7 +77,7 @@ var log = console.log;
                                 : chalk_1.default.red.bold('Feature was not created due to the error'));
                         });
                     });
-                    program
+                    getProgram_1.default
                         .command('new:model <name> [path]')
                         .description('define a new model')
                         .action(function (name, path) {
@@ -89,7 +89,7 @@ var log = console.log;
                                 : chalk_1.default.red.bold('Model was not created due to the error'));
                         });
                     });
-                    program
+                    getProgram_1.default
                         .command('new:event <name> [path]')
                         .description('define a new event')
                         .action(function (name, path) {
@@ -101,7 +101,7 @@ var log = console.log;
                                 : chalk_1.default.red.bold('Event was not created due to the error'));
                         });
                     });
-                    program
+                    getProgram_1.default
                         .command('new:provider <name> [path]')
                         .description('define a new data provider')
                         .action(function (name, path) {
@@ -113,7 +113,7 @@ var log = console.log;
                                 : chalk_1.default.red.bold('Data provider was not created due to the error'));
                         });
                     });
-                    program
+                    getProgram_1.default
                         .command('new:manager <name> <model> [path]')
                         .description('define a new data manager')
                         .action(function (name, model, path) {
@@ -126,7 +126,7 @@ var log = console.log;
                                 : chalk_1.default.red.bold('Data manager was not created due to the error'));
                         });
                     });
-                    program
+                    getProgram_1.default
                         .command('new:collection <name> <model> [path]')
                         .description('define a new collection')
                         .action(function (name, model, path) {
@@ -139,7 +139,7 @@ var log = console.log;
                                 : chalk_1.default.red.bold('Collection was not created due to the error'));
                         });
                     });
-                    program
+                    getProgram_1.default
                         .command('new:factory <name> <model> [path]')
                         .description('define a new factory')
                         .action(function (name, model, path) {
@@ -152,7 +152,7 @@ var log = console.log;
                                 : chalk_1.default.red.bold('Factory was not created due to the error'));
                         });
                     });
-                    program
+                    getProgram_1.default
                         .command('new:translations <name> [path]')
                         .description('define a new translations file')
                         .action(function (name, path) {
@@ -164,7 +164,7 @@ var log = console.log;
                                 : chalk_1.default.red.bold('Translations were not created due to the error'));
                         });
                     });
-                    program
+                    getProgram_1.default
                         .command('new:view <name> [path]')
                         .description('define a new view file')
                         .action(function (name, path) {
@@ -176,10 +176,12 @@ var log = console.log;
                                 : chalk_1.default.red.bold('Translations were not created due to the error'));
                         });
                     });
-                    program.parse(process.argv);
+                    getProgram_1.default.option('-d, --debug', 'output extra debugging');
+                    getProgram_1.default.parse(process.argv);
+                    console_1.debug('Debug is enabled');
                 }
                 catch (e) {
-                    log(chalk_1.default.red.bold("Error was happened during the execution: " + e));
+                    log(chalk_1.default.red.bold("Error happened during the execution: " + e));
                 }
                 return [2 /*return*/];
         }
