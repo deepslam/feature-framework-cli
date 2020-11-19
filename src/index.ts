@@ -12,7 +12,6 @@ import createDataManager from './commands/createDataManager';
 import createTranslation from './commands/createTranslation';
 import createFactory from './commands/createFactory';
 import createView from './commands/createView';
-import { debug } from 'console';
 
 const log = console.log;
 
@@ -195,8 +194,6 @@ const log = console.log;
 
     program.option('-d, --debug', 'output extra debugging');
     program.parse(process.argv);
-
-    debug('Debug is enabled');
   } catch (e) {
     log(chalk.red.bold(`Error happened during the execution: ${e}`));
   }

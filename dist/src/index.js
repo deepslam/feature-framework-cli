@@ -52,7 +52,6 @@ var createDataManager_1 = __importDefault(require("./commands/createDataManager"
 var createTranslation_1 = __importDefault(require("./commands/createTranslation"));
 var createFactory_1 = __importDefault(require("./commands/createFactory"));
 var createView_1 = __importDefault(require("./commands/createView"));
-var console_1 = require("console");
 var log = console.log;
 (function () { return __awaiter(void 0, void 0, void 0, function () {
     var _a;
@@ -178,7 +177,6 @@ var log = console.log;
                     });
                     getProgram_1.default.option('-d, --debug', 'output extra debugging');
                     getProgram_1.default.parse(process.argv);
-                    console_1.debug('Debug is enabled');
                 }
                 catch (e) {
                     log(chalk_1.default.red.bold("Error happened during the execution: " + e));
