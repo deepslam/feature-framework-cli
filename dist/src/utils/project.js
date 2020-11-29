@@ -40,7 +40,7 @@ exports.findClassInProject = exports.getProject = void 0;
 var ts_morph_1 = require("ts-morph");
 var tsconfig_resolver_1 = require("tsconfig-resolver");
 var debug_1 = require("../utils/debug");
-exports.getProject = function () { return __awaiter(void 0, void 0, void 0, function () {
+var getProject = function () { return __awaiter(void 0, void 0, void 0, function () {
     var projectOptions, result, project;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -59,6 +59,7 @@ exports.getProject = function () { return __awaiter(void 0, void 0, void 0, func
         }
     });
 }); };
+exports.getProject = getProject;
 function findClassInProject(project, className) {
     var foundClasses = [];
     project.getSourceFiles().forEach(function (sourceFile) {

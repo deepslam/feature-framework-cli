@@ -31,8 +31,8 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@feature-framework/core": "^0.5.2",
-    "@ts-morph/bootstrap": "^0.6.0",
+    "@feature-framework/core": "^0.5.9",
+    "@ts-morph/bootstrap": "^0.8.0",
     "boxen": "^4.2.0",
     "chalk": "^4.1.0",
     "commander": "^6.1.0",
@@ -42,7 +42,7 @@
     "ts-morph": "^8.1.0",
     "ts-node": "^9.0.0",
     "tsconfig-resolver": "^3.0.1",
-    "typescript": "^4.0.2",
+    "typescript": "^4.1.2",
     "yargs": "^16.0.3"
   },
   "devDependencies": {
@@ -58,6 +58,7 @@
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jest": "^23.20.0",
     "eslint-plugin-jsx-a11y": "^6.3.1",
-    "eslint-plugin-prettier": "^3.1.4"
+    "eslint-plugin-prettier": "^3.1.4",
+    "prettier": "^2.0.5"
   }
 }

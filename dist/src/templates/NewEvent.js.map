@@ -1,1 +1,1 @@
-{"version":3,"file":"NewEvent.js","sourceRoot":"","sources":["../../../src/templates/NewEvent.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;AAAA,gDAAgD;AAKhD;IAAsC,4BAA2B;IAAjE;QAAA,qEAEC;QADiB,YAAM,GAAG,EAAE,CAAC;;IAC9B,CAAC;IAAD,eAAC;AAAD,CAAC,AAFD,CAAsC,YAAK,GAE1C"}
+{"version":3,"file":"NewEvent.js","sourceRoot":"","sources":["../../../src/templates/NewEvent.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;AAAA,gDAAgD;AAKhD;IAAsC,4BAA2B;IAAjE;;IAAoE,CAAC;IAAD,eAAC;AAAD,CAAC,AAArE,CAAsC,YAAK,GAA0B"}

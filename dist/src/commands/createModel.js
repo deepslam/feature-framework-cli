@@ -58,7 +58,7 @@ var project_1 = require("../utils/project");
 var defaultData = {};
 var createModel = function (data) {
     return new Promise(function (resolve) { return __awaiter(void 0, void 0, void 0, function () {
-        var project, newFeatureFileName, e_1;
+        var project, newFeatureFileName, newProperties, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -68,15 +68,36 @@ var createModel = function (data) {
                     project = _a.sent();
                     newFeatureFileName = data.path + "/" + data.name + ".ts";
                     project.addSourceFileAtPath(__dirname + '../../../../src/templates/NewModel.ts');
+                    newProperties = {};
+                    if (data.implementEvents) {
+                        newProperties.events = {
+                            name: 'events',
+                            type: 'Record<string, IEvent<unknown>>',
+                            isStatic: false,
+                            initializer: '{}',
+                        };
+                    }
                     common_1.transformFile(project, newFeatureFileName, {
                         fileName: 'NewModel.ts',
                         classesMap: {
                             NewModel: {
                                 name: "" + data.name,
+                                newProperties: newProperties,
                             },
                         },
                         typesMap: {
                             NewModelFieldsType: data.name + "FieldsType",
+                        },
+                        fileCallback: function (file) {
+                            if (data.implementEvents) {
+                                file.getImportDeclarations().forEach(function (importDeclaration) {
+                                    importDeclaration.remove();
+                                });
+                                file.addImportDeclaration({
+                                    defaultImport: '{ IEvent }',
+                                    moduleSpecifier: '@feature-framework/core',
+                                });
+                            }
                         },
                     })
                         .then(function (result) { return resolve(result); })
@@ -119,10 +140,17 @@ exports.default = (function (data, path) {
                     message: 'Path to save',
                     default: pathToSave,
                 },
+                {
+                    type: 'confirm',
+                    name: 'implementEvents',
+                    message: 'Do you want to add events implementation?',
+                    default: false,
+                },
             ])
                 .then(function (answers) {
                 data.path = answers.path;
                 data.name = answers.name;
+                data.implementEvents = answers.implementEvents ? true : false;
                 createModel(data).then(function (res) {
                     resolve(res);
                 });

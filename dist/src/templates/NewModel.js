@@ -17,9 +17,7 @@ var core_1 = require("@feature-framework/core");
 var NewModel = /** @class */ (function (_super) {
     __extends(NewModel, _super);
     function NewModel() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.events = {};
-        return _this;
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     return NewModel;
 }(core_1.Model));

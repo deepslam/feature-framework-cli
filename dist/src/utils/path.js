@@ -42,7 +42,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getPackageJsonPath = exports.getTsConfigPath = exports.getFeatureClassFilePath = exports.getCorePackageDirPath = exports.getPath = exports.trimPathTrails = exports.getCwd = exports.copyImmediately = void 0;
 var inquirer_1 = __importDefault(require("inquirer"));
 var fs_1 = __importDefault(require("fs"));
-exports.copyImmediately = function (file, path) {
+var copyImmediately = function (file, path) {
     return new Promise(function (resolve) { return __awaiter(void 0, void 0, void 0, function () {
         var result;
         return __generator(this, function (_a) {
@@ -94,26 +94,34 @@ exports.copyImmediately = function (file, path) {
         });
     }); });
 };
-exports.getCwd = function () {
+exports.copyImmediately = copyImmediately;
+var getCwd = function () {
     return process.cwd();
 };
-exports.trimPathTrails = function (path) {
+exports.getCwd = getCwd;
+var trimPathTrails = function (path) {
     return path.replace(/^\/|\/$/g, '');
 };
-exports.getPath = function (path) {
+exports.trimPathTrails = trimPathTrails;
+var getPath = function (path) {
     if (path === void 0) { path = ''; }
     return exports.getCwd() + '/' + exports.trimPathTrails(path);
 };
-exports.getCorePackageDirPath = function () {
+exports.getPath = getPath;
+var getCorePackageDirPath = function () {
     return 'node_modules/@feature-framework/core';
 };
-exports.getFeatureClassFilePath = function () {
+exports.getCorePackageDirPath = getCorePackageDirPath;
+var getFeatureClassFilePath = function () {
     return exports.getPath('src/templates/NewFeature.ts');
 };
-exports.getTsConfigPath = function () {
+exports.getFeatureClassFilePath = getFeatureClassFilePath;
+var getTsConfigPath = function () {
     return exports.getPath(exports.getCorePackageDirPath() + '/tsconfig.json');
 };
-exports.getPackageJsonPath = function () {
+exports.getTsConfigPath = getTsConfigPath;
+var getPackageJsonPath = function () {
     return exports.getPath(exports.getCorePackageDirPath() + '/package.json');
 };
+exports.getPackageJsonPath = getPackageJsonPath;
 //# sourceMappingURL=path.js.map

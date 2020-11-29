@@ -17,7 +17,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.runPrettierOnFile = void 0;
 var prettier_1 = __importDefault(require("prettier"));
 var fs_1 = __importDefault(require("fs"));
-exports.runPrettierOnFile = function (fileName) {
+var runPrettierOnFile = function (fileName) {
     var result = false;
     var prettierOptions = prettier_1.default.resolveConfig.sync(fileName);
     try {
@@ -35,4 +35,5 @@ exports.runPrettierOnFile = function (fileName) {
     }
     return result;
 };
+exports.runPrettierOnFile = runPrettierOnFile;
 //# sourceMappingURL=prettier.js.map

@@ -17,9 +17,7 @@ var core_1 = require("@feature-framework/core");
 var NewEvent = /** @class */ (function (_super) {
     __extends(NewEvent, _super);
     function NewEvent() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.events = {};
-        return _this;
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     return NewEvent;
 }(core_1.Event));
