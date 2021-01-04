@@ -4,32 +4,29 @@ import { transformFile } from '../utils/common';
 import { getPath } from '../utils/path';
 import { getProject } from '../utils/project';
 
-type createFeatureDataType = {
+type createAppDataType = {
   name: string;
   path?: string;
 };
 
-const createFeature = (data: createFeatureDataType): Promise<boolean> => {
+const createApp = (data: createAppDataType): Promise<boolean> => {
   return new Promise(async (resolve) => {
     try {
       const project = await getProject();
-      const newFeatureFileName = `${data.path}/${data.name}.ts`;
+      const newAppFileName = `${data.path}/${data.name}.ts`;
       project.addSourceFileAtPath(
-        __dirname + '../../../../src/templates/NewFeature.ts',
+        __dirname + '../../../../src/templates/NewApp.ts',
       );
 
-      transformFile(project, newFeatureFileName, {
-        fileName: 'NewFeature.ts',
+      transformFile(project, newAppFileName, {
+        fileName: 'NewApp.ts',
         classesMap: {
-          NewFeature: {
+          NewApp: {
             name: `${data.name}`,
-            existingProperties: {
-              name: `${data.name}`,
-            },
           },
         },
         typesMap: {
-          NewFeatureType: `${data.name}Type`,
+          NewAppType: `${data.name}Type`,
         },
       })
         .then((result) => resolve(result))
@@ -44,16 +41,13 @@ const createFeature = (data: createFeatureDataType): Promise<boolean> => {
   });
 };
 
-export default (
-  data: createFeatureDataType,
-  path?: string,
-): Promise<boolean> => {
+export default (data: createAppDataType, path?: string): Promise<boolean> => {
   return new Promise(async (resolve) => {
     data = {
       ...data,
     };
 
-    let pathToSave = getPath(`Features/${data.name}`);
+    let pathToSave = getPath(data.name);
 
     if (path) {
       pathToSave = getPath(path);
@@ -61,7 +55,7 @@ export default (
 
     console.log(
       chalk.white.bold(
-        'Crafting a new feature. Answer a few questions, please.\r\n',
+        'Crafting a new app. Answer a few questions, please.\r\n',
       ),
     );
     inquirer
@@ -79,11 +73,11 @@ export default (
           default: pathToSave,
         },
       ])
-      .then((answers: Partial<createFeatureDataType>) => {
+      .then((answers: Partial<createAppDataType>) => {
         data.path = answers.path!;
         data.name = answers.name!;
 
-        createFeature(data).then((res) => {
+        createApp(data).then((res) => {
           resolve(res);
         });
       });

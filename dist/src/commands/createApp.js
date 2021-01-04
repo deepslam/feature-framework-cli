@@ -55,9 +55,9 @@ var inquirer_1 = __importDefault(require("inquirer"));
 var common_1 = require("../utils/common");
 var path_1 = require("../utils/path");
 var project_1 = require("../utils/project");
-var createFeature = function (data) {
+var createApp = function (data) {
     return new Promise(function (resolve) { return __awaiter(void 0, void 0, void 0, function () {
-        var project, newFeatureFileName, e_1;
+        var project, newAppFileName, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -65,20 +65,17 @@ var createFeature = function (data) {
                     return [4 /*yield*/, project_1.getProject()];
                 case 1:
                     project = _a.sent();
-                    newFeatureFileName = data.path + "/" + data.name + ".ts";
-                    project.addSourceFileAtPath(__dirname + '../../../../src/templates/NewFeature.ts');
-                    common_1.transformFile(project, newFeatureFileName, {
-                        fileName: 'NewFeature.ts',
+                    newAppFileName = data.path + "/" + data.name + ".ts";
+                    project.addSourceFileAtPath(__dirname + '../../../../src/templates/NewApp.ts');
+                    common_1.transformFile(project, newAppFileName, {
+                        fileName: 'NewApp.ts',
                         classesMap: {
-                            NewFeature: {
+                            NewApp: {
                                 name: "" + data.name,
-                                existingProperties: {
-                                    name: "" + data.name,
-                                },
                             },
                         },
                         typesMap: {
-                            NewFeatureType: data.name + "Type",
+                            NewAppType: data.name + "Type",
                         },
                     })
                         .then(function (result) { return resolve(result); })
@@ -102,11 +99,11 @@ exports.default = (function (data, path) {
         var pathToSave;
         return __generator(this, function (_a) {
             data = __assign({}, data);
-            pathToSave = path_1.getPath("Features/" + data.name);
+            pathToSave = path_1.getPath(data.name);
             if (path) {
                 pathToSave = path_1.getPath(path);
             }
-            console.log(chalk_1.default.white.bold('Crafting a new feature. Answer a few questions, please.\r\n'));
+            console.log(chalk_1.default.white.bold('Crafting a new app. Answer a few questions, please.\r\n'));
             inquirer_1.default
                 .prompt([
                 {
@@ -125,7 +122,7 @@ exports.default = (function (data, path) {
                 .then(function (answers) {
                 data.path = answers.path;
                 data.name = answers.name;
-                createFeature(data).then(function (res) {
+                createApp(data).then(function (res) {
                     resolve(res);
                 });
             });
@@ -133,4 +130,4 @@ exports.default = (function (data, path) {
         });
     }); });
 });
-//# sourceMappingURL=createFeature.js.map
+//# sourceMappingURL=createApp.js.map

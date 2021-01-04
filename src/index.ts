@@ -3,6 +3,7 @@
 import chalk from 'chalk';
 import program from './getProgram';
 import greeting from './greeting';
+import createApp from './commands/createApp';
 import createFeature from './commands/createFeature';
 import createEvent from './commands/createEvent';
 import createModel from './commands/createModel';
@@ -20,6 +21,24 @@ const log = console.log;
 
   try {
     program.version('', '-v', 'output the current CLI version');
+
+    program
+      .command('new:app <name> [path]')
+      .description('define a new app')
+      .action((name: string, path: string) => {
+        createApp(
+          {
+            name,
+          },
+          path,
+        ).then((result) => {
+          log(
+            result
+              ? chalk.green.bold('App successfully created')
+              : chalk.red.bold('App was not created due to the error'),
+          );
+        });
+      });
 
     program
       .command('new:feature <name> [path]')

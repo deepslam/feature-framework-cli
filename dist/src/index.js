@@ -43,6 +43,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var chalk_1 = __importDefault(require("chalk"));
 var getProgram_1 = __importDefault(require("./getProgram"));
 var greeting_1 = __importDefault(require("./greeting"));
+var createApp_1 = __importDefault(require("./commands/createApp"));
 var createFeature_1 = __importDefault(require("./commands/createFeature"));
 var createEvent_1 = __importDefault(require("./commands/createEvent"));
 var createModel_1 = __importDefault(require("./commands/createModel"));
@@ -64,6 +65,18 @@ var log = console.log;
                 _a.apply(void 0, [_b.sent()]);
                 try {
                     getProgram_1.default.version('', '-v', 'output the current CLI version');
+                    getProgram_1.default
+                        .command('new:app <name> [path]')
+                        .description('define a new app')
+                        .action(function (name, path) {
+                        createApp_1.default({
+                            name: name,
+                        }, path).then(function (result) {
+                            log(result
+                                ? chalk_1.default.green.bold('App successfully created')
+                                : chalk_1.default.red.bold('App was not created due to the error'));
+                        });
+                    });
                     getProgram_1.default
                         .command('new:feature <name> [path]')
                         .description('define a new feature')

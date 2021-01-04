@@ -1,12 +1,10 @@
-import { Feature, IFeature, IApp, ConfigType } from '@feature-framework/core';
+import { Feature, IFeature, IApp, FeatureCommonType } from '@feature-framework/core';
 
-// Feature config type here
-type NewFeatureConfigType = Record<string, ConfigType>;
-type NewFeatureSubFeaturesType = Record<string, IFeature<any, any>>;
+type NewFeatureType = FeatureCommonType;
 
 export default class NewFeature
-  extends Feature<NewFeatureConfigType, IApp, NewFeatureSubFeaturesType>
-  implements IFeature<NewFeatureConfigType, IApp> {
+  extends Feature<NewFeatureType, IApp<any>>
+  implements IFeature<NewFeatureType, IApp<any>> {
   name = 'NewFeature';
 
   initFeature() {
